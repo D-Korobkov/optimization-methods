@@ -1,6 +1,3 @@
 public interface MathFunction {
-
-    public double run(double x);
-
-
+    double run(double x);
 }
