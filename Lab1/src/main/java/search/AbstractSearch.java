@@ -1,18 +1,23 @@
-public  abstract class AbstractTernarySearch implements Search {
-    protected final MathFunction function;
-    protected final double leftBorder, rightBorder, epsilon;
+package search;
 
-    public AbstractTernarySearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
+import interfaces.MathFunction;
+import interfaces.Search;
+import interfaces.Strategy;
+
+public abstract class AbstractSearch implements Search {
+    protected final MathFunction function;
+    protected final double leftBorder, rightBorder;
+
+    public AbstractSearch(MathFunction function, double leftBorder, double rightBorder) {
         this.function = function;
         this.leftBorder = leftBorder;
         this.rightBorder = rightBorder;
-        this.epsilon = epsilon;
     }
 
     protected double searchMinimum(final Strategy calculation) {
         double left = leftBorder;
         double right = rightBorder;
-        while (right - left > 2 * epsilon) {
+        while (!calculation.isEnd(left, right)) {
             double leftMid = calculation.runForLeftBorder(left, right);
             double rightMid = calculation.runForRightBorder(left, right);
             if (function.run(leftMid) <= function.run(rightMid)) {
