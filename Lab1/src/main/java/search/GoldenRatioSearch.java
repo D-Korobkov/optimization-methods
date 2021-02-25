@@ -18,7 +18,7 @@ public class GoldenRatioSearch extends AbstractSearch {
 
     private static final class GoldenRatioStrategy implements Strategy {
         private final double epsilon;
-        private final double phi = (Math.sqrt(5) - 1) / 2;
+        private final double phi = (3 - Math.sqrt(5)) / 2;
 
         GoldenRatioStrategy(double epsilon) {
             this.epsilon = epsilon;
@@ -31,12 +31,12 @@ public class GoldenRatioSearch extends AbstractSearch {
 
         @Override
         public double runForLeftBorder(double left, double right) {
-            return left + (right - left) * (1 - phi);
+            return left + (right - left) * phi;
         }
 
         @Override
         public double runForRightBorder(double left, double right) {
-            return left + (right - left) * phi;
+            return right - (right - left) * phi;
         }
     }
 }
