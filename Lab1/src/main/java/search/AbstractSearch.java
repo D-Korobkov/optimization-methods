@@ -6,12 +6,13 @@ import interfaces.Strategy;
 
 public abstract class AbstractSearch implements Search {
     protected final MathFunction function;
-    protected final double leftBorder, rightBorder;
+    protected final double leftBorder, rightBorder, epsilon;
 
-    public AbstractSearch(MathFunction function, double leftBorder, double rightBorder) {
+    public AbstractSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
         this.function = function;
         this.leftBorder = leftBorder;
         this.rightBorder = rightBorder;
+        this.epsilon = epsilon;
     }
 
     protected double searchMinimum(final Strategy calculation) {

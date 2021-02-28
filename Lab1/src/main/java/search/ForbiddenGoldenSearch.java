@@ -3,28 +3,25 @@ package search;
 import interfaces.MathFunction;
 import interfaces.Strategy;
 
-public class SimpleSearch extends AbstractSearch {
+public class ForbiddenGoldenSearch extends AbstractSearch {
     private final Strategy strategy;
 
-    public SimpleSearch(MathFunction function,
-                        double leftBorder,
-                        double rightBorder,
-                        double epsilon,
-                        double delta) {
+    public ForbiddenGoldenSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
         super(function, leftBorder, rightBorder, epsilon);
-        strategy = new SimpleStrategy(epsilon, delta);
+        strategy = new GoldenRatioStrategy(epsilon);
     }
 
+    @Override
     public double searchMinimum() {
         return super.searchMinimum(strategy);
     }
 
-    private static final class SimpleStrategy implements Strategy {
-        private final double epsilon, delta;
+    private static final class GoldenRatioStrategy implements Strategy {
+        private final double epsilon;
+        private final double phi = (3 - Math.sqrt(5)) / 2;
 
-        private SimpleStrategy(double epsilon, double delta) {
+        GoldenRatioStrategy(double epsilon) {
             this.epsilon = epsilon;
-            this.delta = delta;
         }
 
         @Override
@@ -34,12 +31,12 @@ public class SimpleSearch extends AbstractSearch {
 
         @Override
         public double runForLeftBorder(double left, double right) {
-            return (right + left - delta) / 2;
+            return left + (right - left) * phi;
         }
 
         @Override
         public double runForRightBorder(double left, double right) {
-            return (right + left + delta) / 2;
+            return right - (right - left) * phi;
         }
     }
 }

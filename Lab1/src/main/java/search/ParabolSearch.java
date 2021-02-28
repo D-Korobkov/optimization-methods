@@ -4,11 +4,9 @@ import interfaces.MathFunction;
 
 public class ParabolSearch extends AbstractSearch {
     private double x1, x2, x3;
-    private final double epsilon;
 
     public ParabolSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
-        super(function, leftBorder, rightBorder);
-        this.epsilon = epsilon;
+        super(function, leftBorder, rightBorder, epsilon);
         this.x1 = leftBorder;
         this.x3 = rightBorder;
         if (Double.isNaN(function.run(leftBorder)) || Double.isNaN(function.run(rightBorder))) {
