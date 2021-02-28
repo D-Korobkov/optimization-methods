@@ -2,33 +2,49 @@ package search;
 
 import interfaces.MathFunction;
 
-public class ParabolSearch {
-    public double x1, x2, x3, eps;
-    public MathFunction func;
+public class ParabolSearch extends AbstractSearch {
+    private double x1, x2, x3;
+    private final double epsilon;
 
-    ParabolSearch(double left, double middle, double right, double eps, MathFunction func) {
-        this.eps = eps;
-        this.x1 = left;
-        this.x3 = right;
-        this.x2 = middle;
-        this.func = func;
-        if (func.run(x2) > func.run(x1) || func.run(x2) > func.run(x3)) {
-            throw new IllegalArgumentException("You must give left, middle, right that f(middle) <= f(left) and f(middle) <= f(right)");
+    public ParabolSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
+        super(function, leftBorder, rightBorder);
+        this.epsilon = epsilon;
+        this.x1 = leftBorder;
+        this.x3 = rightBorder;
+        if (Double.isNaN(function.run(leftBorder)) || Double.isNaN(function.run(rightBorder))) {
+            throw new IllegalArgumentException("Function must be defined in given points");
+        }
+        if (function.run(leftBorder) < function.run(rightBorder)) {
+            if (function.run(leftBorder) > function.run(leftBorder + epsilon)) {
+                x2 = leftBorder + epsilon;
+            } else {
+                x2 = leftBorder;
+            }
+        } else {
+            if (function.run(rightBorder) > function.run(rightBorder - epsilon)) {
+                x2 = rightBorder - epsilon;
+            } else {
+                x2 = rightBorder;
+            }
         }
     }
 
-    public double search() { // a0 useless
+    @Override
+    public double searchMinimum() {
+        if (x1 == x2 || x2 == x3) {
+            return x2;
+        }
         double prevX, nextX, fNextX, f1, f2, f3, a1, a2;
         nextX = x1;
-        f1 = func.run(x1);
-        f2 = func.run(x2);
-        f3 = func.run(x3);
+        f1 = function.run(x1);
+        f2 = function.run(x2);
+        f3 = function.run(x3);
         do {
             prevX = nextX;
             a1 = (f2 - f1) / (x2 - x1);
             a2 = ((f3 - f1) / (x3 - x1) - a1) / (x3 - x2);
             nextX = (x1 + x2 - a1 / a2) / 2;
-            fNextX = func.run(nextX);
+            fNextX = function.run(nextX);
             if (nextX < x2) {
                 if (fNextX >= f2) {
                     x1 = nextX;
@@ -50,7 +66,8 @@ public class ParabolSearch {
                     f3 = fNextX;
                 }
             }
-        } while (Math.abs(prevX - nextX) > eps);
+        } while (Math.abs(prevX - nextX) > epsilon);
         return nextX;
     }
+
 }
