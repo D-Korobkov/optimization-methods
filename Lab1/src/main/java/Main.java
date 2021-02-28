@@ -1,6 +1,7 @@
 import interfaces.MathFunction;
 import interfaces.Search;
 import search.*;
+import functions.FuncForLab1;
 
 public class Main {
     public static void main(String[] args) {
