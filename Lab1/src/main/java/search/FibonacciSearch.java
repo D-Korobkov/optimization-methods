@@ -10,7 +10,7 @@ public class FibonacciSearch extends AbstractSearch {
     private final Strategy strategy;
 
     public FibonacciSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
-        super(function, leftBorder, rightBorder);
+        super(function, leftBorder, rightBorder, epsilon);
         strategy = new FibonacciStrategy(rightBorder - leftBorder, epsilon);
     }
 

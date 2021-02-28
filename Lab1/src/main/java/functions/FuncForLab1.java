@@ -1,3 +1,5 @@
+package functions;
+
 import interfaces.MathFunction;
 
 public class FuncForLab1 implements MathFunction {
