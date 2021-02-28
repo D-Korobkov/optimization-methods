@@ -23,7 +23,7 @@ public abstract class AbstractSearch implements Search {
         while (!calculation.isEnd(left, right)) {
             double leftMid = calculation.runForLeftBorder(left, right);
             double rightMid = calculation.runForRightBorder(left, right);
-            printData(counter++, left, right, leftMid, rightMid, function.run(leftMid), function.run(rightMid));
+            printData(left, right, leftMid, rightMid, function.run(leftMid), function.run(rightMid));
             if (function.run(leftMid) <= function.run(rightMid)) {
                 right = rightMid;
             } else {
@@ -33,8 +33,8 @@ public abstract class AbstractSearch implements Search {
         return (left + right) / 2;
     }
 
-    public void printData(int n, double left, double right, double lMid, double rMid, double f1, double f2) {
-        System.out.println("number: " + n + " [" + left + "; " + right + "] " + (right - left) / prevLength + " " + lMid + "; " + rMid + " " + f1 + " " + f2);
+    public void printData(double left, double right, double lMid, double rMid, double f1, double f2) {
+        System.out.println(counter++ + " [" + left + ";" + right + "] " + (right - left) / prevLength + " " + lMid + ";" + rMid + " " + f1 + ";" + f2);
         prevLength = right - left;
     }
 }

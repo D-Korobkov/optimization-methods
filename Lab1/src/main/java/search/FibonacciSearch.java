@@ -1,54 +1,58 @@
 package search;
 
 import interfaces.MathFunction;
-import interfaces.Strategy;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FibonacciSearch extends AbstractSearch {
-    private final Strategy strategy;
+    private List<Long> fibonacci; // maybe list of BigDecimal or list of Doubles?
+    private final double lengthOfSection;
+    private int iterations = 1;
 
     public FibonacciSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
         super(function, leftBorder, rightBorder, epsilon);
-        strategy = new FibonacciStrategy(rightBorder - leftBorder, epsilon);
+        this.lengthOfSection = rightBorder - leftBorder;
+        countFibonacci();
     }
+
+
+    private void countFibonacci() {
+        fibonacci = new ArrayList<>();
+        fibonacci.add(0L);
+        fibonacci.add(1L);
+        while (lengthOfSection / epsilon >= fibonacci.get(iterations)) {
+            fibonacci.add(fibonacci.get(iterations) + fibonacci.get(iterations - 1));
+            iterations++;
+        }
+    }
+
+
 
     @Override
     public double searchMinimum() {
-        return super.searchMinimum(strategy);
-    }
-
-    private static final class FibonacciStrategy implements Strategy {
-        private final List<Long> fibonacci; // maybe list of BigInts or list of Doubles?
-        private int iterations = 1, passed = 0;
-        private final double lengthOfSection;
-
-        private FibonacciStrategy(double lengthOfSection, double epsilon) {
-            this.lengthOfSection = lengthOfSection;
-
-            fibonacci = new ArrayList<>();
-            fibonacci.add(0L);
-            fibonacci.add(1L);
-            while (lengthOfSection / epsilon >= fibonacci.get(iterations)) {
-                fibonacci.add(fibonacci.get(iterations) + fibonacci.get(iterations - 1));
-                iterations++;
+        double left = leftBorder;
+        double right = rightBorder;
+        double leftMid = leftBorder + lengthOfSection * fibonacci.get(iterations - 2) / fibonacci.get(iterations);
+        double rightMid = leftBorder + lengthOfSection * fibonacci.get(iterations - 1) / fibonacci.get(iterations);
+        double f1 = function.run(leftMid);
+        double f2 = function.run(rightMid);
+        for (int idx = iterations - 2; idx >= 0; idx--) {
+            printData(left, right, leftMid, rightMid, f1, f2);
+            if (f1 <= f2) {
+                right = rightMid;
+                rightMid = leftMid;
+                f2 = f1;
+                leftMid = left + lengthOfSection * fibonacci.get(idx) / fibonacci.get(iterations);
+                f1 = function.run(leftMid);
+            } else {
+                left = leftMid;
+                leftMid = rightMid;
+                f1 = f2;
+                rightMid = left + lengthOfSection * fibonacci.get(idx + 1) / fibonacci.get(iterations);
+                f2 = function.run(rightMid);
             }
         }
-
-        @Override
-        public boolean isEnd(double left, double right) {
-            return passed++ > iterations - 2;
-        }
-
-        @Override
-        public double runForLeftBorder(double left, double right) {
-            return left + lengthOfSection * fibonacci.get(iterations - passed - 1) / fibonacci.get(iterations);
-        }
-
-        @Override
-        public double runForRightBorder(double left, double right) {
-            return left + lengthOfSection * fibonacci.get(iterations - passed) / fibonacci.get(iterations);
-        }
+        return (left + right) / 2;
     }
 }

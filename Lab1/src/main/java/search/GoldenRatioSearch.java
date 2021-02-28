@@ -1,7 +1,6 @@
 package search;
 
 import interfaces.MathFunction;
-import interfaces.Strategy;
 
 public class GoldenRatioSearch extends AbstractSearch {
     private static final double phi = (Math.sqrt(5) - 1) / 2;
@@ -19,6 +18,7 @@ public class GoldenRatioSearch extends AbstractSearch {
         double f1 = function.run(leftMid);
         double f2 = function.run(rightMid);
         while (right - left > 2 * epsilon) {
+            printData(left, right, leftMid, rightMid, f1, f2);
             if (f1 <= f2) {
                 right = rightMid;
                 rightMid = leftMid;
