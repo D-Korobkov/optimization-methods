@@ -27,7 +27,7 @@ public class Basic {
 
         XYDataset xyDataset = new XYSeriesCollection(series);
         JFreeChart chart = ChartFactory
-                .createXYLineChart("y = x * ln(x) - x^2 / 2", "x", "y",
+                .createXYLineChart("y = 10 * x * ln(x) - x^2 / 2", "x", "y",
                         xyDataset,
                         PlotOrientation.VERTICAL,
                         true, true, true);
