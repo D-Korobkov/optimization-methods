@@ -1,33 +1,35 @@
 package search;
 
 import interfaces.MathFunction;
+import interfaces.Search;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @see search.AbstractSearch
+ * Класс для поиска методом Фибоначчи
+ */
 public class FibonacciSearch extends AbstractSearch {
+    /** Поле список чисел Фибоначчи */
     private List<Long> fibonacci;
+    /** Поле длина отрезка */
     private final double lengthOfSection;
+    /** Поле число итераций */
     private int iterations = 1;
 
+    /**
+     * {@link AbstractSearch#AbstractSearch(MathFunction, double, double, double)}
+     */
     public FibonacciSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
         super(function, leftBorder, rightBorder, epsilon);
         this.lengthOfSection = rightBorder - leftBorder;
         countFibonacci();
     }
 
-
-    private void countFibonacci() {
-        fibonacci = new ArrayList<>();
-        fibonacci.add(0L);
-        fibonacci.add(1L);
-        while (lengthOfSection / epsilon >= fibonacci.get(iterations)) {
-            fibonacci.add(fibonacci.get(iterations) + fibonacci.get(iterations - 1));
-            iterations++;
-        }
-    }
-
-
+    /**
+     * {@link Search#searchMinimum()}
+     */
     @Override
     public double searchMinimum() {
         double left = leftBorder;
@@ -52,5 +54,18 @@ public class FibonacciSearch extends AbstractSearch {
             }
         }
         return (left + right) / 2;
+    }
+
+    /**
+     * Функция, вычиляющая (numberOfIterations + 2) числа фибоначчи
+     */
+    private void countFibonacci() {
+        fibonacci = new ArrayList<>();
+        fibonacci.add(0L);
+        fibonacci.add(1L);
+        while (lengthOfSection / epsilon >= fibonacci.get(iterations)) {
+            fibonacci.add(fibonacci.get(iterations) + fibonacci.get(iterations - 1));
+            iterations++;
+        }
     }
 }
