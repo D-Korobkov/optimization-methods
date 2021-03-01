@@ -6,6 +6,7 @@ import interfaces.Strategy;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class ForbiddenFibonacciSearch extends AbstractSearch {
     private final Strategy strategy;
 

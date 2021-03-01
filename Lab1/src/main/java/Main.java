@@ -8,10 +8,10 @@ public class Main {
         MathFunction function = new FuncForLab1();
         double eps = 0.00000001;
         for (double nEps = eps; nEps < 1; nEps *= 5) {
-            Search method = new SimpleSearch(function, 0.1, 2.5, nEps, nEps / 2);
+            Search method = new DichotomyMethod(function, 0.1, 2.5, nEps, nEps / 2);
             System.out.println("(eps = " + nEps + "; delta = eps / 2) x = " + method.searchMinimum());
         }
-        /*Search method1 = new SimpleSearch(function, 0.1, 2.5, 0.0000001, 0.00000005);
+        /*Search method1 = new DichotomyMethod(function, 0.1, 2.5, 0.0000001, 0.00000005);
         Search method2 = new GoldenRatioSearch(function, 0.1, 2.5, 0.0000001);
         Search forbiddenMethod2 = new ForbiddenGoldenSearch(function, 0.1, 2.5, 0.0000001);
         Search forbiddenMethod3 = new ForbiddenFibonacciSearch(function, 0.1, 2.5, 0.00000001);

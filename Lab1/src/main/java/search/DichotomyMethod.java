@@ -3,14 +3,14 @@ package search;
 import interfaces.MathFunction;
 import interfaces.Strategy;
 
-public class SimpleSearch extends AbstractSearch {
+public class DichotomyMethod extends AbstractSearch {
     private final Strategy strategy;
 
-    public SimpleSearch(MathFunction function,
-                        double leftBorder,
-                        double rightBorder,
-                        double epsilon,
-                        double delta) {
+    public DichotomyMethod(MathFunction function,
+                           double leftBorder,
+                           double rightBorder,
+                           double epsilon,
+                           double delta) {
         super(function, leftBorder, rightBorder, epsilon);
         strategy = new SimpleStrategy(epsilon, delta);
     }

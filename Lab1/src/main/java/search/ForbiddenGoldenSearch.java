@@ -3,6 +3,7 @@ package search;
 import interfaces.MathFunction;
 import interfaces.Strategy;
 
+@Deprecated
 public class ForbiddenGoldenSearch extends AbstractSearch {
     private final Strategy strategy;
 
