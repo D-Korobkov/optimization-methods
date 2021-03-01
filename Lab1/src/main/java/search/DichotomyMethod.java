@@ -5,7 +5,6 @@ import interfaces.Search;
 import interfaces.Strategy;
 
 /**
- * @see search.AbstractSearch 
  * Класс для поиска методом дихотомии
  */
 public class DichotomyMethod extends AbstractSearch {

@@ -1,5 +1,6 @@
 package interfaces;
 
+
 public interface Strategy {
     /**
      * Функция для проверки терминального условия

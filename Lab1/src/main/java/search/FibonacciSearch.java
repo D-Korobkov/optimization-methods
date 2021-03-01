@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @see search.AbstractSearch
  * Класс для поиска методом Фибоначчи
  */
 public class FibonacciSearch extends AbstractSearch {
