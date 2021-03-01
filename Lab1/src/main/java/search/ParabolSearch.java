@@ -1,10 +1,28 @@
 package search;
 
 import interfaces.MathFunction;
+import interfaces.Search;
 
+/**
+ * @see search.AbstractSearch
+ * Класс поиска методом Парабол
+ * @author ADevil000
+ */
 public class ParabolSearch extends AbstractSearch {
+
+    /**
+     * Точка отвечающая условиям F(left) >= F(middleSrart) && F(middleSrart) <= F(rightBorder)
+     */
     private final double middleStart;
 
+
+    /**
+     * Конструктор - создание объекта с заданными свойствами
+     * @param function - функция, на которой ищут минимум
+     * @param leftBorder - левая граница поиска
+     * @param rightBorder - правая граница поиска
+     * @param epsilon - точность вычислений
+     */
     public ParabolSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
         super(function, leftBorder, rightBorder, epsilon);
         if (Double.isNaN(function.run(leftBorder)) || Double.isNaN(function.run(rightBorder))) {
@@ -25,6 +43,10 @@ public class ParabolSearch extends AbstractSearch {
         }
     }
 
+    /**
+     * Функция поиска минимума {@link Search#searchMinimum()}
+     * @return возвращает точку минимума на промежутке
+     */
     @Override
     public double searchMinimum() {
         if (leftBorder == middleStart || middleStart == rightBorder) {
