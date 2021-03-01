@@ -1,14 +1,27 @@
 package search;
 
 import interfaces.MathFunction;
+import interfaces.Search;
 
+/**
+ * Метод золотого сечения
+ */
 public class GoldenRatioSearch extends AbstractSearch {
+    /**
+     * Пропорции для золотого сечения - 1
+     */
     private static final double phi = (Math.sqrt(5) - 1) / 2;
 
+    /**
+     * {@link AbstractSearch#AbstractSearch(MathFunction, double, double, double)}
+     */
     public GoldenRatioSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
         super(function, leftBorder, rightBorder, epsilon);
     }
 
+    /**
+     * {@link Search#searchMinimum()}
+     */
     @Override
     public double searchMinimum() {
         double left = leftBorder;
