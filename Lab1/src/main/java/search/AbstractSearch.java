@@ -23,7 +23,7 @@ public abstract class AbstractSearch implements Search {
         while (!calculation.isEnd(left, right)) {
             double leftMid = calculation.runForLeftBorder(left, right);
             double rightMid = calculation.runForRightBorder(left, right);
-            printData(left, right, leftMid, rightMid, function.run(leftMid), function.run(rightMid));
+//            printData(left, right, leftMid, rightMid, function.run(leftMid), function.run(rightMid));
             if (function.run(leftMid) <= function.run(rightMid)) {
                 right = rightMid;
             } else {

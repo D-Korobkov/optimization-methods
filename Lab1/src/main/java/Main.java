@@ -1,21 +1,19 @@
 import interfaces.MathFunction;
 import interfaces.Search;
 import search.*;
-import functions.FuncForLab1;
+import functions.*;
 
 public class Main {
     public static void main(String[] args) {
-        MathFunction function = new FuncForLab1();
-        Search method1 = new SimpleSearch(function, 0.1, 2.5, 0.0000001, 0.00000005);
-        Search method2 = new GoldenRatioSearch(function, 0.1, 2.5, 0.0000001);
-        Search forbiddenMethod2 = new ForbiddenGoldenSearch(function, 0.1, 2.5, 0.0000001);
-        Search forbiddenMethod3 = new ForbiddenFibonacciSearch(function, 0.1, 2.5, 0.00000001);
-        Search method3 = new FibonacciSearch(function, 0.1, 2.5, 0.0000001);
-        Search method4 = new ParabolSearch(function,0.1, 2.5, 0.0000001);
-        //System.out.println(method1.searchMinimum());
-        //System.out.println(method2.searchMinimum() /*+ " compare to forbidden: " + forbiddenMethod2.searchMinimum()*/);
-        System.out.println(method3.searchMinimum());
-        //System.out.println("forbidden fibonacci: " + forbiddenMethod3.searchMinimum());
-        //System.out.println(method4.searchMinimum());
+//        MathFunction function = new FuncForLab1();
+//        MathFunction function2 = new MultiModalFunction();
+//        Search method1 = new SimpleSearch(function2, -20, 20, 0.0000001, 0.00000005);
+//        Search method2 = new GoldenRatioSearch(function2, -20, 20, 0.0000001);
+//        Search method3 = new FibonacciSearch(function2, -20, 20, 0.0000001);
+//        Search method4 = new ParabolSearch(function2,-20, 20, 0.0000001);
+//        System.out.println(method1.searchMinimum());
+//        System.out.println(method2.searchMinimum());
+//        System.out.println(method3.searchMinimum());
+//        System.out.println(method4.searchMinimum());
     }
 }
