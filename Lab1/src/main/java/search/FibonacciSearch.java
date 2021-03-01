@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FibonacciSearch extends AbstractSearch {
-    private List<Long> fibonacci; // maybe list of BigDecimal or list of Doubles?
+    private List<Long> fibonacci;
     private final double lengthOfSection;
     private int iterations = 1;
 
@@ -28,7 +28,6 @@ public class FibonacciSearch extends AbstractSearch {
     }
 
 
-
     @Override
     public double searchMinimum() {
         double left = leftBorder;
@@ -38,7 +37,6 @@ public class FibonacciSearch extends AbstractSearch {
         double f1 = function.run(leftMid);
         double f2 = function.run(rightMid);
         for (int idx = iterations - 2; idx >= 0; idx--) {
-            printData(left, right, leftMid, rightMid, f1, f2);
             if (f1 <= f2) {
                 right = rightMid;
                 rightMid = leftMid;

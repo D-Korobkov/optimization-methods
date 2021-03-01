@@ -18,7 +18,6 @@ public class GoldenRatioSearch extends AbstractSearch {
         double f1 = function.run(leftMid);
         double f2 = function.run(rightMid);
         while (right - left > 2 * epsilon) {
-            printData(left, right, leftMid, rightMid, f1, f2);
             if (f1 <= f2) {
                 right = rightMid;
                 rightMid = leftMid;
@@ -35,28 +34,4 @@ public class GoldenRatioSearch extends AbstractSearch {
         }
         return (left + right) / 2;
     }
-
-    /*private static final class GoldenRatioStrategy implements Strategy {
-        private final double epsilon;
-        private final double phi = (3 - Math.sqrt(5)) / 2;
-
-        GoldenRatioStrategy(double epsilon) {
-            this.epsilon = epsilon;
-        }
-
-        @Override
-        public boolean isEnd(double left, double right) {
-            return right - left <= 2 * epsilon;
-        }
-
-        @Override
-        public double runForLeftBorder(double left, double right) {
-            return left + (right - left) * phi;
-        }
-
-        @Override
-        public double runForRightBorder(double left, double right) {
-            return right - (right - left) * phi;
-        }
-    }*/
 }
