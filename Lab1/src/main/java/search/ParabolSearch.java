@@ -4,9 +4,8 @@ import interfaces.MathFunction;
 import interfaces.Search;
 
 /**
- * @see search.AbstractSearch
  * Класс поиска методом Парабол
- * @author ADevil000
+ * @see search.AbstractSearch
  */
 public class ParabolSearch extends AbstractSearch {
 
