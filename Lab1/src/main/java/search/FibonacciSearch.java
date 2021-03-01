@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Класс для поиска методом Фибоначчи
+ * @see search.AbstractSearch
  */
 public class FibonacciSearch extends AbstractSearch {
     /** Поле список чисел Фибоначчи */
