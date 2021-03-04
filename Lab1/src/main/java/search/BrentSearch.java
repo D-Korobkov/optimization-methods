@@ -10,6 +10,9 @@ import interfaces.Search;
  */
 public class BrentSearch extends AbstractSearch {
 
+    /**
+     * Пропорции для золотого сечения - 1
+     */
     protected static final double K = (3 - Math.sqrt(5)) / 2;
 
 
