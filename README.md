@@ -1,1 +1,3 @@
 # optimiztion-methods
+
+Kirushka

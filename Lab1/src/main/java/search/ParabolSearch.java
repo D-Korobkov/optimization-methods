@@ -90,4 +90,5 @@ public class ParabolSearch extends AbstractSearch {
         return nextX;
     }
 
+
 }
