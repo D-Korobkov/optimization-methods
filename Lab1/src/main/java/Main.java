@@ -9,7 +9,7 @@ public class Main {
         Search method2 = new GoldenRatioSearch(function, 0.1, 1, 0.0000001);
         Search method3 = new FibonacciSearch(function, 0.1, 1, 0.0000001);
         Search method4 = new ParabolSearch(function,0.1, 1, 0.0000001);
-        Search method5 = new BrentSearch(function, 0.1, 1, 0.0000001);
+        Search method5 = new BrentSearch(function, 0.1, 2.5, 0.0000001);
         System.out.println(method1.searchMinimum());
         System.out.println(method2.searchMinimum());
         System.out.println(method3.searchMinimum());

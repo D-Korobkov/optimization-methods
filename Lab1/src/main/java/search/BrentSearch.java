@@ -3,17 +3,25 @@ package search;
 import interfaces.MathFunction;
 import interfaces.Strategy;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.security.KeyPair;
 
 public class BrentSearch extends AbstractSearch {
 
     protected static final double K = (3 - Math.sqrt(5)) / 2;
     protected final double epsilon;
+    private BufferedWriter out = null;
 
     public BrentSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
         super(function, leftBorder, rightBorder);
         this.epsilon = epsilon;
+        try {
+            this.out = new BufferedWriter(new FileWriter(new File("out.txt")));
+        } catch (Exception ignored){
 
+        }
 
     }
 
@@ -33,9 +41,13 @@ public class BrentSearch extends AbstractSearch {
 
         double g = e;
         double tol = 0;
+        double lastLen = c - a;
+
+        log(a, c, x, w, v, -1, fx, fw, fv, -1, lastLen, false);
 
         while (true) {
 
+            lastLen = c - a;
             g = e;
             e = d;
             double u = 0;
@@ -46,7 +58,7 @@ public class BrentSearch extends AbstractSearch {
                 break;
             }
             if (x != w && x != v && w != v && fx != fv && fx != fw && fv != fw) {
-                //TODO: find u (min of par on v,x,w)
+                //find u (min of par on v,x,w)
 
                 u = findMinParNoOrder(v, x, w, fv, fx, fw);
 
@@ -103,7 +115,7 @@ public class BrentSearch extends AbstractSearch {
                 }
 
             }
-
+            log(a, c, x, w, v, u, fx, fw, fv, fu, lastLen, uIsGood);
         }
 
         return x;
@@ -111,6 +123,7 @@ public class BrentSearch extends AbstractSearch {
 
     }
 
+    //как сделать короче без создания классов - хз, будет так
     private double findMinParNoOrder(double x1, double x2, double x3, double f1, double f2, double f3) {
         if (x1 < x2 && x2 < x3) {
             return findMinPar(x1, x2, x3, f1, f2, f3);
@@ -133,12 +146,22 @@ public class BrentSearch extends AbstractSearch {
         return -1;
     }
 
+    //формула из метода парабол
     private double findMinPar(double x1, double x2, double x3, double f1, double f2, double f3) {
         double a1 = (f2 - f1) / (x2 - x1);
         double a2 = ((f3 - f1) / (x3 - x1) - a1) / (x3 - x2);
         return (x1 + x2 - a1 / a2) / 2;
     }
 
-    // K=(3− 5)/2,x=w=v=a+K(c−a),fx =fw =fv =f(x);
+    private void log(double a, double c, double x, double w, double v, double u, double fx, double fw, double fv, double fu, double lastLen, boolean methodFlag){
+
+        try {
+            out.write(String.format("[%f;%f] %f %f;%f %f;%f %f;%f %f;%f %b\n", a, c, (c-a)/lastLen, v, w, fv, fw, x, u, fx, fu, methodFlag));
+            out.flush();
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+    }
 
 }
