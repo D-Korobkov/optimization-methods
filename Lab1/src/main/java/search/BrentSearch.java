@@ -2,7 +2,8 @@ package search;
 
 import interfaces.MathFunction;
 import interfaces.Search;
-
+import interfaces.Strategy;
+import strategies.GoldenRatioSearchStrategy;
 
 /**
  * Класс поиска методом Брента
@@ -10,25 +11,25 @@ import interfaces.Search;
  * @see search.AbstractSearch
  */
 public class BrentSearch extends AbstractSearch {
-
     /**
-     * Пропорции для золотого сечения - 1
+     * Поле стратегия для вычиления минимума методом золотого сечения
+     *
+     * @see Strategy
+     * @see GoldenRatioSearchStrategy
      */
-    //TODO: make abstract for GoldenSearch
-    protected static final double K = (3 - Math.sqrt(5)) / 2;
-
+    private final Strategy goldenRatioSearchStrategy;
 
     /**
      * Конструктор - создание объекта с заданными свойствами
      *
-     * @param function    - функция, на которой ищут минимум
-     * @param leftBorder  - левая граница поиска
-     * @param rightBorder - правая граница поиска
-     * @param epsilon     - точность вычислений
+     * @param function    функция, на которой ищут минимум
+     * @param leftBorder  левая граница поиска
+     * @param rightBorder правая граница поиска
+     * @param epsilon     точность вычислений
      */
     public BrentSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
         super(function, leftBorder, rightBorder, epsilon);
-
+        goldenRatioSearchStrategy = new GoldenRatioSearchStrategy(epsilon);
     }
 
 
@@ -43,7 +44,7 @@ public class BrentSearch extends AbstractSearch {
         //сетаем начальные значения
         double a = leftBorder;      //левая граница
         double c = rightBorder;     //правая граница
-        double x = a + K * (c - a); //условный минимум
+        double x = goldenRatioSearchStrategy.runForLeftBorder(leftBorder, rightBorder); //условный минимум
         double w = x;               //2-ой по минимальности
         double v = x;               //предыдущее значение w
         double fx = function.run(x);//значение функции в х
@@ -59,7 +60,6 @@ public class BrentSearch extends AbstractSearch {
         double tol;
 
         double u = 0;
-
 
         while (true) {
 
@@ -97,10 +97,10 @@ public class BrentSearch extends AbstractSearch {
             //когда метод парабол не прошел, переходим на Золотое сечение
             if (!uIsGood) {
                 if (x < (a + c) / 2) {
-                    u = x + K * (c - x); //[a, x]
+                    u = goldenRatioSearchStrategy.runForLeftBorder(x, c);
                     e = c - x;
                 } else {
-                    u = x - K * (x - a); //[x, c]
+                    u = goldenRatioSearchStrategy.runForRightBorder(a, x);
                     e = x - a;
                 }
             }
@@ -142,13 +142,10 @@ public class BrentSearch extends AbstractSearch {
                     v = u;
                     fv = fu;
                 }
-
             }
         }
 
         return x;
-
-
     }
 
     /**
