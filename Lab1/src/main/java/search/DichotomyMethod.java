@@ -14,11 +14,11 @@ public class DichotomyMethod extends AbstractSearch {
 
     /**
      * Конструктор - создание нового объекта с определенными значениями
-     * @param function - исследуемая функция
-     * @param leftBorder - левая граница отрезка
-     * @param rightBorder - правая граница отрезка
-     * @param epsilon - требуемая точность
-     * @param delta - длина шага (рекомендуется, чтобы delta <= 2 * epsilon)
+     * @param function исследуемая функция
+     * @param leftBorder левая граница отрезка
+     * @param rightBorder правая граница отрезка
+     * @param epsilon требуемая точность
+     * @param delta длина шага (рекомендуется, чтобы delta <= 2 * epsilon)
      * @see AbstractSearch
      */
     public DichotomyMethod(MathFunction function,
@@ -46,8 +46,8 @@ public class DichotomyMethod extends AbstractSearch {
 
         /**
          * Конструктор - создание стратегии
-         * @param epsilon - заданная точность
-         * @param delta - заданный шаг
+         * @param epsilon заданная точность
+         * @param delta заданный шаг
          * @see DichotomyMethod
          */
         private SimpleStrategy(double epsilon, double delta) {

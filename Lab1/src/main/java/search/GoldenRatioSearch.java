@@ -4,11 +4,11 @@ import interfaces.MathFunction;
 import interfaces.Search;
 
 /**
- * Метод золотого сечения
+ * Класс для поиска методом золотого сечения
  */
 public class GoldenRatioSearch extends AbstractSearch {
     /**
-     * Пропорции для золотого сечения - 1
+     * `goldenRatio` - 1
      */
     private static final double phi = (Math.sqrt(5) - 1) / 2;
 

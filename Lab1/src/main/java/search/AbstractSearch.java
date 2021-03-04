@@ -19,10 +19,10 @@ public abstract class AbstractSearch implements Search {
 
     /**
      * Конструктор - создание нового объекта с определенными значениями
-     * @param function - исследуемая функция
-     * @param leftBorder - левая граница отрезка
-     * @param rightBorder - правая граница отрезка
-     * @param epsilon - требуемая точность
+     * @param function исследуемая функция
+     * @param leftBorder левая граница отрезка
+     * @param rightBorder правая граница отрезка
+     * @param epsilon требуемая точность
      */
     public AbstractSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
         this.function = function;
@@ -33,7 +33,7 @@ public abstract class AbstractSearch implements Search {
 
     /**
      * Функция нахождения минимума согласно какй-то стратегии
-     * @param calculation - стратегия
+     * @param calculation стратегия
      * @return возвращает приближённое значение точки минимума
      * @see Search
      * @see Strategy
