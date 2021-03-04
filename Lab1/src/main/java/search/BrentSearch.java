@@ -48,10 +48,13 @@ public class BrentSearch extends AbstractSearch {
         double fw = fx;             //значение функции в w
         double fv = fx;             //значение функции в v
 
+        //длины шагов
         double d = (c - a);
         double e = d;
+        double g;
 
-        double g, tol;
+        //локальный eps
+        double tol;
 
         //double lastLen = c - a;
         //log(a, c, x, w, v, -1, fx, fw, fv, -1, lastLen, false);
@@ -95,20 +98,22 @@ public class BrentSearch extends AbstractSearch {
             //когда метод парабол не прошел, переходим на Золотое сечение
             if (!uIsGood) {
                 if (x < (a + c) / 2) {
-                    u = x + K * (c - x);
+                    u = x + K * (c - x); //[a, x]
                     e = c - x;
                 } else {
-                    u = x - K * (x - a);
+                    u = x - K * (x - a); //[x, c]
                     e = x - a;
                 }
             }
 
+            //разводим u и x на tol(лок eps)
             if (Math.abs(u - x) < tol) {
                 u = x + Math.signum(u - x) * tol;
             }
             d = Math.abs(u - x);
 
             double fu = function.run(u);
+
 
             if (fu <= fx) {
                 if (u >= x) {
