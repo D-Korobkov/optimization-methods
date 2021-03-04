@@ -1,39 +1,59 @@
 package search;
 
 import interfaces.MathFunction;
+import interfaces.Search;
 
+/**
+ * Класс поиска методом Парабол
+ * @see search.AbstractSearch
+ */
 public class ParabolSearch extends AbstractSearch {
-    private double x1, x2, x3;
-    private final double epsilon;
 
+    /**
+     * Точка отвечающая условиям F(left) >= F(middleSrart) && F(middleSrart) <= F(rightBorder)
+     */
+    private final double middleStart;
+
+
+    /**
+     * Конструктор - создание объекта с заданными свойствами
+     * @param function - функция, на которой ищут минимум
+     * @param leftBorder - левая граница поиска
+     * @param rightBorder - правая граница поиска
+     * @param epsilon - точность вычислений
+     */
     public ParabolSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
-        super(function, leftBorder, rightBorder);
-        this.epsilon = epsilon;
-        this.x1 = leftBorder;
-        this.x3 = rightBorder;
+        super(function, leftBorder, rightBorder, epsilon);
         if (Double.isNaN(function.run(leftBorder)) || Double.isNaN(function.run(rightBorder))) {
             throw new IllegalArgumentException("Function must be defined in given points");
         }
         if (function.run(leftBorder) < function.run(rightBorder)) {
             if (function.run(leftBorder) > function.run(leftBorder + epsilon)) {
-                x2 = leftBorder + epsilon;
+                middleStart = leftBorder + epsilon;
             } else {
-                x2 = leftBorder;
+                middleStart = leftBorder;
             }
         } else {
             if (function.run(rightBorder) > function.run(rightBorder - epsilon)) {
-                x2 = rightBorder - epsilon;
+                middleStart = rightBorder - epsilon;
             } else {
-                x2 = rightBorder;
+                middleStart = rightBorder;
             }
         }
     }
 
+    /**
+     * Функция поиска минимума {@link Search#searchMinimum()}
+     * @return возвращает точку минимума на промежутке
+     */
     @Override
     public double searchMinimum() {
-        if (x1 == x2 || x2 == x3) {
-            return x2;
+        if (leftBorder == middleStart || middleStart == rightBorder) {
+            return middleStart;
         }
+        double x1 = leftBorder;
+        double x2 = middleStart;
+        double x3 = rightBorder;
         double prevX, nextX, fNextX, f1, f2, f3, a1, a2;
         nextX = x1;
         f1 = function.run(x1);

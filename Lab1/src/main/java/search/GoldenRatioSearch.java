@@ -1,42 +1,50 @@
 package search;
 
 import interfaces.MathFunction;
-import interfaces.Strategy;
+import interfaces.Search;
 
+/**
+ * Метод золотого сечения
+ */
 public class GoldenRatioSearch extends AbstractSearch {
-    private final Strategy strategy;
+    /**
+     * Пропорции для золотого сечения - 1
+     */
+    private static final double phi = (Math.sqrt(5) - 1) / 2;
 
+    /**
+     * {@link AbstractSearch#AbstractSearch(MathFunction, double, double, double)}
+     */
     public GoldenRatioSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
-        super(function, leftBorder, rightBorder);
-        strategy = new GoldenRatioStrategy(epsilon);
+        super(function, leftBorder, rightBorder, epsilon);
     }
 
+    /**
+     * {@link Search#searchMinimum()}
+     */
     @Override
     public double searchMinimum() {
-        return super.searchMinimum(strategy);
-    }
-
-    private static final class GoldenRatioStrategy implements Strategy {
-        private final double epsilon;
-        private final double phi = (Math.sqrt(5) - 1) / 2;
-
-        GoldenRatioStrategy(double epsilon) {
-            this.epsilon = epsilon;
+        double left = leftBorder;
+        double right = rightBorder;
+        double leftMid = leftBorder + (1 - phi) * (rightBorder - leftBorder);
+        double rightMid = leftBorder + phi * (rightBorder - leftBorder);
+        double f1 = function.run(leftMid);
+        double f2 = function.run(rightMid);
+        while (right - left > 2 * epsilon) {
+            if (f1 <= f2) {
+                right = rightMid;
+                rightMid = leftMid;
+                f2 = f1;
+                leftMid = right - phi * (right - left);
+                f1 = function.run(leftMid);
+            } else {
+                left = leftMid;
+                leftMid = rightMid;
+                f1 = f2;
+                rightMid = left + phi * (right - left);
+                f2 = function.run(rightMid);
+            }
         }
-
-        @Override
-        public boolean isEnd(double left, double right) {
-            return right - left <= 2 * epsilon;
-        }
-
-        @Override
-        public double runForLeftBorder(double left, double right) {
-            return left + (right - left) * (1 - phi);
-        }
-
-        @Override
-        public double runForRightBorder(double left, double right) {
-            return left + (right - left) * phi;
-        }
+        return (left + right) / 2;
     }
 }
