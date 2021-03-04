@@ -32,7 +32,7 @@ public abstract class AbstractSearch implements Search {
     }
 
     /**
-     * Функция нахождения минимума согласно какй-то стратегии
+     * Функция нахождения минимума согласно какой-то стратегии
      * @param calculation стратегия
      * @return возвращает приближённое значение точки минимума
      * @see Search
@@ -53,6 +53,15 @@ public abstract class AbstractSearch implements Search {
         return (left + right) / 2;
     }
 
+    /**
+     * Функция нахождения минимума согласно какой-то стратегии,
+     * на каждой итерации пересчитывающая точку и значение функции
+     * в этой точке лишь один раз
+     * @param calculation стратегия
+     * @return возвращает приближённое значение точки минимума
+     * @see Search
+     * @see Strategy
+     */
     protected double optimizedSearchMinimum(final Strategy calculation) {
         double left = leftBorder;
         double right = rightBorder;

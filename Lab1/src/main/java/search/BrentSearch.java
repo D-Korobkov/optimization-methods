@@ -5,7 +5,6 @@ import interfaces.Search;
 import interfaces.Strategy;
 import strategies.GoldenRatioSearchStrategy;
 
-
 /**
  * Класс поиска методом Брента
  *
@@ -23,17 +22,10 @@ public class BrentSearch extends AbstractSearch {
     /**
      * Конструктор - создание объекта с заданными свойствами
      *
-<<<<<<< HEAD
      * @param function    функция, на которой ищут минимум
      * @param leftBorder  левая граница поиска
      * @param rightBorder правая граница поиска
      * @param epsilon     точность вычислений
-=======
-     * @param function    - функция, на которой ищут минимум
-     * @param leftBorder  - левая граница поиска
-     * @param rightBorder - правая граница поиска
-     * @param epsilon     - точность вычислений
->>>>>>> main
      */
     public BrentSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
         super(function, leftBorder, rightBorder, epsilon);
