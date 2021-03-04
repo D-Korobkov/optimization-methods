@@ -8,8 +8,8 @@ import interfaces.Strategy;
  * @see interfaces.Strategy
  */
 public class GoldenRatioSearchStrategy implements Strategy {
-    /** Поле значение золотого сечения, уменьшенное на единицу */
-    private static final double phi = (Math.sqrt(5) - 1) / 2;
+    /** Поле равное Ф + 1 - sqrt(5), где Ф - это золотая пропорция */
+    private static final double phi = (3 - Math.sqrt(5)) / 2;
     /** Поле заданная точность */
     private final double epsilon;
 
@@ -36,7 +36,7 @@ public class GoldenRatioSearchStrategy implements Strategy {
      */
     @Override
     public double runForLeftBorder(double left, double right) {
-        return right - phi * (right - left);
+        return left + phi * (right - left);
     }
 
     /**
@@ -44,6 +44,6 @@ public class GoldenRatioSearchStrategy implements Strategy {
      */
     @Override
     public double runForRightBorder(double left, double right) {
-        return left + phi * (right - left);
+        return right - phi * (right - left);
     }
 }

@@ -22,7 +22,7 @@ public class FibonacciSearchStrategy implements Strategy {
 
 
     /**
-     * Конструктор - создание стратегии
+     * Конструктор - создание стратегии и вычисление значений чисел фибоначчи
      *
      * @param lengthOfSection длина начального отрезка
      * @param epsilon заданная точность
