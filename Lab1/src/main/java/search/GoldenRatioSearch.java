@@ -6,7 +6,7 @@ import interfaces.Strategy;
 import strategies.GoldenRatioSearchStrategy;
 
 /**
- * Метод золотого сечения
+ * Класс для поиска методом золотого сечения
  */
 public class GoldenRatioSearch extends AbstractSearch {
     /**

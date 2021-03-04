@@ -23,10 +23,17 @@ public class BrentSearch extends AbstractSearch {
     /**
      * Конструктор - создание объекта с заданными свойствами
      *
+<<<<<<< HEAD
      * @param function    функция, на которой ищут минимум
      * @param leftBorder  левая граница поиска
      * @param rightBorder правая граница поиска
      * @param epsilon     точность вычислений
+=======
+     * @param function    - функция, на которой ищут минимум
+     * @param leftBorder  - левая граница поиска
+     * @param rightBorder - правая граница поиска
+     * @param epsilon     - точность вычислений
+>>>>>>> main
      */
     public BrentSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
         super(function, leftBorder, rightBorder, epsilon);
@@ -52,20 +59,21 @@ public class BrentSearch extends AbstractSearch {
         double fw = fx;             //значение функции в w
         double fv = fx;             //значение функции в v
 
+        //длины шагов
         double d = (c - a);
         double e = d;
+        double g;
 
-        double g, tol;
+        //локальный eps
+        double tol;
 
-        //double lastLen = c - a;
-        //log(a, c, x, w, v, -1, fx, fw, fv, -1, lastLen, false);
+        double u = 0;
 
         while (true) {
 
             //lastLen = c - a;
             g = e;
             e = d;
-            double u = 0;
             boolean uIsGood = false;
 
             tol = epsilon * Math.abs(x) + epsilon / 10.0;
@@ -81,7 +89,7 @@ public class BrentSearch extends AbstractSearch {
 
                 u = findMinParNoOrder(v, x, w, fv, fx, fw);
 
-                //проверяем, что u попадает в диапазон
+                //проверяем, что u попадает в диапазон и достаточно хорошо сокращает отрезок
                 if (a <= u && u <= c && Math.abs(u - x) < g / 2) {
 
                     //говорим что u нам подходит
@@ -105,6 +113,7 @@ public class BrentSearch extends AbstractSearch {
                 }
             }
 
+            //разводим u и x на tol(лок eps)
             if (Math.abs(u - x) < tol) {
                 u = x + Math.signum(u - x) * tol;
             }
@@ -112,6 +121,8 @@ public class BrentSearch extends AbstractSearch {
 
             double fu = function.run(u);
 
+
+            //переставляем границы
             if (fu <= fx) {
                 if (u >= x) {
                     a = x;
@@ -140,7 +151,6 @@ public class BrentSearch extends AbstractSearch {
                     fv = fu;
                 }
             }
-            //log(a, c, x, w, v, u, fx, fw, fv, fu, lastLen, uIsGood);
         }
 
         return x;
@@ -196,11 +206,5 @@ public class BrentSearch extends AbstractSearch {
         double a2 = ((f3 - f1) / (x3 - x1) - a1) / (x3 - x2);
         return (x1 + x2 - a1 / a2) / 2;
     }
-
-    /*private void log(double a, double c, double x, double w, double v, double u, double fx, double fw, double fv, double fu, double lastLen, boolean methodFlag){
-            System.out.println(String.format("[%f;%f] %f %f;%f %f;%f %f;%f %f;%f %b\n", a, c, (c-a)/lastLen, v, w, fv, fw, x, u, fx, fu, methodFlag));
-            System.out.println(e.getMessage());
-
-    }*/
 
 }
