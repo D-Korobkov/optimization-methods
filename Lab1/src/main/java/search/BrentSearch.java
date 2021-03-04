@@ -6,6 +6,7 @@ import interfaces.Search;
 
 /**
  * Класс поиска методом Брента
+ *
  * @see search.AbstractSearch
  */
 public class BrentSearch extends AbstractSearch {
@@ -17,13 +18,13 @@ public class BrentSearch extends AbstractSearch {
     protected static final double K = (3 - Math.sqrt(5)) / 2;
 
 
-
     /**
      * Конструктор - создание объекта с заданными свойствами
-     * @param function - функция, на которой ищут минимум
-     * @param leftBorder - левая граница поиска
+     *
+     * @param function    - функция, на которой ищут минимум
+     * @param leftBorder  - левая граница поиска
      * @param rightBorder - правая граница поиска
-     * @param epsilon - точность вычислений
+     * @param epsilon     - точность вычислений
      */
     public BrentSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
         super(function, leftBorder, rightBorder, epsilon);
@@ -33,6 +34,7 @@ public class BrentSearch extends AbstractSearch {
 
     /**
      * Функция поиска минимума {@link Search#searchMinimum()}
+     *
      * @return возвращает точку минимума на промежутке
      */
     @Override
@@ -151,6 +153,7 @@ public class BrentSearch extends AbstractSearch {
 
     /**
      * Поиск минимума параболы по 3-м точкам, x1 != x2 != x3
+     *
      * @param x1 первая точка
      * @param x2 вторая точка
      * @param x3 третья точка
@@ -183,6 +186,7 @@ public class BrentSearch extends AbstractSearch {
 
     /**
      * Поиск минимума параболы по 3-м точкам, x1 < x2 < x3
+     *
      * @param x1 первая точка
      * @param x2 вторая точка
      * @param x3 третья точка
