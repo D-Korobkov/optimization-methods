@@ -13,6 +13,7 @@ public class BrentSearch extends AbstractSearch {
     /**
      * Пропорции для золотого сечения - 1
      */
+    //TODO: make abstract for GoldenSearch
     protected static final double K = (3 - Math.sqrt(5)) / 2;
 
 
@@ -36,14 +37,16 @@ public class BrentSearch extends AbstractSearch {
      */
     @Override
     public double searchMinimum() {
-        double a = leftBorder;
-        double c = rightBorder;
-        double x = a + K * (c - a);
-        double w = x;
-        double v = x;
-        double fx = function.run(x);
-        double fw = fx;
-        double fv = fx;
+
+        //сетаем начальные значения
+        double a = leftBorder;      //левая граница
+        double c = rightBorder;     //правая граница
+        double x = a + K * (c - a); //условный минимум
+        double w = x;               //2-ой по минимальности
+        double v = x;               //предыдущее значение w
+        double fx = function.run(x);//значение функции в х
+        double fw = fx;             //значение функции в w
+        double fv = fx;             //значение функции в v
 
         double d = (c - a);
         double e = d;
@@ -64,22 +67,32 @@ public class BrentSearch extends AbstractSearch {
             boolean uIsGood = false;
 
             tol = epsilon * Math.abs(x) + epsilon / 10.0;
+
+            //проверка на завершение
             if (Math.abs(x - (a + c) / 2) + (c - a) / 2 <= 2 * tol) {
                 break;
             }
+
+            //пытаемся использовать Метод Парабол
             if (x != w && x != v && w != v && fx != fv && fx != fw && fv != fw) {
                 //find u (min of par on v,x,w)
 
                 u = findMinParNoOrder(v, x, w, fv, fx, fw);
 
+                //проверяем, что u попадает в диапазон
                 if (a <= u && u <= c && Math.abs(u - x) < g / 2) {
-                    //accept u
+
+                    //говорим что u нам подходит
                     uIsGood = true;
+
+                    //если u оказался слишком близко к границе, то мы двигаем его в x
                     if (u - a < 2 * tol || c - u < 2 * tol) {
                         u = x - Math.signum(x - (a + c) / 2) * tol;
                     }
                 }
             }
+
+            //когда метод парабол не прошел, переходим на Золотое сечение
             if (!uIsGood) {
                 if (x < (a + c) / 2) {
                     u = x + K * (c - x);
@@ -89,6 +102,7 @@ public class BrentSearch extends AbstractSearch {
                     e = x - a;
                 }
             }
+
             if (Math.abs(u - x) < tol) {
                 u = x + Math.signum(u - x) * tol;
             }
@@ -178,6 +192,7 @@ public class BrentSearch extends AbstractSearch {
      * @param f3 значение функции в третьей точке
      * @return минимум параболы
      */
+    //TODO: make it abstract for parabola
     private double findMinPar(double x1, double x2, double x3, double f1, double f2, double f3) {
         double a1 = (f2 - f1) / (x2 - x1);
         double a2 = ((f3 - f1) / (x3 - x1) - a1) / (x3 - x2);
