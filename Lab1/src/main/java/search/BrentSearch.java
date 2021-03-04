@@ -27,7 +27,6 @@ public class BrentSearch extends AbstractSearch {
      */
     public BrentSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
         super(function, leftBorder, rightBorder, epsilon);
-
     }
 
 
@@ -55,8 +54,6 @@ public class BrentSearch extends AbstractSearch {
 
         //double lastLen = c - a;
         //log(a, c, x, w, v, -1, fx, fw, fv, -1, lastLen, false);
-
-        int count = 0;
 
         while (true) {
 
@@ -137,13 +134,9 @@ public class BrentSearch extends AbstractSearch {
                     v = u;
                     fv = fu;
                 }
-
             }
-            count++;
             //log(a, c, x, w, v, u, fx, fw, fv, fu, lastLen, uIsGood);
         }
-
-        System.out.println(count);
 
         return x;
 

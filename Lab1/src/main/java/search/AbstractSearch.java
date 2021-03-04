@@ -52,4 +52,29 @@ public abstract class AbstractSearch implements Search {
         }
         return (left + right) / 2;
     }
+
+    protected double optimizedSearchMinimum(final Strategy calculation) {
+        double left = leftBorder;
+        double right = rightBorder;
+        double leftMid = calculation.runForLeftBorder(left, right);
+        double rightMid = calculation.runForRightBorder(left, right);
+        double f1 = function.run(leftMid);
+        double f2 = function.run(rightMid);
+        while (!calculation.isEnd(left, right)) {
+            if (f1 <= f2) {
+                right = rightMid;
+                rightMid = leftMid;
+                f2 = f1;
+                leftMid = calculation.runForLeftBorder(left, right);
+                f1 = function.run(leftMid);
+            } else {
+                left = leftMid;
+                leftMid = rightMid;
+                f1 = f2;
+                rightMid = calculation.runForRightBorder(left, right);
+                f2 = function.run(rightMid);
+            }
+        }
+        return (left + right) / 2;
+    }
 }
