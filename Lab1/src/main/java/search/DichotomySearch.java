@@ -41,6 +41,6 @@ public class DichotomySearch extends AbstractSearch {
      * {@link Search#searchMinimum()}
      */
     public double searchMinimum() {
-        return super.searchMinimum(strategy);
+        return searchMinimum(strategy);
     }
 }

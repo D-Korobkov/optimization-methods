@@ -31,6 +31,6 @@ public class FibonacciSearch extends AbstractSearch {
      */
     @Override
     public double searchMinimum() {
-        return super.optimizedSearchMinimum(strategy);
+        return optimizedSearchMinimum(strategy);
     }
 }

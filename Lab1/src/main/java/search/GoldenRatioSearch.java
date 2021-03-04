@@ -30,6 +30,6 @@ public class GoldenRatioSearch extends AbstractSearch {
      */
     @Override
     public double searchMinimum() {
-        return super.optimizedSearchMinimum(strategy);
+        return optimizedSearchMinimum(strategy);
     }
 }

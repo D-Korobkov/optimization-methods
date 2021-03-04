@@ -15,6 +15,6 @@ public class ForbiddenGoldenSearch extends AbstractSearch {
 
     @Override
     public double searchMinimum() {
-        return super.searchMinimum(strategy);
+        return searchMinimum(strategy);
     }
 }
