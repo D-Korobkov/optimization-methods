@@ -6,6 +6,7 @@ import interfaces.Search;
 
 /**
  * Класс поиска методом Брента
+ *
  * @see search.AbstractSearch
  */
 public class BrentSearch extends AbstractSearch {
@@ -17,13 +18,13 @@ public class BrentSearch extends AbstractSearch {
     protected static final double K = (3 - Math.sqrt(5)) / 2;
 
 
-
     /**
      * Конструктор - создание объекта с заданными свойствами
-     * @param function - функция, на которой ищут минимум
-     * @param leftBorder - левая граница поиска
+     *
+     * @param function    - функция, на которой ищут минимум
+     * @param leftBorder  - левая граница поиска
      * @param rightBorder - правая граница поиска
-     * @param epsilon - точность вычислений
+     * @param epsilon     - точность вычислений
      */
     public BrentSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
         super(function, leftBorder, rightBorder, epsilon);
@@ -33,6 +34,7 @@ public class BrentSearch extends AbstractSearch {
 
     /**
      * Функция поиска минимума {@link Search#searchMinimum()}
+     *
      * @return возвращает точку минимума на промежутке
      */
     @Override
@@ -48,22 +50,22 @@ public class BrentSearch extends AbstractSearch {
         double fw = fx;             //значение функции в w
         double fv = fx;             //значение функции в v
 
+        //длины шагов
         double d = (c - a);
         double e = d;
+        double g;
 
-        double g, tol;
+        //локальный eps
+        double tol;
 
-        //double lastLen = c - a;
-        //log(a, c, x, w, v, -1, fx, fw, fv, -1, lastLen, false);
+        double u = 0;
 
-        int count = 0;
 
         while (true) {
 
             //lastLen = c - a;
             g = e;
             e = d;
-            double u = 0;
             boolean uIsGood = false;
 
             tol = epsilon * Math.abs(x) + epsilon / 10.0;
@@ -79,7 +81,7 @@ public class BrentSearch extends AbstractSearch {
 
                 u = findMinParNoOrder(v, x, w, fv, fx, fw);
 
-                //проверяем, что u попадает в диапазон
+                //проверяем, что u попадает в диапазон и достаточно хорошо сокращает отрезок
                 if (a <= u && u <= c && Math.abs(u - x) < g / 2) {
 
                     //говорим что u нам подходит
@@ -95,14 +97,15 @@ public class BrentSearch extends AbstractSearch {
             //когда метод парабол не прошел, переходим на Золотое сечение
             if (!uIsGood) {
                 if (x < (a + c) / 2) {
-                    u = x + K * (c - x);
+                    u = x + K * (c - x); //[a, x]
                     e = c - x;
                 } else {
-                    u = x - K * (x - a);
+                    u = x - K * (x - a); //[x, c]
                     e = x - a;
                 }
             }
 
+            //разводим u и x на tol(лок eps)
             if (Math.abs(u - x) < tol) {
                 u = x + Math.signum(u - x) * tol;
             }
@@ -110,6 +113,8 @@ public class BrentSearch extends AbstractSearch {
 
             double fu = function.run(u);
 
+
+            //переставляем границы
             if (fu <= fx) {
                 if (u >= x) {
                     a = x;
@@ -139,11 +144,7 @@ public class BrentSearch extends AbstractSearch {
                 }
 
             }
-            count++;
-            //log(a, c, x, w, v, u, fx, fw, fv, fu, lastLen, uIsGood);
         }
-
-        System.out.println(count);
 
         return x;
 
@@ -152,6 +153,7 @@ public class BrentSearch extends AbstractSearch {
 
     /**
      * Поиск минимума параболы по 3-м точкам, x1 != x2 != x3
+     *
      * @param x1 первая точка
      * @param x2 вторая точка
      * @param x3 третья точка
@@ -184,6 +186,7 @@ public class BrentSearch extends AbstractSearch {
 
     /**
      * Поиск минимума параболы по 3-м точкам, x1 < x2 < x3
+     *
      * @param x1 первая точка
      * @param x2 вторая точка
      * @param x3 третья точка
@@ -198,11 +201,5 @@ public class BrentSearch extends AbstractSearch {
         double a2 = ((f3 - f1) / (x3 - x1) - a1) / (x3 - x2);
         return (x1 + x2 - a1 / a2) / 2;
     }
-
-    /*private void log(double a, double c, double x, double w, double v, double u, double fx, double fw, double fv, double fu, double lastLen, boolean methodFlag){
-            System.out.println(String.format("[%f;%f] %f %f;%f %f;%f %f;%f %f;%f %b\n", a, c, (c-a)/lastLen, v, w, fv, fw, x, u, fx, fu, methodFlag));
-            System.out.println(e.getMessage());
-
-    }*/
 
 }
