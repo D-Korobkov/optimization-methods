@@ -17,10 +17,10 @@ public class ParabolSearch extends AbstractSearch {
 
     /**
      * Конструктор - создание объекта с заданными свойствами
-     * @param function - функция, на которой ищут минимум
-     * @param leftBorder - левая граница поиска
-     * @param rightBorder - правая граница поиска
-     * @param epsilon - точность вычислений
+     * @param function функция, на которой ищут минимум
+     * @param leftBorder левая граница поиска
+     * @param rightBorder правая граница поиска
+     * @param epsilon точность вычислений
      */
     public ParabolSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
         super(function, leftBorder, rightBorder, epsilon);
@@ -89,5 +89,6 @@ public class ParabolSearch extends AbstractSearch {
         } while (Math.abs(prevX - nextX) > epsilon);
         return nextX;
     }
+
 
 }

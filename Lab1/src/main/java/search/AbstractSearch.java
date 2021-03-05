@@ -19,10 +19,10 @@ public abstract class AbstractSearch implements Search {
 
     /**
      * Конструктор - создание нового объекта с определенными значениями
-     * @param function - исследуемая функция
-     * @param leftBorder - левая граница отрезка
-     * @param rightBorder - правая граница отрезка
-     * @param epsilon - требуемая точность
+     * @param function исследуемая функция
+     * @param leftBorder левая граница отрезка
+     * @param rightBorder правая граница отрезка
+     * @param epsilon требуемая точность
      */
     public AbstractSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
         this.function = function;
@@ -32,8 +32,8 @@ public abstract class AbstractSearch implements Search {
     }
 
     /**
-     * Функция нахождения минимума согласно какй-то стратегии
-     * @param calculation - стратегия
+     * Функция нахождения минимума согласно какой-то стратегии
+     * @param calculation стратегия
      * @return возвращает приближённое значение точки минимума
      * @see Search
      * @see Strategy
@@ -48,6 +48,40 @@ public abstract class AbstractSearch implements Search {
                 right = rightMid;
             } else {
                 left = leftMid;
+            }
+        }
+        return (left + right) / 2;
+    }
+
+    /**
+     * Функция нахождения минимума согласно какой-то стратегии,
+     * на каждой итерации пересчитывающая точку и значение функции
+     * в этой точке лишь один раз
+     * @param calculation стратегия
+     * @return возвращает приближённое значение точки минимума
+     * @see Search
+     * @see Strategy
+     */
+    protected double optimizedSearchMinimum(final Strategy calculation) {
+        double left = leftBorder;
+        double right = rightBorder;
+        double leftMid = calculation.runForLeftBorder(left, right);
+        double rightMid = calculation.runForRightBorder(left, right);
+        double f1 = function.run(leftMid);
+        double f2 = function.run(rightMid);
+        while (!calculation.isEnd(left, right)) {
+            if (f1 <= f2) {
+                right = rightMid;
+                rightMid = leftMid;
+                f2 = f1;
+                leftMid = calculation.runForLeftBorder(left, right);
+                f1 = function.run(leftMid);
+            } else {
+                left = leftMid;
+                leftMid = rightMid;
+                f1 = f2;
+                rightMid = calculation.runForRightBorder(left, right);
+                f2 = function.run(rightMid);
             }
         }
         return (left + right) / 2;

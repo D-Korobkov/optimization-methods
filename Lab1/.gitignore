@@ -18,6 +18,10 @@
 *.zip
 *.tar.gz
 *.rar
+*.iml
+*.DS_Store
+
+*/out.txt
 
 .DS_Store
 
