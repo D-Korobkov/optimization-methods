@@ -3,7 +3,6 @@ package search;
 import interfaces.MathFunction;
 import interfaces.Search;
 import interfaces.Strategy;
-import strategies.DichotomySearchStrategy;
 import strategies.FibonacciSearchStrategy;
 
 /**
