@@ -1,3 +1,3 @@
 # optimization-methods
 
-[documentation](https://d-korobkov.github.io/optimiztion-methods)
+[documentation](https://d-korobkov.github.io/optimization-methods)
