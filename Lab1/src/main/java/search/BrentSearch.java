@@ -50,7 +50,6 @@ public class BrentSearch extends AbstractSearch {
         double fx = function.run(x);//значение функции в х
         double fw = fx;             //значение функции в w
         double fv = fx;             //значение функции в v
-
         //длины шагов
         double d = (c - a);
         double e = d;
