@@ -143,6 +143,8 @@ public class BrentSearch extends AbstractSearch {
                     fv = fu;
                 }
             }
+
+            basic.addNewSection(c, a, counter++);
         }
 
         basic.drawChart(function, leftBorder, rightBorder);
