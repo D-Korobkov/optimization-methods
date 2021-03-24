@@ -1,5 +1,6 @@
 package search;
 
+import chart.UserPanel;
 import interfaces.MathFunction;
 import interfaces.Search;
 import interfaces.Strategy;
@@ -20,8 +21,8 @@ public class FibonacciSearch extends AbstractSearch {
     /**
      * {@link AbstractSearch#AbstractSearch(MathFunction, double, double, double)}
      */
-    public FibonacciSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
-        super(function, leftBorder, rightBorder, epsilon);
+    public FibonacciSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon, UserPanel userPanel) {
+        super(function, leftBorder, rightBorder, epsilon, userPanel);
         strategy = new FibonacciSearchStrategy(rightBorder - leftBorder, epsilon);
     }
 

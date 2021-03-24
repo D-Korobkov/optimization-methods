@@ -1,5 +1,7 @@
 package search;
 
+import chart.Basic;
+import chart.UserPanel;
 import interfaces.MathFunction;
 import interfaces.Search;
 import interfaces.Strategy;
@@ -17,6 +19,9 @@ public abstract class AbstractSearch implements Search {
     /** Поле заданная точность вычислений */
     protected final double epsilon;
 
+    protected final Basic basic;
+    protected int counter = 1;
+
     /**
      * Конструктор - создание нового объекта с определенными значениями
      * @param function исследуемая функция
@@ -24,11 +29,12 @@ public abstract class AbstractSearch implements Search {
      * @param rightBorder правая граница отрезка
      * @param epsilon требуемая точность
      */
-    public AbstractSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
+    public AbstractSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon, UserPanel userPanel) {
         this.function = function;
         this.leftBorder = leftBorder;
         this.rightBorder = rightBorder;
         this.epsilon = epsilon;
+        basic = new Basic(userPanel);
     }
 
     /**
@@ -49,7 +55,9 @@ public abstract class AbstractSearch implements Search {
             } else {
                 left = leftMid;
             }
+            basic.addNewSection(left, right, counter++);
         }
+        basic.drawChart(function, leftBorder, rightBorder);
         return (left + right) / 2;
     }
 
@@ -83,7 +91,9 @@ public abstract class AbstractSearch implements Search {
                 rightMid = calculation.runForRightBorder(left, right);
                 f2 = function.run(rightMid);
             }
+            basic.addNewSection(left, right, counter++);
         }
+        basic.drawChart(function, leftBorder, rightBorder);
         return (left + right) / 2;
     }
 }

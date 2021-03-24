@@ -1,5 +1,6 @@
 package search;
 
+import chart.UserPanel;
 import interfaces.MathFunction;
 import interfaces.Search;
 import interfaces.Strategy;
@@ -20,8 +21,8 @@ public class GoldenRatioSearch extends AbstractSearch {
     /**
      * {@link AbstractSearch#AbstractSearch(MathFunction, double, double, double)}
      */
-    public GoldenRatioSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
-        super(function, leftBorder, rightBorder, epsilon);
+    public GoldenRatioSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon, UserPanel userPanel) {
+        super(function, leftBorder, rightBorder, epsilon, userPanel);
         strategy = new GoldenRatioSearchStrategy(epsilon);
     }
 

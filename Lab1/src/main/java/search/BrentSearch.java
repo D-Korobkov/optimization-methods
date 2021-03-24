@@ -1,5 +1,6 @@
 package search;
 
+import chart.UserPanel;
 import interfaces.MathFunction;
 import interfaces.Search;
 import interfaces.Strategy;
@@ -27,8 +28,8 @@ public class BrentSearch extends AbstractSearch {
      * @param rightBorder правая граница поиска
      * @param epsilon     точность вычислений
      */
-    public BrentSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
-        super(function, leftBorder, rightBorder, epsilon);
+    public BrentSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon, UserPanel userPanel) {
+        super(function, leftBorder, rightBorder, epsilon, userPanel);
         goldenRatioSearchStrategy = new GoldenRatioSearchStrategy(epsilon);
     }
 
@@ -144,6 +145,7 @@ public class BrentSearch extends AbstractSearch {
             }
         }
 
+        basic.drawChart(function, leftBorder, rightBorder);
         return x;
     }
 
