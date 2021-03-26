@@ -1,5 +1,6 @@
 package search;
 
+import chart.UserPanel;
 import interfaces.MathFunction;
 import interfaces.Strategy;
 import strategies.GoldenRatioSearchStrategy;
@@ -8,13 +9,13 @@ import strategies.GoldenRatioSearchStrategy;
 public class ForbiddenGoldenSearch extends AbstractSearch {
     private final Strategy strategy;
 
-    public ForbiddenGoldenSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
-        super(function, leftBorder, rightBorder, epsilon);
+    public ForbiddenGoldenSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon, UserPanel userPanel) {
+        super(function, leftBorder, rightBorder, epsilon, userPanel);
         strategy = new GoldenRatioSearchStrategy(epsilon);
     }
 
     @Override
     public double searchMinimum() {
-        return super.searchMinimum(strategy);
+        return searchMinimum(strategy);
     }
 }

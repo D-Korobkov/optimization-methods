@@ -1,5 +1,6 @@
 package search;
 
+import chart.UserPanel;
 import interfaces.MathFunction;
 import interfaces.Search;
 import interfaces.Strategy;
@@ -32,8 +33,9 @@ public class DichotomySearch extends AbstractSearch {
                            double leftBorder,
                            double rightBorder,
                            double epsilon,
-                           double delta) {
-        super(function, leftBorder, rightBorder, epsilon);
+                           double delta,
+                           UserPanel userPanel) {
+        super(function, leftBorder, rightBorder, epsilon, userPanel);
         strategy = new DichotomySearchStrategy(epsilon, delta);
     }
 
@@ -41,6 +43,6 @@ public class DichotomySearch extends AbstractSearch {
      * {@link Search#searchMinimum()}
      */
     public double searchMinimum() {
-        return super.searchMinimum(strategy);
+        return searchMinimum(strategy);
     }
 }
