@@ -1,6 +1,8 @@
 package interfaces;
 
+import SaZhaK.Matrix;
+
 public interface XYFunction {
-    double run(double x, double y);
-    double runGradient(double x, double y);
+    double run(double[] x);
+    double runGradient(double[] x);
 }
