@@ -295,7 +295,7 @@ public final class MatrixUtil {
 
 	public static double dot_product(double[] vector1, double[] vector2){
 		int dimention = vector1.length;
-		int result = 0;
+		double result = 0;
 		for(int i = 0; i < dimention; i++){
 			result += vector1[i]*vector2[i];
 		}
@@ -360,16 +360,16 @@ public final class MatrixUtil {
 	 * Kariel
 	 */
 	//TODO chek
-	public static double[] multiply(double[] vector, double[][] matrix) {
+	/*public static double[] multiply(double[] vector, double[][] matrix) {
 		int dimension = matrix.length;
 		double[] result = new double[dimension];
 		for (int i = 0; i < dimension; i++) {
 			for (int j = 0; j < dimension; j++) {
-				result[i] += vector[i] + matrix[j][i];
+				result[i] += vector[i] * matrix[j][i];
 			}
 		}
 		return result;
-	}
+	}*/
 
 	/**
 	 * Функция произведения двух матриц

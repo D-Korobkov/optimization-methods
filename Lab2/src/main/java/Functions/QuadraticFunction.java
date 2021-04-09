@@ -19,15 +19,15 @@ public class QuadraticFunction implements Function {
 
     @Override
     public double run(double[] x) {
-        double[] a = MatrixUtil.multiply(x, A);
-        double quad = MatrixUtil.dot_product(a, x)/2;
+        double[] a = MatrixUtil.multiply(A, x);
+        double quad = MatrixUtil.dot_product(x, a)/2;
         double one = MatrixUtil.dot_product(B, x);
 
-        return quad + one + C;
+        return quad - one + C;
     }
 
     @Override
     public double[] runGradient(double[] x) {
-        return MatrixUtil.add(MatrixUtil.multiply(A, x), B);
+        return MatrixUtil.subtract(MatrixUtil.multiply(A, x), B);
     }
 }
