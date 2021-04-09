@@ -6,6 +6,6 @@ import java.util.Vector;
 
 public interface Method {
 
-    public double[]findMinimum(XYFunction function, double[] x0);
+    public double[] findMinimum(Function function, double[] x0);
 
 }

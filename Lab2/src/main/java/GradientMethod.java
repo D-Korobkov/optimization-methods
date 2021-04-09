@@ -1,12 +1,12 @@
 import interfaces.Method;
-import interfaces.XYFunction;
+import interfaces.Function;
 
 
 public class GradientMethod implements Method {
 
 
     @Override
-    public double[] findMinimum(XYFunction function, double[] x0) {
+    public double[] findMinimum(Function function, double[] x0) {
 
         double[] x = new double[2];
 
