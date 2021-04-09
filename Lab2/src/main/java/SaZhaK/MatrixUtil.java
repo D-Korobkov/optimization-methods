@@ -289,6 +289,20 @@ public final class MatrixUtil {
 	}
 
 	/**
+	 * Функция скалярного произведение векторов
+	 * Kariel
+	 */
+
+	public static double dot_product(double[] vector1, double[] vector2){
+		int dimention = vector1.length;
+		int result = 0;
+		for(int i = 0; i < dimention; i++){
+			result += vector1[i]*vector2[i];
+		}
+		return result;
+	}
+
+	/**
 	 * Функция произведения вектора на число
 	 */
 	public static double[] multiply(double[] vector, double number) {
@@ -336,6 +350,22 @@ public final class MatrixUtil {
 		for (int i = 0; i < dimension; i++) {
 			for (int j = 0; j < dimension; j++) {
 				result[i] += matrix[i][j] * vector[j];
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Функция перемножения транспонированого вектора на матрицу
+	 * Kariel
+	 */
+	//TODO chek
+	public static double[] multiply(double[] vector, double[][] matrix) {
+		int dimension = matrix.length;
+		double[] result = new double[dimension];
+		for (int i = 0; i < dimension; i++) {
+			for (int j = 0; j < dimension; j++) {
+				result[i] += vector[i] + matrix[j][i];
 			}
 		}
 		return result;
