@@ -37,4 +37,13 @@ public class QuadraticDiagonalFunction implements Function {
         }
         return MatrixUtil.subtract(quad, B);
     }
+
+    @Override
+    public double[] multiply(double[] x) {
+        double[] res = new double[x.length];
+        for (int i = 0; i < x.length; i++) {
+            res[i] = A[i] * x[i];
+        }
+        return res;
+    }
 }

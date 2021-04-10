@@ -20,7 +20,7 @@ public class QuadraticFunction implements Function {
     @Override
     public double run(double[] x) {
         double[] a = MatrixUtil.multiply(A, x);
-        double quad = MatrixUtil.dot_product(x, a)/2;
+        double quad = MatrixUtil.dot_product(x, a) / 2;
         double one = MatrixUtil.dot_product(B, x);
 
         return quad - one + C;
@@ -29,5 +29,10 @@ public class QuadraticFunction implements Function {
     @Override
     public double[] runGradient(double[] x) {
         return MatrixUtil.subtract(MatrixUtil.multiply(A, x), B);
+    }
+
+    @Override
+    public double[] multiply(double[] x) {
+        return SaZhaK.MatrixUtil.multiply(A, x);
     }
 }

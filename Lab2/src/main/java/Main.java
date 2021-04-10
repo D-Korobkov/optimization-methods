@@ -1,4 +1,5 @@
 import Functions.QuadraticFunction;
+import methods.ConjugateGradientMethod;
 import methods.FastGradientDescentMethod;
 import methods.GradientDescentMethod;
 
@@ -25,6 +26,12 @@ public class Main {
         System.out.println(
                 Arrays.toString(
                         new FastGradientDescentMethod(0.00001)
+                                .findMinimum(f, new double[]{1, 1})
+                )
+        );
+        System.out.println(
+                Arrays.toString(
+                        new ConjugateGradientMethod(0.00001)
                                 .findMinimum(f, new double[]{1, 1})
                 )
         );
