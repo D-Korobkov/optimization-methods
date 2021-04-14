@@ -36,17 +36,13 @@ public class HandlerForFunctions {
 
         int i = 0;
         for(Function function : functions){
-            ConjugateGradientMethod m1 = new ConjugateGradientMethod(epsilon);
-            FastGradientDescentMethod m2 = new FastGradientDescentMethod(epsilon);
-            GradientDescentMethod m3 = new GradientDescentMethod(2, epsilon);
+            ConjugateGradientMethod m1 = new ConjugateGradientMethod(epsilon, true, "conj.out");
+            FastGradientDescentMethod m2 = new FastGradientDescentMethod(epsilon, true, "fast.out");
+            GradientDescentMethod m3 = new GradientDescentMethod(2, epsilon, true, "gradient.out");
 
             double[] x;
 
             out.write("======Function:" + (i+1) + "\n");
-
-            out.write("==Conjugate Gradient method for : " + Arrays.toString(x0) + " \n");
-            x = m1.findMinimum(function, x0);
-            out.write("min: " + Arrays.toString(x) + "\n" + "\n");
 
             out.write("==Gradient Descent method for : " + Arrays.toString(x0) + " \n");
             x = m2.findMinimum(function, x0);
@@ -55,6 +51,11 @@ public class HandlerForFunctions {
             out.write("==Fast Gradient Descent method for : " + Arrays.toString(x0) + " \n");
             x = m3.findMinimum(function, x0);
             out.write("min: " + Arrays.toString(x) + "\n" + "\n");
+
+            out.write("==Conjugate Gradient method for : " + Arrays.toString(x0) + " \n");
+            x = m1.findMinimum(function, x0);
+            out.write("min: " + Arrays.toString(x) + "\n" + "\n");
+
             i++;
         }
 

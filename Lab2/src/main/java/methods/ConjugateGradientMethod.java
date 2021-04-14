@@ -4,6 +4,7 @@ import SaZhaK.Matrix;
 import interfaces.Function;
 import interfaces.Method;
 
+import java.io.*;
 import java.util.Arrays;
 
 import static SaZhaK.MatrixUtil.*;
@@ -11,20 +12,33 @@ import static SaZhaK.MatrixUtil.*;
 public class ConjugateGradientMethod implements Method {
 
     private final double epsilon;
+    private final boolean log;
+    private final BufferedWriter out;
 
     public ConjugateGradientMethod(double epsilon) {
+
         this.epsilon = epsilon;
+        this.log = false;
+        this.out = null;
+    }
+
+    public ConjugateGradientMethod(double epsilon, boolean log, String fileName) throws FileNotFoundException {
+
+        this.epsilon = epsilon;
+
+        this.log = log;
+        this.out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName)));
     }
 
     @Override
-    public double[] findMinimum(final Function function, double[] x0) {
+    public double[] findMinimum(final Function function, double[] x0) throws IOException {
         do {
             x0 = startIteration(function, x0);
         } while(norm(function.runGradient(x0)) >= epsilon);
         return x0;
     }
 
-    private double[] startIteration(final Function function, double[] prevX) {
+    private double[] startIteration(final Function function, double[] prevX) throws IOException {
         final int n = prevX.length;
         double [] prevGrad = function.runGradient(prevX);
         double normPrevGrad = norm(prevGrad);
@@ -41,6 +55,7 @@ public class ConjugateGradientMethod implements Method {
             prevGrad = nextGrad;
             prevX = nextX;
             normPrevGrad = normNextGrad;
+            log(prevX, prevGrad);
         }
         return prevX;
     }
@@ -51,5 +66,12 @@ public class ConjugateGradientMethod implements Method {
             res += a[i] * b[i];
         }
         return res;
+    }
+
+    private void log(double[] x, double[] gradient) throws IOException {
+        if(!log) return;
+        assert out != null;
+        out.write(Arrays.toString(x) + ":" + Arrays.toString(x) + "\n");
+        out.flush();
     }
 }
