@@ -19,6 +19,14 @@
             <artifactId>jfreechart</artifactId>
             <version>1.5.2</version>
         </dependency>
+
+        <dependency>
+            <groupId>lab1</groupId>
+            <artifactId>lab1</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/lib/lab1.jar</systemPath>
+        </dependency>
     </dependencies>
 
 </project>
