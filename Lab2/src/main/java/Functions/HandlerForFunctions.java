@@ -14,12 +14,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class HandlerForFunctions {
-
     private final List<Function> functions;
 
 
-    public HandlerForFunctions(){
-        this.functions = new ArrayList<Function>();
+    public HandlerForFunctions() {
+        this.functions = new ArrayList<>();
 
         functions.add(new QuadraticFunction(new double[][]{{2, 2}, {2, 2}}, new double[]{-1, -1}, 0.0));
         functions.add(new QuadraticFunction(new double[][]{{40, 2}, {2, 20}}, new double[]{-1, -1}, 0.0));
@@ -30,19 +29,18 @@ public class HandlerForFunctions {
     public void printAll(OutputStream outputStream) throws IOException {
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(outputStream));
 
-
         double[] x0 = new double[]{0, 0};
         double epsilon = 0.00001;
 
         int i = 0;
-        for(Function function : functions){
+        for (Function function : functions) {
             ConjugateGradientMethod m1 = new ConjugateGradientMethod(epsilon, true, "conj.out");
             FastGradientDescentMethod m2 = new FastGradientDescentMethod(epsilon, true, "fast.out");
             GradientDescentMethod m3 = new GradientDescentMethod(2, epsilon, true, "gradient.out");
 
             double[] x;
 
-            out.write("======Function:" + (i+1) + "\n");
+            out.write("======Function:" + (i + 1) + "\n");
 
             out.write("==Gradient Descent method for : " + Arrays.toString(x0) + " \n");
             x = m2.findMinimum(function, x0);
@@ -61,6 +59,4 @@ public class HandlerForFunctions {
 
         out.close();
     }
-
-
 }

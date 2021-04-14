@@ -4,7 +4,6 @@ import SaZhaK.MatrixUtil;
 import interfaces.Function;
 
 public class QuadraticDiagonalFunction implements Function {
-
     final double[] A;
     final double[] B;
     final double C;
@@ -25,7 +24,7 @@ public class QuadraticDiagonalFunction implements Function {
             quad += A[i] * x[i] * x[i];
         }
         quad /= 2;
-        double one = MatrixUtil.dot_product(B, x);
+        double one = MatrixUtil.dotProduct(B, x);
         return quad - one + C;
     }
 

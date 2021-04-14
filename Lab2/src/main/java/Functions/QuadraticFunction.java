@@ -1,11 +1,9 @@
 package Functions;
 
-import SaZhaK.Matrix;
 import SaZhaK.MatrixUtil;
 import interfaces.Function;
 
 public class QuadraticFunction implements Function {
-
     final double[][] A;
     final double[] B;
     final double C;
@@ -16,12 +14,11 @@ public class QuadraticFunction implements Function {
         C = c;
     }
 
-
     @Override
     public double run(double[] x) {
         double[] a = MatrixUtil.multiply(A, x);
-        double quad = MatrixUtil.dot_product(x, a) / 2;
-        double one = MatrixUtil.dot_product(B, x);
+        double quad = MatrixUtil.dotProduct(x, a) / 2;
+        double one = MatrixUtil.dotProduct(B, x);
 
         return quad - one + C;
     }
