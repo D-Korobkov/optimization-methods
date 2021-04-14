@@ -6,15 +6,16 @@ import interfaces.Method;
 import java.io.*;
 import java.util.Arrays;
 
-import static SaZhaK.MatrixUtil.norm;
-import static SaZhaK.MatrixUtil.subtract;
-import static SaZhaK.MatrixUtil.multiply;
+import static SaZhaK.MatrixUtil.*;
 
+/**
+ * предоставляет возможность искать минимум квадратичных функций методом градиентного спуска
+ */
 public class GradientDescentMethod implements Method {
-    private double step;
     private final double epsilon;
     private final boolean log;
     private final BufferedWriter out;
+    private double step;
 
 
     public GradientDescentMethod(final double step, final double epsilon, final boolean log, final String fileName) throws FileNotFoundException {
@@ -24,7 +25,7 @@ public class GradientDescentMethod implements Method {
         this.out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName)));
     }
 
-    public GradientDescentMethod(final double step, final double epsilon){
+    public GradientDescentMethod(final double step, final double epsilon) {
         this.step = step;
         this.epsilon = epsilon;
         this.log = false;
@@ -33,7 +34,6 @@ public class GradientDescentMethod implements Method {
 
     @Override
     public double[] findMinimum(Function function, double[] x0) throws IOException {
-
 
 
         double[] prevX = x0;
@@ -58,7 +58,7 @@ public class GradientDescentMethod implements Method {
     }
 
     private void log(double[] x, double[] gradient) throws IOException {
-        if(!log) return;
+        if (!log) return;
         assert out != null;
         out.write(Arrays.toString(x) + ":" + Arrays.toString(x) + "\n");
         out.flush();

@@ -3,20 +3,30 @@ package methods;
 import interfaces.Function;
 import interfaces.MathFunction;
 import interfaces.Method;
-import search.BrentSearch;
-
+import search.ParabolSearch;
 
 import java.io.*;
 import java.util.Arrays;
 
 import static SaZhaK.MatrixUtil.*;
 
+/**
+ * предоставляет возможность искать минимум квадратичных функций методом наискорейшего спуска
+ */
 public class FastGradientDescentMethod implements Method {
+    /**
+     * точность с которой ищется минимум квадратичной функции
+     */
     private final double epsilon;
     private final boolean log;
     private final BufferedWriter out;
 
 
+    /**
+     * конструирует экземпляр данного класса, который ищет минимум квадратичной функции
+     * методом наискорейшего спуска с заданной точностью
+     * @param epsilon задаваемая точность
+     */
     public FastGradientDescentMethod(final double epsilon) {
 
         this.epsilon = epsilon;
@@ -31,6 +41,12 @@ public class FastGradientDescentMethod implements Method {
         this.out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName)));
     }
 
+    /**
+     * функция для поиска минимума квадратичной функции методом наискорейшего спуска
+     * @param function квадратичная функция, на которой ищется минимум
+     * @param x0 начальная точка
+     * @return точку минимума квадратичной функции
+     */
     @Override
     public double[] findMinimum(Function function, double[] x0) throws IOException {
         double[] x = x0;
@@ -47,7 +63,7 @@ public class FastGradientDescentMethod implements Method {
 
     private double calculateStep(double[] x, double[] gradient, Function function) {
         MathFunction fun = alpha -> function.run(subtract(x, multiply(gradient, alpha)));
-        return new BrentSearch(fun,0, 10, epsilon).searchMinimum();
+        return new ParabolSearch(fun, 0, 10, epsilon).searchMinimum();
     }
 
     private void log(double[] x, double[] gradient) throws IOException {

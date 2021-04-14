@@ -1,6 +1,5 @@
 package methods;
 
-import SaZhaK.Matrix;
 import interfaces.Function;
 import interfaces.Method;
 
@@ -45,7 +44,7 @@ public class ConjugateGradientMethod implements Method {
         double [] prevP = multiply(prevGrad, -1);
         for (int i = 1; i < n && normPrevGrad >= epsilon; i++) {
             double[] mulApPrev = function.multiply(prevP);
-            double aPrev = normPrevGrad * normPrevGrad / scalar(mulApPrev, prevP);
+            double aPrev = normPrevGrad * normPrevGrad / dotProduct(mulApPrev, prevP);
             double[] nextX = add(prevX, multiply(prevP, aPrev));
             double[] nextGrad = add(prevGrad, multiply(mulApPrev, aPrev));
             double normNextGrad = norm(nextGrad);
