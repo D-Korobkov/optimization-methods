@@ -3,13 +3,14 @@ package methods;
 import interfaces.Function;
 import interfaces.Method;
 
-import static SaZhaK.MatrixUtil.norm;
-import static SaZhaK.MatrixUtil.subtract;
-import static SaZhaK.MatrixUtil.multiply;
+import static SaZhaK.MatrixUtil.*;
 
+/**
+ * предоставляет возможность искать минимум квадратичных функций методом градиентного спуска
+ */
 public class GradientDescentMethod implements Method {
-    private double step;
     private final double epsilon;
+    private double step;
 
     public GradientDescentMethod(final double step, final double epsilon) {
         this.step = step;

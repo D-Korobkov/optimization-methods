@@ -1,10 +1,7 @@
 package methods;
 
-import SaZhaK.Matrix;
 import interfaces.Function;
 import interfaces.Method;
-
-import java.util.Arrays;
 
 import static SaZhaK.MatrixUtil.*;
 
