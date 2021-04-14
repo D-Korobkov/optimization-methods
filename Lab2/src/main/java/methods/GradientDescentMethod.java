@@ -3,6 +3,9 @@ package methods;
 import interfaces.Function;
 import interfaces.Method;
 
+import java.io.*;
+import java.util.Arrays;
+
 import static SaZhaK.MatrixUtil.norm;
 import static SaZhaK.MatrixUtil.subtract;
 import static SaZhaK.MatrixUtil.multiply;
@@ -10,14 +13,29 @@ import static SaZhaK.MatrixUtil.multiply;
 public class GradientDescentMethod implements Method {
     private double step;
     private final double epsilon;
+    private final boolean log;
+    private final BufferedWriter out;
 
-    public GradientDescentMethod(final double step, final double epsilon) {
+
+    public GradientDescentMethod(final double step, final double epsilon, final boolean log, final String fileName) throws FileNotFoundException {
         this.step = step;
         this.epsilon = epsilon;
+        this.log = log;
+        this.out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName)));
+    }
+
+    public GradientDescentMethod(final double step, final double epsilon){
+        this.step = step;
+        this.epsilon = epsilon;
+        this.log = false;
+        this.out = null;
     }
 
     @Override
-    public double[] findMinimum(Function function, double[] x0) {
+    public double[] findMinimum(Function function, double[] x0) throws IOException {
+
+
+
         double[] prevX = x0;
         double prevFunctionValue = function.run(x0);
         while (true) {
@@ -34,7 +52,15 @@ public class GradientDescentMethod implements Method {
             } else {
                 step /= 2;
             }
+            log(prevX, gradient);
         }
         return prevX;
+    }
+
+    private void log(double[] x, double[] gradient) throws IOException {
+        if(!log) return;
+        assert out != null;
+        out.write(Arrays.toString(x) + ":" + Arrays.toString(x) + "\n");
+        out.flush();
     }
 }
