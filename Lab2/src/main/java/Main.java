@@ -1,14 +1,22 @@
+import Functions.HandlerForFunctions;
 import Functions.QuadraticDiagonalFunction;
 import Functions.QuadraticFunction;
 import methods.ConjugateGradientMethod;
 import methods.FastGradientDescentMethod;
 import methods.GradientDescentMethod;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 public class Main {
-    public static void main(String[] args) {
-        double[][] a = new double[][]{
+    public static void main(String[] args) throws IOException {
+
+        HandlerForFunctions handler = new HandlerForFunctions();
+
+        handler.printAll(System.out);
+
+
+        /*double[][] a = new double[][]{
                 {128, 12},
                 {12, 128}
         };
@@ -60,6 +68,6 @@ public class Main {
                         new ConjugateGradientMethod(0.00001)
                                 .findMinimum(fDiag, new double[]{1, 1, 1 ,1, 1, 1, 1, 1, 1, 1})
                 )
-        );
+        );*/
     }
 }
