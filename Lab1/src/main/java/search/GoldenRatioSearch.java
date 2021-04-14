@@ -1,22 +1,29 @@
 package search;
 
+import chart.UserPanel;
 import interfaces.MathFunction;
 import interfaces.Search;
+import interfaces.Strategy;
+import strategies.GoldenRatioSearchStrategy;
 
 /**
- * Метод золотого сечения
+ * Класс для поиска методом золотого сечения
  */
 public class GoldenRatioSearch extends AbstractSearch {
     /**
-     * Пропорции для золотого сечения - 1
+     * Поле стратегия для поиска минимума методом золотого сечения
+     *
+     * @see Strategy
+     * @see GoldenRatioSearchStrategy
      */
-    private static final double phi = (Math.sqrt(5) - 1) / 2;
+    private final Strategy strategy;
 
     /**
      * {@link AbstractSearch#AbstractSearch(MathFunction, double, double, double)}
      */
-    public GoldenRatioSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
-        super(function, leftBorder, rightBorder, epsilon);
+    public GoldenRatioSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon, UserPanel userPanel) {
+        super(function, leftBorder, rightBorder, epsilon, userPanel);
+        strategy = new GoldenRatioSearchStrategy(epsilon);
     }
 
     /**
@@ -24,27 +31,6 @@ public class GoldenRatioSearch extends AbstractSearch {
      */
     @Override
     public double searchMinimum() {
-        double left = leftBorder;
-        double right = rightBorder;
-        double leftMid = leftBorder + (1 - phi) * (rightBorder - leftBorder);
-        double rightMid = leftBorder + phi * (rightBorder - leftBorder);
-        double f1 = function.run(leftMid);
-        double f2 = function.run(rightMid);
-        while (right - left > 2 * epsilon) {
-            if (f1 <= f2) {
-                right = rightMid;
-                rightMid = leftMid;
-                f2 = f1;
-                leftMid = right - phi * (right - left);
-                f1 = function.run(leftMid);
-            } else {
-                left = leftMid;
-                leftMid = rightMid;
-                f1 = f2;
-                rightMid = left + phi * (right - left);
-                f2 = function.run(rightMid);
-            }
-        }
-        return (left + right) / 2;
+        return optimizedSearchMinimum(strategy);
     }
 }

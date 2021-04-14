@@ -1,5 +1,7 @@
 package search;
 
+import chart.Basic;
+import chart.UserPanel;
 import interfaces.MathFunction;
 import interfaces.Search;
 
@@ -17,13 +19,13 @@ public class ParabolSearch extends AbstractSearch {
 
     /**
      * Конструктор - создание объекта с заданными свойствами
-     * @param function - функция, на которой ищут минимум
-     * @param leftBorder - левая граница поиска
-     * @param rightBorder - правая граница поиска
-     * @param epsilon - точность вычислений
+     * @param function функция, на которой ищут минимум
+     * @param leftBorder левая граница поиска
+     * @param rightBorder правая граница поиска
+     * @param epsilon точность вычислений
      */
-    public ParabolSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon) {
-        super(function, leftBorder, rightBorder, epsilon);
+    public ParabolSearch(MathFunction function, double leftBorder, double rightBorder, double epsilon, UserPanel userPanel) {
+        super(function, leftBorder, rightBorder, epsilon, userPanel);
         if (Double.isNaN(function.run(leftBorder)) || Double.isNaN(function.run(rightBorder))) {
             throw new IllegalArgumentException("Function must be defined in given points");
         }
@@ -63,6 +65,8 @@ public class ParabolSearch extends AbstractSearch {
             prevX = nextX;
             a1 = (f2 - f1) / (x2 - x1);
             a2 = ((f3 - f1) / (x3 - x1) - a1) / (x3 - x2);
+            basic.addParabol(f1, a1, a2, x1, x2, x1, x3, counter);
+            basic.addNewSection(x1, x3, counter++);
             nextX = (x1 + x2 - a1 / a2) / 2;
             fNextX = function.run(nextX);
             if (nextX < x2) {
@@ -87,6 +91,7 @@ public class ParabolSearch extends AbstractSearch {
                 }
             }
         } while (Math.abs(prevX - nextX) > epsilon);
+        basic.drawChart(function, leftBorder, rightBorder);
         return nextX;
     }
 
