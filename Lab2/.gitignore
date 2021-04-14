@@ -33,3 +33,6 @@ hs_err_pid*
 *.iml
 */.DS_Store
 /src/test/
+/fast.out
+/conj.out
+/gradient.out
