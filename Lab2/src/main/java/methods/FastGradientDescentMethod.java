@@ -2,51 +2,38 @@ package methods;
 
 import interfaces.Function;
 import interfaces.MathFunction;
-import interfaces.Method;
 import search.ParabolSearch;
 
 import java.io.*;
-import java.util.Arrays;
 
 import static SaZhaK.MatrixUtil.*;
 
 /**
- * предоставляет возможность искать минимум квадратичных функций методом наискорейшего спуска
+ * Class of Fast Gradient realisation
  */
-public class FastGradientDescentMethod implements Method {
+public class FastGradientDescentMethod extends AbstractGradientMethod {
     /**
-     * точность с которой ищется минимум квадратичной функции
-     */
-    private final double epsilon;
-    private final boolean log;
-    private final BufferedWriter out;
-
-
-    /**
-     * конструирует экземпляр данного класса, который ищет минимум квадратичной функции
-     * методом наискорейшего спуска с заданной точностью
-     * @param epsilon задаваемая точность
+     * Standard constructor
+     * @param epsilon {@link AbstractGradientMethod#epsilon}
+     * @see AbstractGradientMethod#AbstractGradientMethod(double)
      */
     public FastGradientDescentMethod(final double epsilon) {
-
-        this.epsilon = epsilon;
-        this.log = false;
-        this.out = null;
-    }
-
-    public FastGradientDescentMethod(final double epsilon, boolean log, String fileName) throws FileNotFoundException {
-
-        this.epsilon = epsilon;
-        this.log = log;
-        this.out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName)));
+        super(epsilon);
     }
 
     /**
-     * функция для поиска минимума квадратичной функции методом наискорейшего спуска
-     * @param function квадратичная функция, на которой ищется минимум
-     * @param x0 начальная точка
-     * @return точку минимума квадратичной функции
+     * Full constructor
+     * @param epsilon {@link #epsilon}
+     * @param log {@link AbstractGradientMethod#log}
+     * @param fileName output file for {@link AbstractGradientMethod#out}
+     * @throws FileNotFoundException
+     * @see AbstractGradientMethod#AbstractGradientMethod(double, boolean, String)
      */
+    public FastGradientDescentMethod(final double epsilon, boolean log, String fileName) throws FileNotFoundException {
+        super(epsilon, log, fileName);
+    }
+
+
     @Override
     public double[] findMinimum(Function function, double[] x0) throws IOException {
         double[] x = x0;
@@ -61,15 +48,15 @@ public class FastGradientDescentMethod implements Method {
         return x;
     }
 
+    /**
+     * function for computing of the step.
+     * @param x start point
+     * @param gradient gradient of the fucntion
+     * @param function explored function
+     * @return step for {@link #findMinimum(Function, double[])}
+     */
     private double calculateStep(double[] x, double[] gradient, Function function) {
         MathFunction fun = alpha -> function.run(subtract(x, multiply(gradient, alpha)));
         return new ParabolSearch(fun, 0, 10, epsilon).searchMinimum();
-    }
-
-    private void log(double[] x, double[] gradient) throws IOException {
-        if(!log) return;
-        assert out != null;
-        out.write(Arrays.toString(x) + ":" + Arrays.toString(x) + "\n");
-        out.flush();
     }
 }

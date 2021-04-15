@@ -1,35 +1,42 @@
 package methods;
 
 import interfaces.Function;
-import interfaces.Method;
-
 import java.io.*;
-import java.util.Arrays;
 
 import static SaZhaK.MatrixUtil.*;
 
 /**
  * предоставляет возможность искать минимум квадратичных функций методом градиентного спуска
  */
-public class GradientDescentMethod implements Method {
-    private final double epsilon;
-    private final boolean log;
-    private final BufferedWriter out;
+public class GradientDescentMethod extends AbstractGradientMethod {
+    /**
+     * step of Gradient method 
+     */
     private double step;
 
-
+    /**
+     * Full constructor
+     * @param step {@link #step}
+     * @param epsilon {@link #epsilon}
+     * @param log {@link AbstractGradientMethod#log}
+     * @param fileName output file for {@link AbstractGradientMethod#out}
+     * @throws FileNotFoundException
+     * @see AbstractGradientMethod#AbstractGradientMethod(double, boolean, String)
+     */
     public GradientDescentMethod(final double step, final double epsilon, final boolean log, final String fileName) throws FileNotFoundException {
+        super(epsilon, log, fileName);
         this.step = step;
-        this.epsilon = epsilon;
-        this.log = log;
-        this.out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName)));
     }
 
+    /**
+     * Standard constructor
+     * @param step {@link #step}
+     * @param epsilon {@link AbstractGradientMethod#epsilon}
+     * @see AbstractGradientMethod#AbstractGradientMethod(double) 
+     */
     public GradientDescentMethod(final double step, final double epsilon) {
+        super(epsilon);
         this.step = step;
-        this.epsilon = epsilon;
-        this.log = false;
-        this.out = null;
     }
 
     @Override
@@ -55,12 +62,5 @@ public class GradientDescentMethod implements Method {
             log(prevX, gradient);
         }
         return prevX;
-    }
-
-    private void log(double[] x, double[] gradient) throws IOException {
-        if (!log) return;
-        assert out != null;
-        out.write(Arrays.toString(x) + ":" + Arrays.toString(x) + "\n");
-        out.flush();
     }
 }

@@ -1,33 +1,36 @@
 package methods;
 
 import interfaces.Function;
-import interfaces.Method;
-
 import java.io.*;
-import java.util.Arrays;
 
 import static SaZhaK.MatrixUtil.*;
 
-public class ConjugateGradientMethod implements Method {
-
-    private final double epsilon;
-    private final boolean log;
-    private final BufferedWriter out;
-
+/**
+ * Class of ConjugateGradient realisation
+ */
+public class ConjugateGradientMethod extends AbstractGradientMethod {
+    
+    /**
+     * Standard constructor
+     * @param epsilon {@link AbstractGradientMethod#epsilon}
+     * @see AbstractGradientMethod#AbstractGradientMethod(double) 
+     */
     public ConjugateGradientMethod(double epsilon) {
-
-        this.epsilon = epsilon;
-        this.log = false;
-        this.out = null;
+        super(epsilon);
     }
 
+    /**
+     * Full constructor
+     * @param epsilon {@link #epsilon}
+     * @param log {@link AbstractGradientMethod#log}
+     * @param fileName output file for {@link AbstractGradientMethod#out}
+     * @throws FileNotFoundException
+     * @see AbstractGradientMethod#AbstractGradientMethod(double, boolean, String)
+     */
     public ConjugateGradientMethod(double epsilon, boolean log, String fileName) throws FileNotFoundException {
-
-        this.epsilon = epsilon;
-
-        this.log = log;
-        this.out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName)));
+        super(epsilon, log, fileName);
     }
+
 
     @Override
     public double[] findMinimum(final Function function, double[] x0) throws IOException {
@@ -37,6 +40,13 @@ public class ConjugateGradientMethod implements Method {
         return x0;
     }
 
+    /**
+     * Iterative method of ConjugateGradient.
+     * @param function explored fucntion
+     * @param prevX point of start for current iterative launch
+     * @return temporary result of minimum
+     * @throws IOException exception from {@link #log(double[], double[])}
+     */
     private double[] startIteration(final Function function, double[] prevX) throws IOException {
         final int n = prevX.length;
         double [] prevGrad = function.runGradient(prevX);
@@ -57,12 +67,5 @@ public class ConjugateGradientMethod implements Method {
             log(prevX, prevGrad);
         }
         return prevX;
-    }
-
-    private void log(double[] x, double[] gradient) throws IOException {
-        if(!log) return;
-        assert out != null;
-        out.write(Arrays.toString(x) + ":" + Arrays.toString(x) + "\n");
-        out.flush();
     }
 }

@@ -3,11 +3,29 @@ package Functions;
 import SaZhaK.MatrixUtil;
 import interfaces.Function;
 
+/**
+ * Class for representation of quadratic function of R^n
+ */
 public class QuadraticFunction implements Function {
+    /**
+     * Matrix of square terms. A_{ij}=A_{ji}, A_{ii} = 2 * x{i}^2
+     */
     final double[][] A;
+    /**
+     * Vector of one-dimensional terms
+     */
     final double[] B;
+    /**
+     * Constant of function
+     */
     final double C;
 
+    /**
+     * Standard constructor of matrix representation of function
+     * @param a {@link #A}
+     * @param b {@link #B}
+     * @param c {@link #C}
+     */
     public QuadraticFunction(double[][] a, double[] b, double c) {
         A = a;
         B = b;
