@@ -1,7 +1,7 @@
 package interfaces;
 
 /**
- * Interface for realisation of R^m function, where m >= 2
+ * Interface for realisation of R^m function, where m more or equal 2
  */
 public interface Function {
     /**
