@@ -24,7 +24,7 @@ public class ConjugateGradientMethod extends AbstractGradientMethod {
      * @param epsilon {@link #epsilon}
      * @param log {@link AbstractGradientMethod#log}
      * @param fileName output file for {@link AbstractGradientMethod#out}
-     * @throws FileNotFoundException
+     * @throws FileNotFoundException if specified output file was not found
      * @see AbstractGradientMethod#AbstractGradientMethod(double, boolean, String)
      */
     public ConjugateGradientMethod(double epsilon, boolean log, String fileName) throws FileNotFoundException {
