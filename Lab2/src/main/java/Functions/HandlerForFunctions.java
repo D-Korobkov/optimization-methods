@@ -31,7 +31,7 @@ public class HandlerForFunctions {
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(outputStream));
 
 
-        double[] x0 = new double[]{0, 0};
+        double[] x0 = new double[]{3, 3};
         double epsilon = 0.00001;
 
         int i = 0;

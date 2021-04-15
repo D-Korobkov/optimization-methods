@@ -11,24 +11,18 @@ import java.util.Arrays;
 
 import static SaZhaK.MatrixUtil.*;
 
-public class FastGradientDescentMethod implements Method {
+public class FastGradientDescentMethod extends LoggingMethod{
     private final double epsilon;
-    private final boolean log;
-    private final BufferedWriter out;
 
 
     public FastGradientDescentMethod(final double epsilon) {
-
+        super(false);
         this.epsilon = epsilon;
-        this.log = false;
-        this.out = null;
     }
 
     public FastGradientDescentMethod(final double epsilon, boolean log, String fileName) throws FileNotFoundException {
-
+        super(log, fileName);
         this.epsilon = epsilon;
-        this.log = log;
-        this.out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName)));
     }
 
     @Override
@@ -48,12 +42,5 @@ public class FastGradientDescentMethod implements Method {
     private double calculateStep(double[] x, double[] gradient, Function function) {
         MathFunction fun = alpha -> function.run(subtract(x, multiply(gradient, alpha)));
         return new BrentSearch(fun,0, 10, epsilon).searchMinimum();
-    }
-
-    private void log(double[] x, double[] gradient) throws IOException {
-        if(!log) return;
-        assert out != null;
-        out.write(Arrays.toString(x) + ":" + Arrays.toString(x) + "\n");
-        out.flush();
     }
 }

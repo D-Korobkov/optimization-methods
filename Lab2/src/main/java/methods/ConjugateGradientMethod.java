@@ -9,25 +9,18 @@ import java.util.Arrays;
 
 import static SaZhaK.MatrixUtil.*;
 
-public class ConjugateGradientMethod implements Method {
+public class ConjugateGradientMethod extends LoggingMethod {
 
     private final double epsilon;
-    private final boolean log;
-    private final BufferedWriter out;
 
     public ConjugateGradientMethod(double epsilon) {
-
+        super(false);
         this.epsilon = epsilon;
-        this.log = false;
-        this.out = null;
     }
 
     public ConjugateGradientMethod(double epsilon, boolean log, String fileName) throws FileNotFoundException {
-
+        super(log, fileName);
         this.epsilon = epsilon;
-
-        this.log = log;
-        this.out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName)));
     }
 
     @Override
@@ -66,12 +59,5 @@ public class ConjugateGradientMethod implements Method {
             res += a[i] * b[i];
         }
         return res;
-    }
-
-    private void log(double[] x, double[] gradient) throws IOException {
-        if(!log) return;
-        assert out != null;
-        out.write(Arrays.toString(x) + ":" + Arrays.toString(x) + "\n");
-        out.flush();
     }
 }
