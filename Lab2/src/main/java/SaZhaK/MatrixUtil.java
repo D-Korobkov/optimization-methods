@@ -293,7 +293,7 @@ public final class MatrixUtil {
 	 * Kariel
 	 */
 
-	public static double dot_product(double[] vector1, double[] vector2){
+	public static double dotProduct(double[] vector1, double[] vector2){
 		int dimention = vector1.length;
 		double result = 0;
 		for(int i = 0; i < dimention; i++){

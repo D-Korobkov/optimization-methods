@@ -1,37 +1,53 @@
 package methods;
 
 import interfaces.Function;
-import interfaces.Method;
-
 import java.io.*;
-import java.util.Arrays;
 
-import static SaZhaK.MatrixUtil.norm;
-import static SaZhaK.MatrixUtil.subtract;
-import static SaZhaK.MatrixUtil.multiply;
+import static SaZhaK.MatrixUtil.*;
 
-public class GradientDescentMethod extends LoggingMethod {
+
+/**
+ * предоставляет возможность искать минимум квадратичных функций методом градиентного спуска
+ */
+public class GradientDescentMethod extends AbstractGradientMethod {
+    /**
+     * step of Gradient method 
+     */
     private double step;
-    private final double epsilon;
 
 
+    /**
+     * Full constructor
+     * @param step {@link #step}
+     * @param epsilon {@link #epsilon}
+     * @param log {@link AbstractGradientMethod#log}
+     * @param fileName output file for {@link AbstractGradientMethod#out}
+     * @throws FileNotFoundException if specified output file was not found
+     * @see AbstractGradientMethod#AbstractGradientMethod(double, boolean, String)
+     */
     public GradientDescentMethod(final double step, final double epsilon, final boolean log, final String fileName) throws FileNotFoundException {
-        super(log, fileName);
+
+        super(epsilon, log, fileName);
         this.step = step;
-        this.epsilon = epsilon;
     }
 
+    /**
+     * Standard constructor
+     * @param step {@link #step}
+     * @param epsilon {@link AbstractGradientMethod#epsilon}
+     * @see AbstractGradientMethod#AbstractGradientMethod(double) 
+     */
     public GradientDescentMethod(final double step, final double epsilon) {
-        super(false);
+        super(epsilon);
         this.step = step;
-        this.epsilon = epsilon;
+
     }
 
     @Override
     public double[] findMinimum(Function function, double[] x0) throws IOException {
 
 
-        log(new double[]{3.0, 3.0}, new double[]{3.0, 3.0});
+
         double[] prevX = x0;
         double prevFunctionValue = function.run(x0);
         while (true) {
