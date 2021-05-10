@@ -31,7 +31,7 @@ public class GradientDescentMethod extends LoggingMethod {
     public double[] findMinimum(Function function, double[] x0) throws IOException {
 
 
-
+        log(new double[]{3.0, 3.0}, new double[]{3.0, 3.0});
         double[] prevX = x0;
         double prevFunctionValue = function.run(x0);
         while (true) {
@@ -45,10 +45,10 @@ public class GradientDescentMethod extends LoggingMethod {
             if (nextFunctionValue < prevFunctionValue) {
                 prevX = nextX;
                 prevFunctionValue = nextFunctionValue;
+                log(prevX, gradient);
             } else {
                 step /= 2;
             }
-            log(prevX, gradient);
         }
         return prevX;
     }

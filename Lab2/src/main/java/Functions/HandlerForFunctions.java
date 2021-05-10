@@ -21,9 +21,9 @@ public class HandlerForFunctions {
     public HandlerForFunctions(){
         this.functions = new ArrayList<Function>();
 
-        functions.add(new QuadraticFunction(new double[][]{{2, 2}, {2, 2}}, new double[]{-1, -1}, 0.0));
-        functions.add(new QuadraticFunction(new double[][]{{40, 2}, {2, 20}}, new double[]{-1, -1}, 0.0));
-        functions.add(new QuadraticFunction(new double[][]{{400, 2}, {2, 100}}, new double[]{-1, -1}, 0.0));
+        functions.add(new QuadraticFunction(new double[][]{{40.0, 3.5}, {3.5, 40.0}}, new double[]{-1, -4}, 0.0));
+        //functions.add(new QuadraticFunction(new double[][]{{40, 2}, {2, 20}}, new double[]{-1, -1}, 0.0));
+        functions.add(new QuadraticFunction(new double[][]{{400, 2}, {2, 200}}, new double[]{-1, -1}, 0.0));
 
     }
 

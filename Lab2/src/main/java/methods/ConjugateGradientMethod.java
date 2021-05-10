@@ -25,6 +25,7 @@ public class ConjugateGradientMethod extends LoggingMethod {
 
     @Override
     public double[] findMinimum(final Function function, double[] x0) throws IOException {
+        log(new double[]{3.0, 3.0}, new double[]{3.0, 3.0});
         do {
             x0 = startIteration(function, x0);
         } while(norm(function.runGradient(x0)) >= epsilon);

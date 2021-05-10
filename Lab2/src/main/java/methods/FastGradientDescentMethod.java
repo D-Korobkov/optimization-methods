@@ -27,6 +27,7 @@ public class FastGradientDescentMethod extends LoggingMethod{
 
     @Override
     public double[] findMinimum(Function function, double[] x0) throws IOException {
+        log(new double[]{3.0, 3.0}, new double[]{3.0, 3.0});
         double[] x = x0;
         while (true) {
             double[] gradient = function.runGradient(x);
