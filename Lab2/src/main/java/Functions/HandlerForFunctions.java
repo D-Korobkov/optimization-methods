@@ -28,6 +28,7 @@ public class HandlerForFunctions {
     public HandlerForFunctions() {
         this.functions = new ArrayList<>();
 
+
         functions.add(new QuadraticFunction(new double[][]{{2, 2}, {2, 2}}, new double[]{-1, -1}, 0.0));
         functions.add(new QuadraticFunction(new double[][]{{40, 2}, {2, 20}}, new double[]{-1, -1}, 0.0));
         functions.add(new QuadraticFunction(new double[][]{{400, 2}, {2, 100}}, new double[]{-1, -1}, 0.0));
@@ -50,6 +51,7 @@ public class HandlerForFunctions {
         try (final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(outputStream))) {
             double[] x0 = new double[]{0, 0};
             double epsilon = 0.00001;
+
 
             int i = 0;
             for (Function function : functions) {

@@ -8,6 +8,7 @@ import java.io.*;
 
 import static SaZhaK.MatrixUtil.*;
 
+
 /**
  * Class of Fast Gradient realisation
  */
@@ -36,6 +37,7 @@ public class FastGradientDescentMethod extends AbstractGradientMethod {
 
     @Override
     public double[] findMinimum(Function function, double[] x0) throws IOException {
+        log(new double[]{3.0, 3.0}, new double[]{3.0, 3.0});
         double[] x = x0;
         while (true) {
             double[] gradient = function.runGradient(x);

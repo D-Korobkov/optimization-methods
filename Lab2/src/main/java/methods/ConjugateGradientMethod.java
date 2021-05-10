@@ -5,6 +5,7 @@ import java.io.*;
 
 import static SaZhaK.MatrixUtil.*;
 
+
 /**
  * Class of ConjugateGradient realisation
  */
@@ -28,12 +29,14 @@ public class ConjugateGradientMethod extends AbstractGradientMethod {
      * @see AbstractGradientMethod#AbstractGradientMethod(double, boolean, String)
      */
     public ConjugateGradientMethod(double epsilon, boolean log, String fileName) throws FileNotFoundException {
+
         super(epsilon, log, fileName);
     }
 
 
     @Override
     public double[] findMinimum(final Function function, double[] x0) throws IOException {
+        log(new double[]{3.0, 3.0}, new double[]{3.0, 3.0});
         do {
             x0 = startIteration(function, x0);
         } while(norm(function.runGradient(x0)) >= epsilon);
@@ -68,4 +71,13 @@ public class ConjugateGradientMethod extends AbstractGradientMethod {
         }
         return prevX;
     }
+
+    private double scalar(final double[] a, final double[] b) {
+        double res = 0;
+        for (int i = 0; i < a.length; i++) {
+            res += a[i] * b[i];
+        }
+        return res;
+    }
+
 }

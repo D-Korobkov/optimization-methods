@@ -5,6 +5,7 @@ import java.io.*;
 
 import static SaZhaK.MatrixUtil.*;
 
+
 /**
  * предоставляет возможность искать минимум квадратичных функций методом градиентного спуска
  */
@@ -13,6 +14,7 @@ public class GradientDescentMethod extends AbstractGradientMethod {
      * step of Gradient method 
      */
     private double step;
+
 
     /**
      * Full constructor
@@ -24,6 +26,7 @@ public class GradientDescentMethod extends AbstractGradientMethod {
      * @see AbstractGradientMethod#AbstractGradientMethod(double, boolean, String)
      */
     public GradientDescentMethod(final double step, final double epsilon, final boolean log, final String fileName) throws FileNotFoundException {
+
         super(epsilon, log, fileName);
         this.step = step;
     }
@@ -37,10 +40,12 @@ public class GradientDescentMethod extends AbstractGradientMethod {
     public GradientDescentMethod(final double step, final double epsilon) {
         super(epsilon);
         this.step = step;
+
     }
 
     @Override
     public double[] findMinimum(Function function, double[] x0) throws IOException {
+
 
 
         double[] prevX = x0;
@@ -56,10 +61,10 @@ public class GradientDescentMethod extends AbstractGradientMethod {
             if (nextFunctionValue < prevFunctionValue) {
                 prevX = nextX;
                 prevFunctionValue = nextFunctionValue;
+                log(prevX, gradient);
             } else {
                 step /= 2;
             }
-            log(prevX, gradient);
         }
         return prevX;
     }
