@@ -36,6 +36,34 @@ public class Matrix {
         } else {
 //            al
         }
+        return 0;
     }
 
+    public double getLowTriangleIJ(int i, int j) {
+        return 0;
+    }
+
+    public double getUpTrieangleIJ(int i, int j) {
+        return 0;
+    }
+
+    public int size() {
+        return d.length;
+    }
+
+    public double getL(int i, int j) {
+
+    }
+
+    public double getU(int i, int j) {
+
+    }
+
+    public void setL(int i, int j, double value) {
+
+    }
+
+    private void changeToLU() {
+
+    }
 }
