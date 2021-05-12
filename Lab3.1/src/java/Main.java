@@ -1,4 +1,6 @@
-import matrix.Matrix;
+package java;
+
+import java.matrix.Matrix;
 
 public class Main {
 
