@@ -9,16 +9,17 @@ import java.util.Arrays;
 
 public class Matrix {
 
-    public double al[], au[], ia[], d[];
     private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt"};
+    public double[] al, au, d;
+    public int[] ia;
 
     public Matrix(String pathOfMatrix) {
         for (String fileName : NAME_OF_FILES) {
-            try (BufferedReader reader = Files.newBufferedReader(Path.of(pathOfMatrix + File.pathSeparator + fileName))){
+            try (BufferedReader reader = Files.newBufferedReader(Path.of(pathOfMatrix + File.pathSeparator + fileName))) {
                 switch (fileName) {
                     case "au.txt" -> au = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
                     case "al.txt" -> al = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
-                    case "ia.txt" -> ia = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
+                    case "ia.txt" -> ia = Arrays.stream(reader.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
                     case "d.txt" -> d = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
                 }
             } catch (IOException e) {
@@ -31,36 +32,63 @@ public class Matrix {
         if (i == j) {
             return d[i];
         } else if (i < j) {
-//            au
-            
+            return getL(i, j);
         } else {
-//            al
+            return getU(i, j);
         }
-        return 0;
-    }
-
-    public double getLowTriangleIJ(int i, int j) {
-        return 0;
-    }
-
-    public double getUpTrieangleIJ(int i, int j) {
-        return 0;
     }
 
     public int size() {
         return d.length;
     }
 
-    public double getL(int i, int j) {
+    private double profileGet(int i, int j, double[] a, double diag) {
+        if (i == j) {
+            return diag;
+        }
+        if (j > i) {
+            return 0;
+        }
+        int realCount = ia[i + 1] - ia[i];
+        int imagineCount = i - realCount;
+        if (j < imagineCount) {
+            return 0;
+        } else {
+            return a[ia[i] + j - imagineCount];
+        }
+    }
 
+    public double getL(int i, int j) {
+        return profileGet(i, j, al, d[i]);
     }
 
     public double getU(int i, int j) {
-
+        return profileGet(j, i, au, 1);
     }
 
     public void setL(int i, int j, double value) {
+        if (i == j) {
+            d[i] = value;
+        }
+        if (j > i) {
+            return;
+        }
+        int realCount = ia[i + 1] - ia[i];
+        int imagineCount = i - realCount;
+        if (j >= imagineCount) {
+            al[ia[i] + j - imagineCount] = value;
+        }
+    }
 
+    public void setU(int i, int j, double value) {
+        if (i <= j) {
+            return;
+        }
+        int realCount = ia[j + 1] - ia[j];
+        int imagineCount = j - realCount;
+        if (i >= imagineCount) {
+            au[ia[j] + i - imagineCount] = value;
+        }
     }
 
     private void changeToLU() {
