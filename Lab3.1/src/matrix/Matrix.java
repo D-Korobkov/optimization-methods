@@ -52,18 +52,60 @@ public class Matrix {
     }
 
     public double getL(int i, int j) {
-
+        return 0;
     }
 
     public double getU(int i, int j) {
-
+        return 0;
     }
 
     public void setL(int i, int j, double value) {
 
     }
 
-    private void changeToLU() {
+    public void setU(int i, int j, double value) {
 
+    }
+
+    private void changeToLU() {
+        int n = 10000;//TODO change to size
+        setL(0, 0, getIJ(0, 0));//TODO chek getIJ
+
+
+
+        for(int i = 1; i < n; i++){
+
+            //setting L_ij
+
+            for(int j = 0; j < i; j++){
+
+                double substract = 0;
+                for(int k = 0; k < j; k++){
+                    substract += getL(i, k) * getU(k, j);
+                }
+                setL(i, i, getIJ(i, j) - substract);
+            }
+
+            //setting U_ji
+
+            for(int j = 0; j < i; j++){
+
+
+
+            }
+
+            //setting L_ii
+
+            double substract = 0;
+
+            for(int k = 0; k < i; k++){
+                substract += getL(i, k) * getU(k, i);
+            }
+            setL(i, i, getIJ(i, i) - substract);
+
+            //setting U_ii
+            setU(i, i, 1);
+
+        }
     }
 }
