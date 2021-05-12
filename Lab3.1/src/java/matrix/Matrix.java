@@ -31,10 +31,9 @@ public class Matrix {
         if (i == j) {
             return d[i];
         } else if (i < j) {
-//            au
-            
+            return getL(i, j);
         } else {
-//            al
+            return getU(i, j);
         }
         return 0;
     }
@@ -51,20 +50,53 @@ public class Matrix {
         return d.length;
     }
 
+    private double profileGet(int i, int j, double[] a, double diag) {
+        if (i == j) {
+            return diag;
+        }
+        if (j > i) {
+            return 0;
+        }
+        int realCount = ia[i + 1] - ia[i];
+        int imagineCount = i - realCount;
+        if (j < imagineCount) {
+            return 0;
+        } else {
+            return a[ia[i] + j - imagineCount];
+        }
+    }
+
     public double getL(int i, int j) {
-        return 0;
+        return profileGet(i, j, al, d[i]);
     }
 
     public double getU(int i, int j) {
-        return 0;
+        return profileGet(j, i, au, 1);
     }
 
     public void setL(int i, int j, double value) {
-
+        if (i == j) {
+            d[i] = value;
+        }
+        if (j > i) {
+            return;
+        }
+        int realCount = ia[i + 1] - ia[i];
+        int imagineCount = i - realCount;
+        if (j >= imagineCount) {
+            al[ia[i] + j - imagineCount] = value;
+        }
     }
 
     public void setU(int i, int j, double value) {
-
+        if (i <= j) {
+            return;
+        }
+        int realCount = ia[j + 1] - ia[j];
+        int imagineCount = j - realCount;
+        if (i >= imagineCount) {
+            au[ia[j] + i - imagineCount] = value;
+        }
     }
 
     private void changeToLU() {
