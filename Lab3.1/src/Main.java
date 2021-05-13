@@ -1,13 +1,15 @@
 import GradientMethods.ConjugateGradientMethod;
+import SaZhaK.MatrixUtil;
 import generator.MatrixGenerator;
 import matrix.LineColumnMatrix;
 import matrix.ProfileMatrix;
 import matrix.QuadraticFunction;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 
 public class Main {
 
@@ -15,8 +17,8 @@ public class Main {
         ProfileMatrix matrix = new ProfileMatrix("out/production/Lab3.1/resources/profile/symmetry");
         matrix.toStringByGetters();
         matrix.changeToLU();
-        double[] ans = GaussSolver.gaussBackward(matrix, GaussSolver.gaussForward(matrix, new double[]{1, 2, 3}));
-        System.out.println(Arrays.toString(ans));
+        //double[] ans = GaussSolver.gaussBackward(matrix, GaussSolver.gaussForward(matrix, new double[]{1, 2, 3}));
+        //System.out.println(Arrays.toString(ans));
         System.out.println();
         LineColumnMatrix matrix2 = new LineColumnMatrix("out/production/Lab3.1/resources/line-column/symmetry");
         System.out.println(matrix2);
@@ -45,8 +47,25 @@ public class Main {
         profileMatrix.toStringByGetters();
     }
 
+    private static void testHilbert(int number, int k) throws IOException {
+        String path = "out/production/Lab3.1/hilbert/test" + number;
+        Files.createDirectories(Path.of(path));
+
+        final double[][] matrix = MatrixGenerator.generateHilbertMatrix(k);
+        MatrixGenerator.parseAndWrite(matrix, path);
+
+        final double[] b = MatrixUtil.multiply(matrix, DoubleStream.iterate(1.0, x -> x + 1.0).limit(k).toArray());
+
+        ProfileMatrix profileMatrix = new ProfileMatrix(path);
+        System.out.println(Arrays.toString(LuSolver.solve(profileMatrix, b)));
+        System.out.println(Arrays.toString(new CommonGaussMethod(matrix, b, 0.0000001).solve()));
+    }
+
     public static void main(String[] args) throws Exception {
 //        old();
-        checkGenerator();
+        //checkGenerator();
+        testHilbert(1, 4);
+        testHilbert(2, 100);
+        testHilbert(3, 200);
     }
 }
