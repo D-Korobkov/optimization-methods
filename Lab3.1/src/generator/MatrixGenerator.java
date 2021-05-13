@@ -12,7 +12,6 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
 
 public class MatrixGenerator {
     public static final Random RANDOM = new Random();
