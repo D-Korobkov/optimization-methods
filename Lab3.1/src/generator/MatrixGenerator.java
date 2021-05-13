@@ -53,6 +53,38 @@ public class MatrixGenerator {
         return matrix;
     }
 
+    public static double[][] generateDiagonalDominationMatrix(final int dimension, final int k) {
+        final double[][] matrix = new double[dimension][dimension];
+        final int[] profileOffset = new int[dimension];
+
+        for (int i = 0; i < dimension; ++i) {
+            profileOffset[i] = RANDOM.nextInt(i + 1);
+        }
+
+        for (int row = 0; row < dimension; ++row) {
+            for (int col = profileOffset[row]; col < row; ++col) {
+                int val = -RANDOM.nextInt(4) - 1;
+                matrix[row][col] = val;
+                matrix[col][row] = val;
+            }
+        }
+
+        for (int i = 0; i < dimension; ++i) {
+            double sum = 0;
+            for (int j = 0; j < dimension; ++j) {
+                if (j != i) {
+                    sum -= matrix[i][j];
+                }
+            }
+            matrix[i][i] = sum;
+            if (i == 0) {
+                matrix[i][i] += 1;
+            }
+        }
+
+        return matrix;
+    }
+
     public static double[][] generateHilbertMatrix(final int dimension) {
         final double[][] matrix = new double[dimension][dimension];
         for (int i = 1; i <= dimension; ++i) {
