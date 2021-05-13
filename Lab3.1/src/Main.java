@@ -114,6 +114,22 @@ public class Main {
         System.out.println(Arrays.toString(ans));
     }
 
+    private static void testLineColumn() {
+        int dimension = 5;
+        double[][] matrix = MatrixGenerator.generateOrdinaryMatrix(dimension, 5);
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+        String path = "out/production/Lab3.1/testLineColumn/";
+        MatrixGenerator.parserAndWriterOnLineColumn(matrix, path);
+        LineColumnMatrix lineColumnMatrix = new LineColumnMatrix(path);
+        System.out.println(lineColumnMatrix);
+    }
+
     public static void main(String[] args) throws IOException {
 //        old();
         //checkGenerator();
@@ -124,7 +140,8 @@ public class Main {
 //        testHilbert(5, 100);
 
 //        ordinaryResearch();
-        findTrouble();
+//        findTrouble();
+//        testLineColumn();
     }
 
 }

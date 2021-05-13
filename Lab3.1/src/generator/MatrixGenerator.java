@@ -15,7 +15,7 @@ import java.util.stream.DoubleStream;
 
 public class MatrixGenerator {
     public static final Random RANDOM = new Random();
-    private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt", "b.txt"};
+    private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt", "b.txt", "ja.txt"};
 
     public static double[][] generateOrdinaryMatrix(final int dimension, final int k) {
         final double[][] matrix = new double[dimension][dimension];
@@ -97,6 +97,50 @@ public class MatrixGenerator {
                     case "ia.txt" -> out.write(Arrays.stream(ia).mapToObj(Objects::toString).collect(Collectors.joining(" ")));
                     case "d.txt" -> out.write(Arrays.stream(d).mapToObj(Objects::toString).collect(Collectors.joining(" ")));
                     case "b.txt" -> out.write(Arrays.stream(b).mapToObj(Objects::toString).collect(Collectors.joining(" ")));
+                }
+            } catch (final IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void parserAndWriterOnLineColumn(final double[][] matrix, final String... path) {
+        final int size = matrix.length;
+        final double[] b = MatrixUtil.multiply(matrix, DoubleStream.iterate(1.0, x -> x + 1.0).limit(size).toArray());
+        final double[] d = new double[size];
+        final ArrayList<Double> al = new ArrayList<>();
+        final ArrayList<Double> au = new ArrayList<>();
+        final ArrayList<Integer> ja = new ArrayList<>();
+        final int[] ia = new int[size + 1];
+        for (int i = 0; i < size; i++) {
+            d[i] = matrix[i][i];
+        }
+        ia[0] = 0;
+        ia[1] = 0;
+        for (int i = 1; i < size; i++) {
+            int ind = 0;
+            while (ind < i && matrix[i][ind] == 0) {
+                ind++;
+            }
+            while (ind < i) {
+                if (matrix[i][ind] != 0) {
+                    al.add(matrix[i][ind]);
+                    au.add(matrix[ind][i]);
+                    ja.add(ind);
+                }
+                ind++;
+            }
+            ia[i + 1] = al.size();
+        }
+        for (final String fileName : NAME_OF_FILES) {
+            try (final BufferedWriter out = Files.newBufferedWriter(Path.of(String.join("", path), fileName))) {
+                switch (fileName) {
+                    case "au.txt" -> out.write(au.stream().map(Object::toString).collect(Collectors.joining(" ")));
+                    case "al.txt" -> out.write(al.stream().map(Object::toString).collect(Collectors.joining(" ")));
+                    case "ia.txt" -> out.write(Arrays.stream(ia).mapToObj(Objects::toString).collect(Collectors.joining(" ")));
+                    case "d.txt" -> out.write(Arrays.stream(d).mapToObj(Objects::toString).collect(Collectors.joining(" ")));
+                    case "b.txt" -> out.write(Arrays.stream(b).mapToObj(Objects::toString).collect(Collectors.joining(" ")));
+                    case "ja.txt" -> out.write(ja.stream().map(Object::toString).collect(Collectors.joining(" ")));
                 }
             } catch (final IOException e) {
                 e.printStackTrace();
