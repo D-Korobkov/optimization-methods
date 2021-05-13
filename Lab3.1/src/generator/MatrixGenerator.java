@@ -12,11 +12,10 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
 
 public class MatrixGenerator {
     public static final Random RANDOM = new Random();
-    private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt"};
+    private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt", "b.txt"};
 
     public static double[][] generateOrdinaryMatrix(final int dimension, final int k) {
         final double[][] matrix = new double[dimension][dimension];

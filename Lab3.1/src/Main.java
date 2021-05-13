@@ -4,10 +4,12 @@ import matrix.LineColumnMatrix;
 import matrix.ProfileMatrix;
 import matrix.QuadraticFunction;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Main {
 
@@ -45,8 +47,31 @@ public class Main {
         profileMatrix.toStringByGetters();
     }
 
+    private static void ordinaryResearch() {
+        String path = "out/production/Lab3.1/ordinaryResearch/";
+        for (int size = 10; size <= 1000; size *= 10) {
+            System.out.println("size: " + size);
+            for (int k = 0; k < 5; k++) {
+                System.out.println("k: " + k);
+                MatrixGenerator.parseAndWrite(MatrixGenerator.generateOrdinaryMatrix(size, k), path);
+                try (BufferedReader reader = Files.newBufferedReader(Path.of(path + File.separator + "b.txt"))) {
+                    double[] b = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
+                    ProfileMatrix profileMatrix = new ProfileMatrix(path);
+                    profileMatrix.changeToLU();
+                    double[] ans = GaussSolver.gaussBackward(profileMatrix, GaussSolver.gaussForward(profileMatrix, b));
+//                    profileMatrix.toStringByGetters();
+                    System.out.println(Arrays.toString(ans));
+                    System.out.println();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) throws Exception {
 //        old();
-        checkGenerator();
+//        checkGenerator();
+        ordinaryResearch();
     }
 }
