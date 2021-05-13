@@ -9,16 +9,18 @@ import java.util.Arrays;
 
 public class Matrix {
 
-    public double al[], au[], ia[], d[];
+    public double[] al, au, d;
+    public int[] ia;
+
     private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt"};
 
     public Matrix(String pathOfMatrix) {
         for (String fileName : NAME_OF_FILES) {
-            try (BufferedReader reader = Files.newBufferedReader(Path.of(pathOfMatrix + File.pathSeparator + fileName))){
+            try (BufferedReader reader = Files.newBufferedReader(Path.of(pathOfMatrix + File.separator + fileName))){
                 switch (fileName) {
                     case "au.txt" -> au = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
                     case "al.txt" -> al = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
-                    case "ia.txt" -> ia = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
+                    case "ia.txt" -> ia = Arrays.stream(reader.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
                     case "d.txt" -> d = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
                 }
             } catch (IOException e) {
@@ -31,19 +33,10 @@ public class Matrix {
         if (i == j) {
             return d[i];
         } else if (i < j) {
-            return getL(i, j);
-        } else {
             return getU(i, j);
+        } else {
+            return getL(i, j);
         }
-        return 0;
-    }
-
-    public double getLowTriangleIJ(int i, int j) {
-        return 0;
-    }
-
-    public double getUpTrieangleIJ(int i, int j) {
-        return 0;
     }
 
     public int size() {
@@ -77,8 +70,9 @@ public class Matrix {
     public void setL(int i, int j, double value) {
         if (i == j) {
             d[i] = value;
+            return;
         }
-        if (j > i) {
+        if (i < j) {
             return;
         }
         int realCount = ia[i + 1] - ia[i];
@@ -89,7 +83,7 @@ public class Matrix {
     }
 
     public void setU(int i, int j, double value) {
-        if (i <= j) {
+        if (i >= j) {
             return;
         }
         int realCount = ia[j + 1] - ia[j];
@@ -99,8 +93,8 @@ public class Matrix {
         }
     }
 
-    private void changeToLU() {
-        int n = 10000;//TODO change to size
+    public void changeToLU() {
+        int n = size();//TODO change to size
         setL(0, 0, getIJ(0, 0));//TODO chek getIJ
 
 
@@ -115,14 +109,17 @@ public class Matrix {
                 for(int k = 0; k < j; k++){
                     substract += getL(i, k) * getU(k, j);
                 }
-                setL(i, i, getIJ(i, j) - substract);
+                setL(i, j, getIJ(i, j) - substract);
             }
 
             //setting U_ji
 
             for(int j = 0; j < i; j++){
-
-
+                double substract = 0;
+                for(int k = 0; k < j; k++){
+                    substract += getL(j, k) * getU(k, i);
+                }
+                setU(j, i, (getIJ(j, i) - substract) / getL(j, j));
 
             }
 
@@ -138,6 +135,43 @@ public class Matrix {
             //setting U_ii
             setU(i, i, 1);
 
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Matrix{" +
+                "al=" + Arrays.toString(al) +
+                ", au=" + Arrays.toString(au) +
+                ", d=" + Arrays.toString(d) +
+                ", ia=" + Arrays.toString(ia) +
+                '}';
+    }
+
+    public void toStringByGetters() {
+        for (int i = 0; i < size(); i++) {
+            for (int j = 0; j < size(); j++) {
+                System.out.print(getIJ(i, j) + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public void showL() {
+        for (int i = 0; i < size(); i++) {
+            for (int j = 0; j < size(); j++) {
+                System.out.print(getL(i, j) + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public void showU() {
+        for (int i = 0; i < size(); i++) {
+            for (int j = 0; j < size(); j++) {
+                System.out.print(getU(i, j) + " ");
+            }
+            System.out.println();
         }
     }
 }
