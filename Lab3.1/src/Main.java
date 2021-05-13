@@ -3,11 +3,14 @@ import matrix.LineColumnMatrix;
 import matrix.ProfileMatrix;
 import matrix.QuadraticFunction;
 
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception {
+    private static void old() throws IOException {
         ProfileMatrix matrix = new ProfileMatrix("out/production/Lab3.1/resources/profile/symmetry");
         matrix.toStringByGetters();
         matrix.changeToLU();
@@ -22,5 +25,11 @@ public class Main {
         QuadraticFunction symmetryF = new QuadraticFunction(new double[][]{{-11, 6, -6}, {6, -6, 3}, {-6, 3, -6}}, new double[]{1, 2, 3}, 0);
         method = new ConjugateGradientMethod(0.0000001);
         System.out.println(Arrays.toString(method.findMinimum(symmetryF, new double[]{1, 2, 3})));
+//        System.out.println(Arrays.stream(new int[]{1, 2, 4, 54}).mapToObj(Objects::toString).collect(Collectors.joining(" ")));
+    }
+
+    public static void main(String[] args) throws Exception {
+        old();
+
     }
 }
