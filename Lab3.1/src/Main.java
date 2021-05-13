@@ -8,6 +8,7 @@ import matrix.QuadraticFunction;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -69,9 +70,10 @@ public class Main {
         String path = "out/production/Lab3.1/ordinaryResearch/";
         Files.createDirectories(Path.of(path));
 
-        for (int size = 10; size <= 1000; size *= 10) {
+        for (int size = 10; size <= 10; size *= 10) {
             System.out.println("size: " + size);
-            for (int k = 0; k < 5; k++) {
+            int k = 4;
+//            for (int k = 0; k < 5; k++) {
                 System.out.println("k: " + k);
                 double[][] matrix = MatrixGenerator.generateOrdinaryMatrix(size, k);
                 MatrixGenerator.parseAndWrite(matrix, path);
@@ -79,6 +81,7 @@ public class Main {
                     double[] b1 = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
                     double[] b2 = Arrays.copyOf(b1, b1.length);
                     ProfileMatrix profileMatrix = new ProfileMatrix(path);
+                    profileMatrix.showByGetters();
 //                    double[] ans1 = new CommonGaussMethod(matrix, b1).solve();
 //                    System.out.println(Arrays.toString(ans1));
 
@@ -92,8 +95,23 @@ public class Main {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
+//            }
         }
+    }
+
+    private static void findTrouble() throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        double[][] matrix  = new double[10][];
+        for (int i = 0; i < 10; i++) {
+            matrix[i] = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
+        }
+        reader.close();
+        String path = "out/production/Lab3.1/findMissed/";
+        MatrixGenerator.parseAndWrite(matrix, path);
+        ProfileMatrix profileMatrix = new ProfileMatrix(path);
+        double[] x = new double[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        double[] ans = LuSolver.solve(profileMatrix, MatrixUtil.multiply(matrix, x));
+        System.out.println(Arrays.toString(ans));
     }
 
     public static void main(String[] args) throws IOException {
@@ -105,6 +123,8 @@ public class Main {
 //        testHilbert(4, 10);
 //        testHilbert(5, 100);
 
-        ordinaryResearch();
+//        ordinaryResearch();
+        findTrouble();
     }
+
 }
