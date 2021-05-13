@@ -16,7 +16,7 @@ import java.util.stream.IntStream;
 
 public class MatrixGenerator {
 
-    public static Random random;
+    public static final Random RANDOM = new Random();
     private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt"};
 
     public static double[][] generateOrdinaryMatrix(final int dimension, final int k) {
@@ -24,18 +24,18 @@ public class MatrixGenerator {
         final int[] profileOffset = new int[dimension];
 
         for (int i = 0; i < dimension; ++i) {
-            profileOffset[i] = random.nextInt(i + 1);
+            profileOffset[i] = RANDOM.nextInt(i + 1);
         }
 
         for (int row = 0; row < dimension; ++row) {
             for (int col = profileOffset[row]; col < row; ++col) {
-                matrix[row][col] = -random.nextInt(4) - 1;
+                matrix[row][col] = -RANDOM.nextInt(4) - 1;
             }
         }
 
         for (int col = 0; col < dimension; ++col) {
             for (int row = profileOffset[col]; row < col; ++row) {
-                matrix[row][col] = -random.nextInt(4) - 1;
+                matrix[row][col] = -RANDOM.nextInt(4) - 1;
             }
         }
 
