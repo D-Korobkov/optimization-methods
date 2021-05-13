@@ -1,5 +1,7 @@
 package generator;
 
+import SaZhaK.MatrixUtil;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,6 +11,8 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
 
 public class MatrixGenerator {
 
@@ -65,6 +69,7 @@ public class MatrixGenerator {
 
     public static void parseAndWrite(final double[][] matrix, final String... path) {
         final int size = matrix.length;
+        final double[] b = MatrixUtil.multiply(matrix, DoubleStream.iterate(1.0, x -> x + 1.0).limit(size).toArray());
         final double[] d = new double[size];
         final ArrayList<Double> al = new ArrayList<>();
         final ArrayList<Double> au = new ArrayList<>();
@@ -93,6 +98,7 @@ public class MatrixGenerator {
                     case "al.txt" -> out.write(al.stream().map(Object::toString).collect(Collectors.joining(" ")));
                     case "ia.txt" -> out.write(Arrays.stream(ia).mapToObj(Objects::toString).collect(Collectors.joining(" ")));
                     case "d.txt" -> out.write(Arrays.stream(d).mapToObj(Objects::toString).collect(Collectors.joining(" ")));
+                    case "b.txt" -> out.write(Arrays.stream(b).mapToObj(Objects::toString).collect(Collectors.joining(" ")));
                 }
             } catch (final IOException e) {
                 e.printStackTrace();
