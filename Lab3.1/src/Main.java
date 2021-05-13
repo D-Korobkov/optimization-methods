@@ -17,7 +17,7 @@ public class Main {
         double[] ans = GaussSolver.gaussBackward(matrix, GaussSolver.gaussForward(matrix, new double[]{1, 2, 3}));
         System.out.println(Arrays.toString(ans));
         System.out.println();
-        LineColumnMatrix matrix2 = new LineColumnMatrix("out/production/Lab3.1/resources/line-column/symmetry", new double[]{1, 2, 3});
+        LineColumnMatrix matrix2 = new LineColumnMatrix("out/production/Lab3.1/resources/line-column/symmetry");
         System.out.println(matrix2);
         ConjugateGradientMethod method = new ConjugateGradientMethod(0.0000001);
         System.out.println(Arrays.toString(method.findMinimum(matrix2, new double[]{1, 2, 3})));

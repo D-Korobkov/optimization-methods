@@ -17,8 +17,7 @@ public class LineColumnMatrix implements Function {
 
     private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt", "ja.txt"};
 
-    public LineColumnMatrix(String pathOfMatrixAndVector, double[] b) {
-        this.b = b;
+    public LineColumnMatrix(String pathOfMatrixAndVector) {
         for (String fileName : NAME_OF_FILES) {
             try (BufferedReader reader = Files.newBufferedReader(Path.of(pathOfMatrixAndVector + File.separator + fileName))){
                 switch (fileName) {
@@ -27,6 +26,7 @@ public class LineColumnMatrix implements Function {
                     case "ia.txt" -> ia = Arrays.stream(reader.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
                     case "ja.txt" -> ja = Arrays.stream(reader.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
                     case "d.txt" -> d = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
+                    case "b.txt" -> b = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
