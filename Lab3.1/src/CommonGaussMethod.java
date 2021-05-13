@@ -50,7 +50,7 @@ public class CommonGaussMethod {
             columnPermutation[col] = tmp;
 
             double element = Math.abs(matrix[rowPermutation[i]][columnPermutation[i]]);
-            if (element <= epsilon * element) {
+            if (element <= epsilon) {
                 continue; // считаем, что 0
             }
 
