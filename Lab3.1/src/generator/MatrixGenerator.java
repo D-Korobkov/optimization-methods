@@ -15,7 +15,6 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 
 public class MatrixGenerator {
-
     public static final Random RANDOM = new Random();
     private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt"};
 
