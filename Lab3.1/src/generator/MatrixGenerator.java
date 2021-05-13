@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 public class MatrixGenerator {
 
     public static Random random;
-    private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt"};
+    private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt", "b.txt"};
 
     public static double[][] generateOrdinaryMatrix(final int dimension, final int k) {
         final double[][] matrix = new double[dimension][dimension];

@@ -1,4 +1,5 @@
 import GradientMethods.ConjugateGradientMethod;
+import generator.MatrixGenerator;
 import matrix.LineColumnMatrix;
 import matrix.ProfileMatrix;
 import matrix.QuadraticFunction;
@@ -28,8 +29,24 @@ public class Main {
 //        System.out.println(Arrays.stream(new int[]{1, 2, 4, 54}).mapToObj(Objects::toString).collect(Collectors.joining(" ")));
     }
 
-    public static void main(String[] args) throws Exception {
-        old();
+    private static void checkGenerator() {
+        int dimension = 5;
+        double[][] matrix = MatrixGenerator.generateOrdinaryMatrix(dimension, 5);
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+        String path = "out/production/Lab3.1/checkGenerator/";
+        MatrixGenerator.parseAndWrite(matrix, path);
+        ProfileMatrix profileMatrix = new ProfileMatrix(path);
+        profileMatrix.toStringByGetters();
+    }
 
+    public static void main(String[] args) throws Exception {
+//        old();
+        checkGenerator();
     }
 }

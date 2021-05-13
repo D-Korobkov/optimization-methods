@@ -15,7 +15,7 @@ public class LineColumnMatrix implements Function {
     private double[] al, au, d, b;
     private int[] ia, ja;
 
-    private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt", "ja.txt"};
+    private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt", "ja.txt", "b.txt"};
 
     public LineColumnMatrix(String pathOfMatrixAndVector) {
         for (String fileName : NAME_OF_FILES) {
