@@ -1,7 +1,3 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.stream.IntStream;
 
 public class CommonGaussMethod {
@@ -10,13 +6,11 @@ public class CommonGaussMethod {
     private final int[] rowPermutation;
     private final int[] columnPermutation;
     private final int n;
-    private final double epsilon;
 
     // matrix * x = b
-    public CommonGaussMethod(final double[][] matrix, final double[] b, final double epsilon) {
+    public CommonGaussMethod(final double[][] matrix, final double[] b) {
         this.matrix = matrix;
         this.b = b;
-        this.epsilon = epsilon;
         n = matrix.length;
         rowPermutation = IntStream.range(0, n).toArray();
         columnPermutation = IntStream.range(0, n).toArray();
@@ -48,11 +42,6 @@ public class CommonGaussMethod {
             tmp = columnPermutation[i];
             columnPermutation[i] = columnPermutation[col];
             columnPermutation[col] = tmp;
-
-            double element = Math.abs(matrix[rowPermutation[i]][columnPermutation[i]]);
-            if (element <= epsilon) {
-                continue; // считаем, что 0
-            }
 
             for (int j = 0; j < n; ++j) {
                 if (j == i) continue;

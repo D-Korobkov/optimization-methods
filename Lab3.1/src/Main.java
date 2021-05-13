@@ -58,27 +58,33 @@ public class Main {
         MatrixGenerator.parseAndWrite(matrix, path);
 
         final double[] b = MatrixUtil.multiply(matrix, DoubleStream.iterate(1.0, x -> x + 1.0).limit(k).toArray());
-        final double[] b1 = b.clone();
+        final double[] b1 = Arrays.copyOf(b, b.length);
 
         ProfileMatrix profileMatrix = new ProfileMatrix(path);
         System.out.println(Arrays.toString(LuSolver.solve(profileMatrix, b)));
-        System.out.println(Arrays.toString(new CommonGaussMethod(matrix, b1, 0.0000001).solve()));
+        System.out.println(Arrays.toString(new CommonGaussMethod(matrix, b1).solve()));
     }
 
-    private static void ordinaryResearch() {
+    private static void ordinaryResearch() throws IOException {
         String path = "out/production/Lab3.1/ordinaryResearch/";
+        Files.createDirectories(Path.of(path));
+
         for (int size = 10; size <= 1000; size *= 10) {
             System.out.println("size: " + size);
             for (int k = 0; k < 5; k++) {
                 System.out.println("k: " + k);
-                MatrixGenerator.parseAndWrite(MatrixGenerator.generateOrdinaryMatrix(size, k), path);
+                double[][] matrix = MatrixGenerator.generateOrdinaryMatrix(size, k);
+                MatrixGenerator.parseAndWrite(matrix, path);
                 try (BufferedReader reader = Files.newBufferedReader(Path.of(path + File.separator + "b.txt"))) {
-                    double[] b = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
+                    double[] b1 = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
+                    double[] b2 = Arrays.copyOf(b1, b1.length);
                     ProfileMatrix profileMatrix = new ProfileMatrix(path);
-                    profileMatrix.changeToLU();
-                    double[] ans = LuSolver.solve(profileMatrix, b);
+                    //profileMatrix.changeToLU();
+                    double[] ans1 = new CommonGaussMethod(matrix, b1).solve();
+                    double[] ans2 = LuSolver.solve(profileMatrix, b2);
 //                    profileMatrix.toStringByGetters();
-                    System.out.println(Arrays.toString(ans));
+                    System.out.println(Arrays.toString(ans1));
+                    System.out.println(Arrays.toString(ans2));
                     System.out.println();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -92,9 +98,13 @@ public class Main {
 
         //checkGenerator();
         testHilbert(1, 4);
+        testHilbert(2, 6);
+        testHilbert(3, 8);
+        testHilbert(4, 10);
+        testHilbert(5, 100);
 //        testHilbert(2, 100);
 //        testHilbert(3, 200);
 //        checkGenerator();
-//        ordinaryResearch();
+      //ordinaryResearch();
     }
 }

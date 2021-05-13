@@ -22,13 +22,13 @@ public class LuSolver {
     }
 
     public static double[] solve(ProfileMatrix matrix, double[] b) {
-        System.out.println("matrix");
-        matrix.toStringByGetters();
+        //System.out.println("matrix");
+        //matrix.toStringByGetters();
         matrix.changeToLU();
-        System.out.println("L");
-        matrix.showL();
-        System.out.println("U");
-        matrix.showU();
+        //System.out.println("L");
+        //matrix.showL();
+        //System.out.println("U");
+        //matrix.showU();
         return gaussBackward(matrix, gaussForward(matrix, b));
     }
 }
