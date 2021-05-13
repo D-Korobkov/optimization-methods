@@ -18,7 +18,7 @@ public class Main {
 
     private static void old() throws IOException {
         ProfileMatrix matrix = new ProfileMatrix("out/production/Lab3.1/resources/profile/symmetry");
-        matrix.toStringByGetters();
+        matrix.showByGetters();
         matrix.changeToLU();
         //double[] ans = GaussSolver.gaussBackward(matrix, GaussSolver.gaussForward(matrix, new double[]{1, 2, 3}));
         //System.out.println(Arrays.toString(ans));
@@ -47,7 +47,7 @@ public class Main {
         String path = "out/production/Lab3.1/checkGenerator/";
         MatrixGenerator.parseAndWrite(matrix, path);
         ProfileMatrix profileMatrix = new ProfileMatrix(path);
-        profileMatrix.toStringByGetters();
+        profileMatrix.showByGetters();
     }
 
     private static void testHilbert(int number, int k) throws IOException {
@@ -79,12 +79,14 @@ public class Main {
                     double[] b1 = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
                     double[] b2 = Arrays.copyOf(b1, b1.length);
                     ProfileMatrix profileMatrix = new ProfileMatrix(path);
+
                     //profileMatrix.changeToLU();
                     double[] ans1 = new CommonGaussMethod(matrix, b1).solve();
                     double[] ans2 = LuSolver.solve(profileMatrix, b2);
 //                    profileMatrix.toStringByGetters();
                     System.out.println(Arrays.toString(ans1));
                     System.out.println(Arrays.toString(ans2));
+
                     System.out.println();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -93,18 +95,15 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
 //        old();
-
         //checkGenerator();
         testHilbert(1, 4);
         testHilbert(2, 6);
         testHilbert(3, 8);
         testHilbert(4, 10);
         testHilbert(5, 100);
-//        testHilbert(2, 100);
-//        testHilbert(3, 200);
-//        checkGenerator();
-      //ordinaryResearch();
+
+        ordinaryResearch();
     }
 }

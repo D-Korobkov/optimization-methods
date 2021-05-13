@@ -148,7 +148,7 @@ public class ProfileMatrix {
                 '}';
     }
 
-    public void toStringByGetters() {
+    public void showByGetters() {
         for (int i = 0; i < size(); i++) {
             for (int j = 0; j < size(); j++) {
                 System.out.print(getIJ(i, j) + " ");
