@@ -19,7 +19,7 @@ public class Main {
         ConjugateGradientMethod method = new ConjugateGradientMethod(0.0000001);
         System.out.println(Arrays.toString(method.findMinimum(matrix2, new double[]{1, 2, 3})));
 //        QuadraticFunction function = new QuadraticFunction(new double[][] {{1, 2, 0, 0, 0}, {2, 2, 0, 0, 0}, {0, 0, 3, 4, 0}, {0, 0, 100, 12, 0}, {0, 0, 0, 0, 999}}, new double[]{1, 2, 3, 4, 5}, 0);
-        QuadraticFunction symmetryF = new QuadraticFunction(new double[][] {{-11, 6, -6}, {6, -6, 3}, {-6, 3, -6}}, new double[]{1, 2, 3}, 0);
+        QuadraticFunction symmetryF = new QuadraticFunction(new double[][]{{-11, 6, -6}, {6, -6, 3}, {-6, 3, -6}}, new double[]{1, 2, 3}, 0);
         method = new ConjugateGradientMethod(0.0000001);
         System.out.println(Arrays.toString(method.findMinimum(symmetryF, new double[]{1, 2, 3})));
     }
