@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
-
 import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
 
 public class Main {
 
@@ -79,15 +79,16 @@ public class Main {
                     double[] b1 = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
                     double[] b2 = Arrays.copyOf(b1, b1.length);
                     ProfileMatrix profileMatrix = new ProfileMatrix(path);
+//                    double[] ans1 = new CommonGaussMethod(matrix, b1).solve();
+//                    System.out.println(Arrays.toString(ans1));
 
-                    //profileMatrix.changeToLU();
-                    double[] ans1 = new CommonGaussMethod(matrix, b1).solve();
                     double[] ans2 = LuSolver.solve(profileMatrix, b2);
-//                    profileMatrix.toStringByGetters();
-                    System.out.println(Arrays.toString(ans1));
                     System.out.println(Arrays.toString(ans2));
 
-                    System.out.println();
+                    double[] x = IntStream.range(1, b1.length + 1).mapToDouble((i) -> ((double) i)).toArray();
+                    double[] missed = MatrixUtil.subtract(ans2, x);
+                    System.out.println(MatrixUtil.norm(missed));
+                    System.out.println(MatrixUtil.norm(missed) / MatrixUtil.norm(x));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -98,11 +99,11 @@ public class Main {
     public static void main(String[] args) throws IOException {
 //        old();
         //checkGenerator();
-        testHilbert(1, 4);
-        testHilbert(2, 6);
-        testHilbert(3, 8);
-        testHilbert(4, 10);
-        testHilbert(5, 100);
+//        testHilbert(1, 4);
+//        testHilbert(2, 6);
+//        testHilbert(3, 8);
+//        testHilbert(4, 10);
+//        testHilbert(5, 100);
 
         ordinaryResearch();
     }
