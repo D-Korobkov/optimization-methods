@@ -63,6 +63,7 @@ public class Main {
         System.out.println(Arrays.toString(LuSolver.solve(profileMatrix, b)));
         System.out.println(Arrays.toString(new CommonGaussMethod(matrix, b, 0.0000001).solve()));
     }
+
     private static void ordinaryResearch() {
         String path = "out/production/Lab3.1/ordinaryResearch/";
         for (int size = 10; size <= 1000; size *= 10) {
@@ -90,9 +91,9 @@ public class Main {
 
         //checkGenerator();
         testHilbert(1, 4);
-        testHilbert(2, 100);
-        testHilbert(3, 200);
+//        testHilbert(2, 100);
+//        testHilbert(3, 200);
 //        checkGenerator();
-        ordinaryResearch();
+//        ordinaryResearch();
     }
 }
