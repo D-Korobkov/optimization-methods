@@ -7,14 +7,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 
-public class Matrix {
+public class ProfileMatrix {
 
     public double[] al, au, d;
     public int[] ia;
 
     private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt"};
 
-    public Matrix(String pathOfMatrix) {
+    public ProfileMatrix(String pathOfMatrix) {
         for (String fileName : NAME_OF_FILES) {
             try (BufferedReader reader = Files.newBufferedReader(Path.of(pathOfMatrix + File.separator + fileName))){
                 switch (fileName) {
