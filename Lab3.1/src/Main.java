@@ -58,10 +58,11 @@ public class Main {
         MatrixGenerator.parseAndWrite(matrix, path);
 
         final double[] b = MatrixUtil.multiply(matrix, DoubleStream.iterate(1.0, x -> x + 1.0).limit(k).toArray());
+        final double[] b1 = b.clone();
 
         ProfileMatrix profileMatrix = new ProfileMatrix(path);
         System.out.println(Arrays.toString(LuSolver.solve(profileMatrix, b)));
-        System.out.println(Arrays.toString(new CommonGaussMethod(matrix, b, 0.0000001).solve()));
+        System.out.println(Arrays.toString(new CommonGaussMethod(matrix, b1, 0.0000001).solve()));
     }
 
     private static void ordinaryResearch() {
