@@ -18,7 +18,7 @@ public class Main {
 
     private static void old() throws IOException {
         ProfileMatrix matrix = new ProfileMatrix("out/production/Lab3.1/resources/profile/symmetry");
-        matrix.toStringByGetters();
+        matrix.showByGetters();
         matrix.changeToLU();
         //double[] ans = GaussSolver.gaussBackward(matrix, GaussSolver.gaussForward(matrix, new double[]{1, 2, 3}));
         //System.out.println(Arrays.toString(ans));
@@ -47,7 +47,7 @@ public class Main {
         String path = "out/production/Lab3.1/checkGenerator/";
         MatrixGenerator.parseAndWrite(matrix, path);
         ProfileMatrix profileMatrix = new ProfileMatrix(path);
-        profileMatrix.toStringByGetters();
+        profileMatrix.showByGetters();
     }
 
     private static void testHilbert(int number, int k) throws IOException {
@@ -75,9 +75,7 @@ public class Main {
                 try (BufferedReader reader = Files.newBufferedReader(Path.of(path + File.separator + "b.txt"))) {
                     double[] b = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
                     ProfileMatrix profileMatrix = new ProfileMatrix(path);
-                    profileMatrix.changeToLU();
                     double[] ans = LuSolver.solve(profileMatrix, b);
-//                    profileMatrix.toStringByGetters();
                     System.out.println(Arrays.toString(ans));
                     System.out.println();
                 } catch (IOException e) {
@@ -87,14 +85,12 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 //        old();
-
-        //checkGenerator();
-        testHilbert(1, 4);
+//        testHilbert(1, 4);
 //        testHilbert(2, 100);
 //        testHilbert(3, 200);
 //        checkGenerator();
-//        ordinaryResearch();
+        ordinaryResearch();
     }
 }
