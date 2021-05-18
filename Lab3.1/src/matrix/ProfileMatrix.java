@@ -11,31 +11,49 @@ public class ProfileMatrix {
 
     public double[] al, au, d;
     public int[] ia;
+    boolean isLU;
 
     private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt"};
 
-    public ProfileMatrix(String pathOfMatrix) {
-        for (String fileName : NAME_OF_FILES) {
-            try (BufferedReader reader = Files.newBufferedReader(Path.of(pathOfMatrix + File.separator + fileName))){
+    public ProfileMatrix(final String pathOfMatrix) {
+        this(pathOfMatrix, false);
+    }
+
+    public ProfileMatrix(final String pathOfMatrix, final boolean isLU) {
+        this.isLU = isLU;
+        readFromPath(pathOfMatrix);
+
+    }
+
+    private void readFromPath(String pathOfMatrix) {
+        for (final String fileName : NAME_OF_FILES) {
+            try (final BufferedReader reader = Files.newBufferedReader(Path.of(pathOfMatrix + File.separator + fileName))) {
                 switch (fileName) {
                     case "au.txt" -> au = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
                     case "al.txt" -> al = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
                     case "ia.txt" -> ia = Arrays.stream(reader.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
                     case "d.txt" -> d = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
                 }
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public double getIJ(int i, int j) {
+    public double getIJ(final int i, final int j) {
+        if (isLU) {
+            throw new IllegalStateException("Matrix is LU. Use getU, getL");
+        }
+        return getIJWithoutException(i, j);
+    }
+
+    private double getIJWithoutException(final int i, final int j) {
         if (i == j) {
             return d[i];
         } else if (i < j) {
-            return getU(i, j);
+            return getHighTriangle(i, j);
         } else {
-            return getL(i, j);
+            return getLowTriangle(i, j);
         }
     }
 
@@ -43,15 +61,15 @@ public class ProfileMatrix {
         return d.length;
     }
 
-    private double profileGet(int i, int j, double[] a, double diag) {
+    private double profileGet(final int i, final int j, final double[] a) {
         if (i == j) {
-            return diag;
+            throw new IllegalStateException("Coordinate from diag " + i + " " + j);
         }
         if (j > i) {
             return 0;
         }
-        int realCount = ia[i + 1] - ia[i];
-        int imagineCount = i - realCount;
+        final int realCount = ia[i + 1] - ia[i];
+        final int imagineCount = i - realCount;
         if (j < imagineCount) {
             return 0;
         } else {
@@ -59,15 +77,48 @@ public class ProfileMatrix {
         }
     }
 
-    public double getL(int i, int j) {
-        return profileGet(i, j, al, d[i]);
+    public double getLowTriangle(final int i, final int j) {
+        return profileGet(i, j, al);
     }
 
-    public double getU(int i, int j) {
-        return profileGet(j, i, au, 1);
+    public double getHighTriangle(final int i, final int j) {
+        return profileGet(j, i, au);
     }
 
-    public void setL(int i, int j, double value) {
+    private void checkLU() {
+        if (!isLU) {
+            throw new IllegalStateException("Matrix isn't in LU");
+        }
+    }
+
+    public double getL(final int i, final int j) {
+        checkLU();
+        if (i == j) {
+            return d[i];
+        } else {
+            return getLowTriangle(i, j);
+        }
+    }
+
+    public double getU(final int i, final int j) {
+        checkLU();
+        if (i == j) {
+            return 1;
+        } else {
+            return getHighTriangle(i, j);
+        }
+    }
+
+    private void setProfile(final int i, final int j, final double value, final double[] profile) {
+        final int realCount = ia[i + 1] - ia[i];
+        final int imagineCount = i - realCount;
+        if (j >= imagineCount) {
+            profile[ia[i] + j - imagineCount] = value;
+        }
+    }
+
+    public void setL(final int i, final int j, final double value) {
+        checkLU();
         if (i == j) {
             d[i] = value;
             return;
@@ -75,66 +126,53 @@ public class ProfileMatrix {
         if (i < j) {
             return;
         }
-        int realCount = ia[i + 1] - ia[i];
-        int imagineCount = i - realCount;
-        if (j >= imagineCount) {
-            al[ia[i] + j - imagineCount] = value;
-        }
+        setProfile(i, j, value, al);
     }
 
-    public void setU(int i, int j, double value) {
+    public void setU(final int i, final int j, final double value) {
+        checkLU();
         if (i >= j) {
             return;
         }
-        int realCount = ia[j + 1] - ia[j];
-        int imagineCount = j - realCount;
-        if (i >= imagineCount) {
-            au[ia[j] + i - imagineCount] = value;
-        }
+        setProfile(j, i, value, au);
     }
 
     public void changeToLU() {
-        int n = size();//TODO change to size
-        setL(0, 0, getIJ(0, 0));//TODO chek getIJ
+        if (isLU) {
+            return;
+        }
+        isLU = true;
 
+        setL(0, 0, getIJWithoutException(0, 0));
 
-
-        for(int i = 1; i < n; i++){
-
+        for (int i = 1; i < size(); i++) {
             //setting L_ij
-
-            for(int j = 0; j < i; j++){
-
+            for (int j = 0; j < i; j++) {
                 double substract = 0;
-                for(int k = 0; k < j; k++){
+                for (int k = 0; k < j; k++) {
                     substract += getL(i, k) * getU(k, j);
                 }
-                setL(i, j, getIJ(i, j) - substract);
+                setL(i, j, getIJWithoutException(i, j) - substract);
             }
 
             //setting U_ji
-
-            for(int j = 0; j < i; j++){
+            for (int j = 0; j < i; j++) {
                 double substract = 0;
-                for(int k = 0; k < j; k++){
+                for (int k = 0; k < j; k++) {
                     substract += getL(j, k) * getU(k, i);
                 }
-                setU(j, i, (getIJ(j, i) - substract) / getL(j, j));
-
+                setU(j, i, (getIJWithoutException(j, i) - substract) / getL(j, j));
             }
 
             //setting L_ii
-
             double substract = 0;
-
-            for(int k = 0; k < i; k++){
+            for (int k = 0; k < i; k++) {
                 substract += getL(i, k) * getU(k, i);
             }
-            setL(i, i, getIJ(i, i) - substract);
+            setL(i, i, getIJWithoutException(i, i) - substract);
 
             //setting U_ii
             setU(i, i, 1);
-
         }
     }
 
