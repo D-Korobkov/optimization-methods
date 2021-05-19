@@ -39,7 +39,7 @@ public class Main {
         int size = 5;
 //        for (int size = 10; size <= 10; size *= 10) {
         System.out.println("size: " + size);
-        for (int k = 20; k <= 20; k++) {
+        for (int k = 10; k <= 10; k++) {
             System.out.println("k: " + k);
             double[][] matrix = MatrixGenerator.generateOrdinaryMatrix(size, k);
             MatrixGenerator.parseAndWrite(matrix, path);
@@ -154,6 +154,8 @@ public class Main {
                 } catch (NumberFormatException ignored) {
                     throw new IllegalArgumentException(message);
                 }
+            } else if (args[1].equals("bonus")) {
+                return;
             } else {
                 throw new IllegalArgumentException(message);
             }
@@ -169,14 +171,20 @@ public class Main {
     }
 
     private static void solve(String[] args) {
-        //args: path [hilbert $dimension | ordinary $dimension $ordinary]
+        //args: path [hilbert $dimension | ordinary $dimension $ordinary | bonus]
         checkArgs(args);
         if (args.length > 1) {
             try {
-                if (args[1].equals("hilbert")) {
-                    MatrixGenerator.parseAndWrite(MatrixGenerator.generateHilbertMatrix(Integer.parseInt(args[2])), args[0]);
-                } else {
-                    MatrixGenerator.parseAndWrite(MatrixGenerator.generateOrdinaryMatrix(Integer.parseInt(args[2]), Integer.parseInt(args[3])), args[0]);
+                switch (args[1]) {
+                    case "hilbert":
+                        MatrixGenerator.parseAndWrite(MatrixGenerator.generateHilbertMatrix(Integer.parseInt(args[2])), args[0]);
+                        break;
+                    case "ordinary":
+                        MatrixGenerator.parseAndWrite(MatrixGenerator.generateOrdinaryMatrix(Integer.parseInt(args[2]), Integer.parseInt(args[3])), args[0]);
+                        break;
+                    case "bonus":
+                        // todo solve bonus solve from path without generation
+                        return;
                 }
             } catch (IOException e) {
                 System.err.println(e.getMessage());
@@ -224,7 +232,7 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         solve(args);
     }
 }
