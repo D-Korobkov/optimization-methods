@@ -20,13 +20,13 @@ public class LuSolver {
     }
 
     public static void solve(ProfileMatrix matrix, double[] b) {
-//        System.out.println("matrix");
-//        matrix.showByGetters();
+        System.out.println("matrix");
+        matrix.showByGetters();
         matrix.changeToLU();
-//        System.out.println("L");
-//        matrix.showL();
-//        System.out.println("U");
-//        matrix.showU();
+        System.out.println("L");
+        matrix.showL();
+        System.out.println("U");
+        matrix.showU();
         gaussForward(matrix, b);
         gaussBackward(matrix, b);
     }
