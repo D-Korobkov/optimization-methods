@@ -9,10 +9,26 @@ import java.util.Arrays;
 
 public class ProfileMatrix {
 
+    /**
+     * Массив al - профильные строки нижнего треуольника
+     * Массив au - профильные столбцы верхнего треугольника
+     * Массив d - диагональ матрицы
+     */
     public double[] al, au, d;
+
+    /**
+     * Массив ia - индексный массив для al, au
+     */
     public int[] ia;
+
+    /**
+     * флаг того, что матрица уже в LU разложении
+     */
     boolean isLU;
 
+    /**
+     * Набор всех файлов для чтения и заполнения класса.
+     */
     private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt"};
 
     public ProfileMatrix(final String pathOfMatrix) {

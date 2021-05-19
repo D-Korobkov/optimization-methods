@@ -10,13 +10,33 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 
+/**
+ * Класс, реализующий хранение матриц в разреженно строчно-столбцовом формате
+ */
 public class LineColumnMatrix implements Function {
 
+    /**
+     * Массив al - строки нижнего треуольника без нулей
+     * Массив au - столбцы верхнего треугольника без нулей
+     * Массив d - диагональ матрицы
+     * Массив b - правая часть уравнения
+     */
     private double[] al, au, d, b;
+    /**
+     * Массив ia - индексный массив для al, au
+     * Массив ja - массив номеров столбцов (строк) в al (au)
+     */
     private int[] ia, ja;
 
+    /**
+     * Набор всех файлов для чтения и заполнения класса.
+     */
     private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt", "ja.txt", "b.txt"};
 
+    /**
+     * Стандартный конструктор.
+     * @param pathOfMatrixAndVector - путь, по которому лежат файлы из NAME_OF_FILES
+     */
     public LineColumnMatrix(final String pathOfMatrixAndVector) {
         for (final String fileName : NAME_OF_FILES) {
             try (final BufferedReader reader = Files.newBufferedReader(Path.of(pathOfMatrixAndVector + File.separator + fileName))) {
@@ -34,10 +54,20 @@ public class LineColumnMatrix implements Function {
         }
     }
 
+    /**
+     * Размер матрицы
+     * @return рамзер матрицы
+     */
     public int size() {
         return d.length;
     }
 
+    /**
+     * Доступ к элементам матрицы по индексам строки и столбца.
+     * @param i - строка матрицы
+     * @param j - столбец матрицы
+     * @return элемент из матрицы. Аналогично плотной матрице А - A[i][j].
+     */
     public double getIJ(final int i, final int j) {
         if (i == j) {
             return d[i];
@@ -49,15 +79,37 @@ public class LineColumnMatrix implements Function {
         }
     }
 
+    /**
+     * Возвращает элемент из нижнего треугольника без диагонали
+     * @param i - строка
+     * @param j - столбец
+     * @return значение из нижнего треугольника
+     */
     private double getLowTriangle(final int i, final int j) {
         return getFromTriangle(i, j, true);
     }
 
+    /**
+     * Возвращает элемент из верхнего треугольника без диагонали
+     * @param i - строка
+     * @param j - столбец
+     * @return значение из верхнего треугольника
+     */
     private double getHighTriangle(final int i, final int j) {
         return getFromTriangle(j, i, false);
     }
 
+    /**
+     * Абстракция для получения элемента из треугольника вне диагонали.
+     * @param line - строка треугольника
+     * @param indInLine - столбец треугольника, менший чем строка
+     * @param low - флаг, что берут из из нижнего треугольника
+     * @return значение из треугольной матрицы
+     */
     private double getFromTriangle(final int line, final int indInLine, final boolean low) {
+        if (line <= indInLine) {
+            throw new IllegalArgumentException("Not Triangle indexes line = " + (low ? line : indInLine) + "; column = " + (!low ? line : indInLine) + ";");
+        }
         final int realInJA = ia[line + 1] - ia[line];
         int offset = 0;
         for (; offset < realInJA; offset++) {
@@ -102,6 +154,10 @@ public class LineColumnMatrix implements Function {
         return ans;
     }
 
+    /**
+     * Получение вектора правой части.
+     * @return вектор b
+     */
     public double[] getB() {
         return b;
     }
