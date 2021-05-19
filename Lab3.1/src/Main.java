@@ -1,6 +1,7 @@
 import GradientMethods.ConjugateGradientMethod;
 import SaZhaK.MatrixUtil;
 import generator.MatrixGenerator;
+import interfaces.Function;
 import interfaces.Method;
 import matrix.LineColumnMatrix;
 import matrix.ProfileMatrix;

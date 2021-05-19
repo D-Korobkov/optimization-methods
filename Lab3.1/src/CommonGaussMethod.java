@@ -1,13 +1,25 @@
 import java.util.stream.IntStream;
 
+/**
+ * класс для решения СЛАУ методом Гаусса с выбором опорного элемента по всей квадратной матрице
+ */
 public class CommonGaussMethod {
+    /** поле для хранения плотной матрицы */
     private final double[][] matrix;
+    /** поле для хранения результирующего вектора */
     private final double[] b;
-    private final int[] rowPermutation;
+    /** поле для хранения текущей перестановки столбцов матрицы */
     private final int[] columnPermutation;
+    /** поле для хранения текущей перестановки строк матрицы */
+    private final int[] rowPermutation;
+    /** поле для хранения размерности матрицы */
     private final int n;
 
-    // matrix * x = b
+    /**
+     * создаёт экземпляр
+     * @param matrix квадратная матрица
+     * @param b результирующий вектор
+     */
     public CommonGaussMethod(final double[][] matrix, final double[] b) {
         this.matrix = matrix;
         this.b = b;
@@ -16,6 +28,10 @@ public class CommonGaussMethod {
         columnPermutation = IntStream.range(0, n).toArray();
     }
 
+    /**
+     * фунция приводит исходную матрицу к диагональному виду,
+     * в качестве опорного элемента выбирается максимальный элемент матрицы на текущем шаге
+     */
     private void diagonalized() {
         for (int i = 0; i < n; i++) {
             double maxElement = Math.abs(matrix[rowPermutation[i]][columnPermutation[i]]);
@@ -59,6 +75,10 @@ public class CommonGaussMethod {
     }
 
 
+    /**
+     * функция для инициации решения СЛАУ
+     * @return вектор <var>{x_1, x_2, ..., x_n}</var> - решение СЛАУ
+     */
     public double[] solve() {
         diagonalized();
 
