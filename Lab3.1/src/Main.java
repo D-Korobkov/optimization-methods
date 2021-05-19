@@ -16,7 +16,7 @@ import java.util.stream.IntStream;
 
 public class Main {
 
-    private static void checkGenerator() {
+    private static void checkGenerator() throws IOException {
         int dimension = 5;
         double[][] matrix = MatrixGenerator.generateOrdinaryMatrix(dimension, 5);
         for (int i = 0; i < dimension; i++) {
@@ -94,7 +94,7 @@ public class Main {
 //        System.out.println(Arrays.toString(ans));
 //    }
 
-    private static void testLineColumn() {
+    private static void testLineColumn() throws IOException {
         int dimension = 5;
         double[][] matrix = MatrixGenerator.generateOrdinaryMatrix(dimension, 5);
         for (int i = 0; i < dimension; i++) {
@@ -173,14 +173,14 @@ public class Main {
         checkArgs(args);
         if (args.length > 1) {
             try {
-                Files.createDirectories(Path.of(args[0]));
+                if (args[1].equals("hilbert")) {
+                    MatrixGenerator.parseAndWrite(MatrixGenerator.generateHilbertMatrix(Integer.parseInt(args[2])), args[0]);
+                } else {
+                    MatrixGenerator.parseAndWrite(MatrixGenerator.generateOrdinaryMatrix(Integer.parseInt(args[2]), Integer.parseInt(args[3])), args[0]);
+                }
             } catch (IOException e) {
-                System.err.println("Error in creating directories " + args[0] + ". " + e.getMessage());
-            }
-            if (args[1].equals("hilbert")) {
-                MatrixGenerator.parseAndWrite(MatrixGenerator.generateHilbertMatrix(Integer.parseInt(args[2])), args[0]);
-            } else {
-                MatrixGenerator.parseAndWrite(MatrixGenerator.generateOrdinaryMatrix(Integer.parseInt(args[2]), Integer.parseInt(args[3])), args[0]);
+                System.err.println(e.getMessage());
+                return;
             }
         }
         final double[] b = readB(args[0]);
