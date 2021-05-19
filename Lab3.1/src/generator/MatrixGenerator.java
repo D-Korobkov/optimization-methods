@@ -18,6 +18,12 @@ public class MatrixGenerator {
     public static final Random RANDOM = new Random();
     private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt", "b.txt", "ja.txt"};
 
+    /**
+     * генерирует матрицу согласно правилам в пункте 2 лаборатной работы 3
+     * @param dimension
+     * @param k
+     * @return
+     */
     public static double[][] generateOrdinaryMatrix(final int dimension, final int k) {
         final double[][] matrix = new double[dimension][dimension];
         final int[] profileOffset = new int[dimension];
