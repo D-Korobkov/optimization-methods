@@ -102,7 +102,7 @@ public class LineColumnMatrix implements Function {
         return ans;
     }
 
-    public double[] getB(){
+    public double[] getB() {
         return b;
     }
 
