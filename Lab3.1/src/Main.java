@@ -1,6 +1,8 @@
 import GradientMethods.ConjugateGradientMethod;
 import SaZhaK.MatrixUtil;
 import generator.MatrixGenerator;
+import interfaces.Function;
+import interfaces.Method;
 import matrix.LineColumnMatrix;
 import matrix.ProfileMatrix;
 import matrix.QuadraticFunction;
@@ -211,8 +213,37 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
-        solve(args);
+    private static void solveBonus(String matrixType) throws IOException{
+        for(int i = 10; i <= 1000; i*=10){
+            System.out.println("Size = " + i);
+            String path = "src/resources/line-column/" + matrixType + "/" + i;
+            LineColumnMatrix matrix = new LineColumnMatrix(path);
+            Method m = new ConjugateGradientMethod(0.000001);
+            double[] xSolved = m.findMinimum(matrix, new double[matrix.size()]);
+            double[] xReal = DoubleStream.iterate(1.0, x -> x + 1.0).limit(i).toArray();
+
+            double miss = MatrixUtil.norm(MatrixUtil.subtract(xReal, xSolved));
+
+            System.out.println(miss);
+            System.out.println(miss/MatrixUtil.norm(xReal));
+
+            double[] f = matrix.getB();
+            double missF = MatrixUtil.norm(MatrixUtil.subtract(f, matrix.multiply(xSolved)));
+
+            System.out.println((miss/MatrixUtil.norm(xReal))/(missF/MatrixUtil.norm(f)));
+
+        }
     }
 
+    public static void writeLineColumnMatrices(String matrixType){
+        for(int i = 10; i <= 1000; i*=10){
+            String path = "src/resources/line-column/" + matrixType+ "/" + i;
+            double[][] matrix = MatrixGenerator.generateDiagonalDominationMatrix(i, 4);
+            MatrixGenerator.parserAndWriterOnLineColumn(matrix, path);
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        solve(args);
+    }
 }
