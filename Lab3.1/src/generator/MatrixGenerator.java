@@ -98,12 +98,12 @@ public class MatrixGenerator {
         return matrix;
     }
 
-    public static void parseAndWrite(final double[][] matrix, final String... path) {
+    public static void parseAndWrite(final double[][] matrix, final String... path) throws IOException {
 
         try {
             Files.createDirectories(Path.of(String.join(File.separator, path)));
         } catch (IOException e) {
-            System.err.println("Error in creating directories " + Path.of(String.join(File.separator, path) + ". " + e.getMessage()));
+            throw new IOException("Error in creating directories " + Path.of(String.join(File.separator, path) + ". " + e.getMessage()));
         }
 
         final int size = matrix.length;
@@ -139,18 +139,16 @@ public class MatrixGenerator {
                     case "d.txt" -> out.write(Arrays.stream(d).mapToObj(Objects::toString).collect(Collectors.joining(" ")));
                     case "b.txt" -> out.write(Arrays.stream(b).mapToObj(Objects::toString).collect(Collectors.joining(" ")));
                 }
-            } catch (final IOException e) {
-                e.printStackTrace();
             }
         }
     }
 
-    public static void parserAndWriterOnLineColumn(final double[][] matrix, final String... path) {
+    public static void parserAndWriterOnLineColumn(final double[][] matrix, final String... path) throws IOException {
 
         try {
             Files.createDirectories(Path.of(String.join(File.separator, path)));
         } catch (IOException e) {
-            System.err.println("Error in creating directories " + Path.of(String.join(File.separator, path) + ". " + e.getMessage()));
+            throw new IOException("Error in creating directories " + Path.of(String.join(File.separator, path) + ". " + e.getMessage()));
         }
 
         final int size = matrix.length;
@@ -190,8 +188,6 @@ public class MatrixGenerator {
                     case "b.txt" -> out.write(Arrays.stream(b).mapToObj(Objects::toString).collect(Collectors.joining(" ")));
                     case "ja.txt" -> out.write(ja.stream().map(Object::toString).collect(Collectors.joining(" ")));
                 }
-            } catch (final IOException e) {
-                e.printStackTrace();
             }
         }
     }
