@@ -32,7 +32,11 @@ public abstract class AbstractGradientMethod implements Method {
     public AbstractGradientMethod(double epsilon, boolean log, String fileName) throws FileNotFoundException {
         this.epsilon = epsilon;
         this.log = log;
-        this.out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName)));
+        if(log) {
+            this.out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName)));
+        } else {
+            this.out = null;
+        }
     }
 
     /**

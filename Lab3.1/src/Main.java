@@ -1,9 +1,7 @@
-import GradientMethods.ConjugateGradientMethod;
 import SaZhaK.MatrixUtil;
 import generator.MatrixGenerator;
 import matrix.LineColumnMatrix;
 import matrix.ProfileMatrix;
-import matrix.QuadraticFunction;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -17,24 +15,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Main {
-
-    private static void old() throws IOException {
-        ProfileMatrix matrix = new ProfileMatrix("out/production/Lab3.1/resources/profile/symmetry");
-        matrix.showByGetters();
-        matrix.changeToLU();
-        //double[] ans = GaussSolver.gaussBackward(matrix, GaussSolver.gaussForward(matrix, new double[]{1, 2, 3}));
-        //System.out.println(Arrays.toString(ans));
-        System.out.println();
-        LineColumnMatrix matrix2 = new LineColumnMatrix("out/production/Lab3.1/resources/line-column/symmetry");
-        System.out.println(matrix2);
-        ConjugateGradientMethod method = new ConjugateGradientMethod(0.0000001);
-        System.out.println(Arrays.toString(method.findMinimum(matrix2, new double[]{1, 2, 3})));
-//        QuadraticFunction function = new QuadraticFunction(new double[][] {{1, 2, 0, 0, 0}, {2, 2, 0, 0, 0}, {0, 0, 3, 4, 0}, {0, 0, 100, 12, 0}, {0, 0, 0, 0, 999}}, new double[]{1, 2, 3, 4, 5}, 0);
-        QuadraticFunction symmetryF = new QuadraticFunction(new double[][]{{-11, 6, -6}, {6, -6, 3}, {-6, 3, -6}}, new double[]{1, 2, 3}, 0);
-        method = new ConjugateGradientMethod(0.0000001);
-        System.out.println(Arrays.toString(method.findMinimum(symmetryF, new double[]{1, 2, 3})));
-//        System.out.println(Arrays.stream(new int[]{1, 2, 4, 54}).mapToObj(Objects::toString).collect(Collectors.joining(" ")));
-    }
 
     private static void checkGenerator() {
         int dimension = 5;
@@ -53,28 +33,28 @@ public class Main {
     }
 
     private static void ordinaryResearch() throws IOException {
-        String path = "out/production/Lab3.1/ordinaryResearch/";
+        String path = "src/resources/profile/highOrdinary";
         Files.createDirectories(Path.of(path));
-        int size = 10;
+        int size = 5;
 //        for (int size = 10; size <= 10; size *= 10) {
         System.out.println("size: " + size);
-        for (int k = 6; k <= 6; k++) {
+        for (int k = 20; k <= 20; k++) {
             System.out.println("k: " + k);
             double[][] matrix = MatrixGenerator.generateOrdinaryMatrix(size, k);
             MatrixGenerator.parseAndWrite(matrix, path);
             try (BufferedReader reader = Files.newBufferedReader(Path.of(path + File.separator + "b.txt"))) {
                 double[] b1 = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
-//                    double[] b2 = Arrays.copyOf(b1, b1.length);
-//                    ProfileMatrix profileMatrix = new ProfileMatrix(path);
-//                    profileMatrix.showByGetters();
-                double[] ans1 = new CommonGaussMethod(matrix, b1).solve();
-                System.out.println(Arrays.toString(ans1));
+                double[] b2 = Arrays.copyOf(b1, b1.length);
+                ProfileMatrix profileMatrix = new ProfileMatrix(path);
+//                profileMatrix.showByGetters();
+//                double[] ans1 = new CommonGaussMethod(matrix, b1).solve();
+//                System.out.println(Arrays.toString(ans1));
 
-//                    double[] ans2 = LuSolver.solve(profileMatrix, b2);
-//                    System.out.println(Arrays.toString(ans2));
+                LuSolver.solve(profileMatrix, b2);
+                System.out.println(Arrays.toString(b2));
 
                 double[] x = IntStream.range(1, b1.length + 1).mapToDouble((i) -> ((double) i)).toArray();
-                double[] missed = MatrixUtil.subtract(ans1, x);
+                double[] missed = MatrixUtil.subtract(b2, x);
                 System.out.println(MatrixUtil.norm(missed) + " " + MatrixUtil.norm(missed) / MatrixUtil.norm(x));
 //                    System.out.println(MatrixUtil.norm(missed) / MatrixUtil.norm(x));
             } catch (IOException e) {
