@@ -102,6 +102,10 @@ public class LineColumnMatrix implements Function {
         return ans;
     }
 
+    public double[] getB(){
+        return b;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("LineColumnMatrix{");
