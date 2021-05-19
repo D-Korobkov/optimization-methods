@@ -50,7 +50,7 @@ public class Main {
         profileMatrix.showByGetters();
     }
 
-    private static void testHilbert(int number, int k) throws IOException {
+    private static double[] testHilbert(int number, int k) throws IOException {
         String path = "out/production/Lab3.1/hilbert/test" + number;
         Files.createDirectories(Path.of(path));
 
@@ -60,9 +60,11 @@ public class Main {
         final double[] b = MatrixUtil.multiply(matrix, DoubleStream.iterate(1.0, x -> x + 1.0).limit(k).toArray());
         final double[] b1 = Arrays.copyOf(b, b.length);
 
-        ProfileMatrix profileMatrix = new ProfileMatrix(path);
-        System.out.println(Arrays.toString(LuSolver.solve(profileMatrix, b)));
-        System.out.println(Arrays.toString(new CommonGaussMethod(matrix, b1).solve()));
+
+        //ProfileMatrix profileMatrix = new ProfileMatrix(path);
+        //return LuSolver.solve(profileMatrix, b);
+        //System.out.println(Arrays.toString(LuSolver.solve(profileMatrix, b)));
+        return new CommonGaussMethod(matrix, b1).solve();
     }
 
     private static void ordinaryResearch() throws IOException {
@@ -79,14 +81,14 @@ public class Main {
                     double[] b1 = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
                     double[] b2 = Arrays.copyOf(b1, b1.length);
                     ProfileMatrix profileMatrix = new ProfileMatrix(path);
-//                    double[] ans1 = new CommonGaussMethod(matrix, b1).solve();
-//                    System.out.println(Arrays.toString(ans1));
+                    double[] ans1 = new CommonGaussMethod(matrix, b1).solve();
+                    System.out.println(Arrays.toString(ans1));
 
-                    double[] ans2 = LuSolver.solve(profileMatrix, b2);
-                    System.out.println(Arrays.toString(ans2));
+//                    double[] ans2 = LuSolver.solve(profileMatrix, b2);
+//                    System.out.println(Arrays.toString(ans2));
 
                     double[] x = IntStream.range(1, b1.length + 1).mapToDouble((i) -> ((double) i)).toArray();
-                    double[] missed = MatrixUtil.subtract(ans2, x);
+                    double[] missed = MatrixUtil.subtract(ans1, x);
                     System.out.println(MatrixUtil.norm(missed));
                     System.out.println(MatrixUtil.norm(missed) / MatrixUtil.norm(x));
                 } catch (IOException e) {
@@ -99,11 +101,39 @@ public class Main {
     public static void main(String[] args) throws IOException {
 //        old();
         //checkGenerator();
-//        testHilbert(1, 4);
-//        testHilbert(2, 6);
-//        testHilbert(3, 8);
-//        testHilbert(4, 10);
-//        testHilbert(5, 100);
+        /*
+        double[] xStar = DoubleStream.iterate(1.0, x -> x + 1.0).limit(4).toArray();
+        double[] xReal = testHilbert(1, 4);
+        System.out.println(4 + " " + MatrixUtil.norm(MatrixUtil.subtract(xStar, xReal)) + " " + MatrixUtil.norm(MatrixUtil.subtract(xStar, xReal)) / MatrixUtil.norm(xStar));
+
+        xStar = DoubleStream.iterate(1.0, x -> x + 1.0).limit(6).toArray();
+        xReal = testHilbert(2, 6);
+        System.out.println(6 + " " + MatrixUtil.norm(MatrixUtil.subtract(xStar, xReal)) + " " + MatrixUtil.norm(MatrixUtil.subtract(xStar, xReal)) / MatrixUtil.norm(xStar));
+
+        xStar = DoubleStream.iterate(1.0, x -> x + 1.0).limit(8).toArray();
+        xReal = testHilbert(3, 8);
+        System.out.println(8 + " " + MatrixUtil.norm(MatrixUtil.subtract(xStar, xReal)) + " " + MatrixUtil.norm(MatrixUtil.subtract(xStar, xReal)) / MatrixUtil.norm(xStar));
+
+        xStar = DoubleStream.iterate(1.0, x -> x + 1.0).limit(10).toArray();
+        xReal = testHilbert(4, 10);
+        System.out.println(10 + " " + MatrixUtil.norm(MatrixUtil.subtract(xStar, xReal)) + " " + MatrixUtil.norm(MatrixUtil.subtract(xStar, xReal)) / MatrixUtil.norm(xStar));
+
+        xStar = DoubleStream.iterate(1.0, x -> x + 1.0).limit(15).toArray();
+        xReal = testHilbert(5, 15);
+        System.out.println(15 + " " + MatrixUtil.norm(MatrixUtil.subtract(xStar, xReal)) + " " + MatrixUtil.norm(MatrixUtil.subtract(xStar, xReal)) / MatrixUtil.norm(xStar));
+
+        xStar = DoubleStream.iterate(1.0, x -> x + 1.0).limit(20).toArray();
+        xReal = testHilbert(6, 20);
+        System.out.println(20 + " " + MatrixUtil.norm(MatrixUtil.subtract(xStar, xReal)) + " " + MatrixUtil.norm(MatrixUtil.subtract(xStar, xReal)) / MatrixUtil.norm(xStar));
+
+        xStar = DoubleStream.iterate(1.0, x -> x + 1.0).limit(50).toArray();
+        xReal = testHilbert(7, 50);
+        System.out.println(50 + " " + MatrixUtil.norm(MatrixUtil.subtract(xStar, xReal)) + " " + MatrixUtil.norm(MatrixUtil.subtract(xStar, xReal)) / MatrixUtil.norm(xStar));
+
+        xStar = DoubleStream.iterate(1.0, x -> x + 1.0).limit(100).toArray();
+        xReal = testHilbert(8, 100);
+        System.out.println(100 + " " + MatrixUtil.norm(MatrixUtil.subtract(xStar, xReal)) + " " + MatrixUtil.norm(MatrixUtil.subtract(xStar, xReal)) / MatrixUtil.norm(xStar));
+        */
 
         ordinaryResearch();
     }
