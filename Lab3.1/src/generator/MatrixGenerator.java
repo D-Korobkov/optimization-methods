@@ -14,15 +14,18 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
+/**
+ * класс для генерации матриц
+ */
 public class MatrixGenerator {
     public static final Random RANDOM = new Random();
     private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt", "b.txt", "ja.txt"};
 
     /**
-     * генерирует матрицу согласно правилам в пункте 2 лаборатной работы 3
-     * @param dimension
-     * @param k
-     * @return
+     * генерирует квадратную матрицу с симметричным профилем согласно правилам в пункте 2 лаборатной работы 3
+     * @param dimension размерность матрицы
+     * @param k число
+     * @return сгенерированная матрица
      */
     public static double[][] generateOrdinaryMatrix(final int dimension, final int k) {
         final double[][] matrix = new double[dimension][dimension];
@@ -60,6 +63,12 @@ public class MatrixGenerator {
         return matrix;
     }
 
+    /**
+     * генерирует матрицу с диагональным преобладанием, описанную в пункте 5.2 лабораторной работы 3
+     * @param dimension размерность матрицы
+     * @param k число
+     * @return сгенерированная матрица
+     */
     public static double[][] generateDiagonalDominationMatrix(final int dimension, final int k) {
         final double[][] matrix = new double[dimension][dimension];
         final int[] profileOffset = new int[dimension];
@@ -92,6 +101,11 @@ public class MatrixGenerator {
         return matrix;
     }
 
+    /**
+     * генерирует матрицу Гильберта
+     * @param dimension размерность матрицы
+     * @return сгенерированная матрица Гильберта указанной размерности
+     */
     public static double[][] generateHilbertMatrix(final int dimension) {
         final double[][] matrix = new double[dimension][dimension];
         for (int i = 1; i <= dimension; ++i) {
@@ -104,6 +118,19 @@ public class MatrixGenerator {
         return matrix;
     }
 
+    /**
+     * переводит матрицу с симметричным профилем в профильный формат и записывает соответствующие массивы в файлы:
+     * <ul>
+     *     <li><var>al.txt</var> - профиль строки</li>
+     *     <li><var>au.txt</var> - профиль столбца</li>
+     *     <li><var>b.txt</var> - результирующий вектор</li>
+     *     <li><var>d.txt</var> - диагональ матриицы</li>
+     *     <li><var>ia.txt</var> - смещение профилей для каждой из строк (столбца)</li>
+     * </ul>
+     * @param matrix матрица с симметричным профилем
+     * @param path путь к директории, куда следует записать сгенерированные файлы
+     * @throws IOException если во время записи произошла ошибка
+     */
     public static void parseAndWrite(final double[][] matrix, final String... path) throws IOException {
 
         try {
@@ -149,6 +176,21 @@ public class MatrixGenerator {
         }
     }
 
+    /**
+     * переводит симметричную матрицу в разреженный строчно-столбцовый
+     * формат и записывает соответствующие массивы в файлы:
+     * <ul>
+     *     <li><var>al.txt</var> - разреженная строка</li>
+     *     <li><var>au.txt</var> - разреженный столбец</li>
+     *     <li><var>b.txt</var> - результирующий вектор</li>
+     *     <li><var>d.txt</var> - диагональ</li>
+     *     <li><var>ia.txt</var> - смещение для каждой из строк (столбцов)</li>
+     *     <li><var>ja.txt</var> - номера столбцов, которые хранятся в <var>al.txt</var> и <var>au.txt</var></li>
+     * </ul>
+     * @param matrix симметричная матрица
+     * @param path путь к директории, куда следует записать сгенерированные файлы
+     * @throws IOException если во время записи произошла ошибка
+     */
     public static void parserAndWriterOnLineColumn(final double[][] matrix, final String... path) throws IOException {
 
         try {
