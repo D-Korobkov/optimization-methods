@@ -25,7 +25,7 @@ public class ProfileMatrix {
 
     }
 
-    private void readFromPath(String pathOfMatrix) {
+    private void readFromPath(final String pathOfMatrix) {
         for (final String fileName : NAME_OF_FILES) {
             try (final BufferedReader reader = Files.newBufferedReader(Path.of(pathOfMatrix + File.separator + fileName))) {
                 switch (fileName) {

@@ -24,15 +24,15 @@ public abstract class AbstractGradientMethod implements Method {
 
     /**
      * Full constructor
-     * @param epsilon {@link #epsilon}
-     * @param log {@link #log}
+     *
+     * @param epsilon  {@link #epsilon}
+     * @param log      {@link #log}
      * @param fileName output file for {@link #out}
-     * @throws FileNotFoundException
      */
-    public AbstractGradientMethod(double epsilon, boolean log, String fileName) throws FileNotFoundException {
+    public AbstractGradientMethod(final double epsilon, final boolean log, final String fileName) throws FileNotFoundException {
         this.epsilon = epsilon;
         this.log = log;
-        if(log) {
+        if (log) {
             this.out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileName)));
         } else {
             this.out = null;
@@ -41,9 +41,10 @@ public abstract class AbstractGradientMethod implements Method {
 
     /**
      * Standard constructor
+     *
      * @param epsilon {@link #epsilon}
      */
-    public AbstractGradientMethod(double epsilon) {
+    public AbstractGradientMethod(final double epsilon) {
         this.epsilon = epsilon;
         this.log = false;
         this.out = null;
@@ -51,12 +52,15 @@ public abstract class AbstractGradientMethod implements Method {
 
     /**
      * fucntion for logging method
-     * @param x current point
+     *
+     * @param x        current point
      * @param gradient current gradient
      * @throws IOException exception throwed by {@link #out}
      */
-    protected void log(double[] x, double[] gradient) throws IOException {
-        if(!log) return;
+    protected void log(final double[] x, final double[] gradient) throws IOException {
+        if (!log) {
+            return;
+        }
         assert out != null;
         out.write(Arrays.toString(x) + ":" + Arrays.toString(gradient) + "\n");
         out.flush();
