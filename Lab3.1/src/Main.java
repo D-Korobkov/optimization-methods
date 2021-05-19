@@ -5,10 +5,7 @@ import interfaces.Method;
 import matrix.LineColumnMatrix;
 import matrix.ProfileMatrix;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -93,35 +90,37 @@ public class Main {
         }
     }
 
-//    private static void testHilbert(int number, int k) throws IOException {
-//        String path = "out/production/Lab3.1/hilbert/test" + number;
-//        Files.createDirectories(Path.of(path));
-//
-//        final double[][] matrix = MatrixGenerator.generateHilbertMatrix(k);
-//        MatrixGenerator.parseAndWrite(matrix, path);
-//
-//        final double[] b = MatrixUtil.multiply(matrix, DoubleStream.iterate(1.0, x -> x + 1.0).limit(k).toArray());
-//        final double[] b1 = Arrays.copyOf(b, b.length);
-//
-//        ProfileMatrix profileMatrix = new ProfileMatrix(path);
-//        System.out.println(Arrays.toString(LuSolver.solve(profileMatrix, b)));
-//        System.out.println(Arrays.toString(new CommonGaussMethod(matrix, b1).solve()));
-//    }
+    private static void testHilbert(int number, int k) throws IOException {
+        String path = "out/production/Lab3.1/hilbert/test" + number;
+        Files.createDirectories(Path.of(path));
 
-//    private static void findTrouble() throws IOException {
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-//        double[][] matrix = new double[10][];
-//        for (int i = 0; i < 10; i++) {
-//            matrix[i] = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
-//        }
-//        reader.close();
-//        String path = "out/production/Lab3.1/findMissed/";
-//        MatrixGenerator.parseAndWrite(matrix, path);
-//        ProfileMatrix profileMatrix = new ProfileMatrix(path);
-//        double[] x = new double[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-//        double[] ans = LuSolver.solve(profileMatrix, MatrixUtil.multiply(matrix, x));
-//        System.out.println(Arrays.toString(ans));
-//    }
+        final double[][] matrix = MatrixGenerator.generateHilbertMatrix(k);
+        MatrixGenerator.parseAndWrite(matrix, path);
+
+        final double[] b = MatrixUtil.multiply(matrix, DoubleStream.iterate(1.0, x -> x + 1.0).limit(k).toArray());
+        final double[] b1 = Arrays.copyOf(b, b.length);
+
+        ProfileMatrix profileMatrix = new ProfileMatrix(path);
+        LuSolver.solve(profileMatrix, b);
+        System.out.println(Arrays.toString(b));
+        System.out.println(Arrays.toString(new CommonGaussMethod(matrix, b1).solve()));
+    }
+
+    private static void findTrouble() throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        double[][] matrix = new double[10][];
+        for (int i = 0; i < 10; i++) {
+            matrix[i] = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
+        }
+        reader.close();
+        String path = "out/production/Lab3.1/findMissed/";
+        MatrixGenerator.parseAndWrite(matrix, path);
+        ProfileMatrix profileMatrix = new ProfileMatrix(path);
+        double[] x = new double[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        double[] b = MatrixUtil.multiply(matrix, x);
+        LuSolver.solve(profileMatrix, b);
+        System.out.println(Arrays.toString(b));
+    }
 
     private static void testLineColumn() throws IOException {
         final int dimension = 5;
