@@ -64,7 +64,7 @@ public class MatrixGenerator {
 
         for (int row = 0; row < dimension; ++row) {
             for (int col = profileOffset[row]; col < row; ++col) {
-                int val = RANDOM.nextInt(4) - 1;
+                int val = -RANDOM.nextInt(4) - 1;
                 matrix[row][col] = val;
                 matrix[col][row] = val;
             }
@@ -74,7 +74,7 @@ public class MatrixGenerator {
             double sum = 0;
             for (int j = 0; j < dimension; ++j) {
                 if (j != i) {
-                    sum += matrix[i][j];
+                    sum -= matrix[i][j];
                 }
             }
             matrix[i][i] = sum;

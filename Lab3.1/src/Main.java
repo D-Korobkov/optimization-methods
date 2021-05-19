@@ -111,6 +111,32 @@ public class Main {
         System.out.println(lineColumnMatrix);
     }
 
+    private static void checkBonus() throws IOException{
+        String path = "out/production/Lab3.1/testBonus/";
+        for(int i = 2; i <= 10; i++){
+            double[][] buff = MatrixGenerator.generateHilbertMatrix(i);
+            MatrixGenerator.parserAndWriterOnLineColumn(buff, path);
+
+            System.out.println("Size = " + i);
+
+            LineColumnMatrix matrix = new LineColumnMatrix(path);
+            Method m = new ConjugateGradientMethod(0.000001);
+            double[] xSolved = m.findMinimum(matrix, new double[matrix.size()]);
+            double[] xReal = DoubleStream.iterate(1.0, x -> x + 1.0).limit(i).toArray();
+
+            double miss = MatrixUtil.norm(MatrixUtil.subtract(xReal, xSolved));
+
+            System.out.println(miss);
+            System.out.println(miss/MatrixUtil.norm(xReal));
+
+            double[] f = matrix.getB();
+            double missF = MatrixUtil.norm(MatrixUtil.subtract(f, matrix.multiply(xSolved)));
+
+            System.out.println((miss/MatrixUtil.norm(xReal))/(missF/MatrixUtil.norm(f)));
+
+        }
+    }
+
     private static void testRefactorLU() throws IOException {
         String path = "out/production/Lab3.1/testRefactorLU/";
         Files.createDirectories(Path.of(path));
@@ -216,7 +242,7 @@ public class Main {
         }
     }
 
-    public static void writeLineColumnMatrices(String matrixType) throws IOException{
+    private static void writeLineColumnMatrices(String matrixType) throws IOException{
         for(int i = 10; i <= 1000; i*=10){
             String path = "src/resources/line-column/" + matrixType+ "/" + i;
             double[][] matrix = MatrixGenerator.generateDiagonalDominationMatrix(i, 4);
@@ -225,6 +251,6 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        solve(args);
+        checkBonus();
     }
 }
