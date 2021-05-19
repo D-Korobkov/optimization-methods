@@ -3,6 +3,7 @@ package generator;
 import SaZhaK.MatrixUtil;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -122,6 +123,7 @@ public class MatrixGenerator {
             ia[i + 1] = al.size();
         }
         for (final String fileName : NAME_OF_FILES) {
+            if (fileName.equals("ja.txt")) continue;
             try (final BufferedWriter out = Files.newBufferedWriter(Path.of(String.join("", path), fileName))) {
                 switch (fileName) {
                     case "au.txt" -> out.write(au.stream().map(Object::toString).collect(Collectors.joining(" ")));
@@ -165,7 +167,7 @@ public class MatrixGenerator {
             ia[i + 1] = al.size();
         }
         for (final String fileName : NAME_OF_FILES) {
-            try (final BufferedWriter out = Files.newBufferedWriter(Path.of(String.join("", path), fileName))) {
+            try (final BufferedWriter out = Files.newBufferedWriter(Path.of(String.join(File.separator, path), fileName))) {
                 switch (fileName) {
                     case "au.txt" -> out.write(au.stream().map(Object::toString).collect(Collectors.joining(" ")));
                     case "al.txt" -> out.write(al.stream().map(Object::toString).collect(Collectors.joining(" ")));

@@ -17,9 +17,9 @@ public class LineColumnMatrix implements Function {
 
     private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt", "ja.txt", "b.txt"};
 
-    public LineColumnMatrix(String pathOfMatrixAndVector) {
-        for (String fileName : NAME_OF_FILES) {
-            try (BufferedReader reader = Files.newBufferedReader(Path.of(pathOfMatrixAndVector + File.separator + fileName))){
+    public LineColumnMatrix(final String pathOfMatrixAndVector) {
+        for (final String fileName : NAME_OF_FILES) {
+            try (final BufferedReader reader = Files.newBufferedReader(Path.of(pathOfMatrixAndVector + File.separator + fileName))) {
                 switch (fileName) {
                     case "au.txt" -> au = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
                     case "al.txt" -> al = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
@@ -28,7 +28,7 @@ public class LineColumnMatrix implements Function {
                     case "d.txt" -> d = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
                     case "b.txt" -> b = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
                 }
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 e.printStackTrace();
             }
         }
@@ -38,7 +38,7 @@ public class LineColumnMatrix implements Function {
         return d.length;
     }
 
-    public double getIJ(int i, int j) {
+    public double getIJ(final int i, final int j) {
         if (i == j) {
             return d[i];
         }
@@ -49,16 +49,16 @@ public class LineColumnMatrix implements Function {
         }
     }
 
-    private double getLowTriangle(int i, int j) {
+    private double getLowTriangle(final int i, final int j) {
         return getFromTriangle(i, j, true);
     }
 
-    private double getHighTriangle(int i, int j) {
+    private double getHighTriangle(final int i, final int j) {
         return getFromTriangle(j, i, false);
     }
 
-    private double getFromTriangle(int line, int indInLine, boolean low) {
-        int realInJA = ia[line + 1] - ia[line];
+    private double getFromTriangle(final int line, final int indInLine, final boolean low) {
+        final int realInJA = ia[line + 1] - ia[line];
         int offset = 0;
         for (; offset < realInJA; offset++) {
             if (ja[ia[line] + offset] == indInLine) {
@@ -78,22 +78,22 @@ public class LineColumnMatrix implements Function {
     }
 
     @Override
-    public double run(double[] x) {
-        double[] a = multiply(x);
-        double quad = MatrixUtil.dotProduct(x, a) / 2;
-        double one = MatrixUtil.dotProduct(b, x);
+    public double run(final double[] x) {
+        final double[] a = multiply(x);
+        final double quad = MatrixUtil.dotProduct(x, a) / 2;
+        final double one = MatrixUtil.dotProduct(b, x);
 
         return quad - one;
     }
 
     @Override
-    public double[] runGradient(double[] x) {
+    public double[] runGradient(final double[] x) {
         return MatrixUtil.subtract(multiply(x), b);
     }
 
     @Override
-    public double[] multiply(double[] x) {
-        double[] ans = new double[size()];
+    public double[] multiply(final double[] x) {
+        final double[] ans = new double[size()];
         for (int i = 0; i < size(); i++) {
             for (int j = 0; j < size(); j++) {
                 ans[i] += getIJ(i, j) * x[j];
@@ -104,7 +104,7 @@ public class LineColumnMatrix implements Function {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("LineColumnMatrix{");
+        final StringBuilder sb = new StringBuilder("LineColumnMatrix{");
         sb.append(System.lineSeparator());
         for (int i = 0; i < size(); i++) {
             for (int j = 0; j < size(); j++) {

@@ -5,13 +5,12 @@ import matrix.LineColumnMatrix;
 import matrix.ProfileMatrix;
 import matrix.QuadraticFunction;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 
@@ -51,68 +50,67 @@ public class Main {
         profileMatrix.showByGetters();
     }
 
-    private static void testHilbert(int number, int k) throws IOException {
-        String path = "out/production/Lab3.1/hilbert/test" + number;
-        Files.createDirectories(Path.of(path));
-
-        final double[][] matrix = MatrixGenerator.generateHilbertMatrix(k);
-        MatrixGenerator.parseAndWrite(matrix, path);
-
-        final double[] b = MatrixUtil.multiply(matrix, DoubleStream.iterate(1.0, x -> x + 1.0).limit(k).toArray());
-        final double[] b1 = Arrays.copyOf(b, b.length);
-
-        ProfileMatrix profileMatrix = new ProfileMatrix(path);
-        System.out.println(Arrays.toString(LuSolver.solve(profileMatrix, b)));
-        System.out.println(Arrays.toString(new CommonGaussMethod(matrix, b1).solve()));
-    }
-
     private static void ordinaryResearch() throws IOException {
         String path = "out/production/Lab3.1/ordinaryResearch/";
         Files.createDirectories(Path.of(path));
+        int size = 10;
+//        for (int size = 10; size <= 10; size *= 10) {
+        System.out.println("size: " + size);
+        for (int k = 6; k <= 6; k++) {
+            System.out.println("k: " + k);
+            double[][] matrix = MatrixGenerator.generateOrdinaryMatrix(size, k);
+            MatrixGenerator.parseAndWrite(matrix, path);
+            try (BufferedReader reader = Files.newBufferedReader(Path.of(path + File.separator + "b.txt"))) {
+                double[] b1 = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
+//                    double[] b2 = Arrays.copyOf(b1, b1.length);
+//                    ProfileMatrix profileMatrix = new ProfileMatrix(path);
+//                    profileMatrix.showByGetters();
+                double[] ans1 = new CommonGaussMethod(matrix, b1).solve();
+                System.out.println(Arrays.toString(ans1));
 
-        for (int size = 10; size <= 10; size *= 10) {
-            System.out.println("size: " + size);
-            int k = 4;
-//            for (int k = 0; k < 5; k++) {
-                System.out.println("k: " + k);
-                double[][] matrix = MatrixGenerator.generateOrdinaryMatrix(size, k);
-                MatrixGenerator.parseAndWrite(matrix, path);
-                try (BufferedReader reader = Files.newBufferedReader(Path.of(path + File.separator + "b.txt"))) {
-                    double[] b1 = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
-                    double[] b2 = Arrays.copyOf(b1, b1.length);
-                    ProfileMatrix profileMatrix = new ProfileMatrix(path);
-                    profileMatrix.showByGetters();
-//                    double[] ans1 = new CommonGaussMethod(matrix, b1).solve();
-//                    System.out.println(Arrays.toString(ans1));
+//                    double[] ans2 = LuSolver.solve(profileMatrix, b2);
+//                    System.out.println(Arrays.toString(ans2));
 
-                    double[] ans2 = LuSolver.solve(profileMatrix, b2);
-                    System.out.println(Arrays.toString(ans2));
-
-                    double[] x = IntStream.range(1, b1.length + 1).mapToDouble((i) -> ((double) i)).toArray();
-                    double[] missed = MatrixUtil.subtract(ans2, x);
-                    System.out.println(MatrixUtil.norm(missed));
-                    System.out.println(MatrixUtil.norm(missed) / MatrixUtil.norm(x));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                double[] x = IntStream.range(1, b1.length + 1).mapToDouble((i) -> ((double) i)).toArray();
+                double[] missed = MatrixUtil.subtract(ans1, x);
+                System.out.println(MatrixUtil.norm(missed) + " " + MatrixUtil.norm(missed) / MatrixUtil.norm(x));
+//                    System.out.println(MatrixUtil.norm(missed) / MatrixUtil.norm(x));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 //            }
         }
     }
 
-    private static void findTrouble() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        double[][] matrix  = new double[10][];
-        for (int i = 0; i < 10; i++) {
-            matrix[i] = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
-        }
-        reader.close();
-        String path = "out/production/Lab3.1/findMissed/";
-        MatrixGenerator.parseAndWrite(matrix, path);
-        ProfileMatrix profileMatrix = new ProfileMatrix(path);
-        double[] x = new double[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        double[] ans = LuSolver.solve(profileMatrix, MatrixUtil.multiply(matrix, x));
-        System.out.println(Arrays.toString(ans));
-    }
+//    private static void testHilbert(int number, int k) throws IOException {
+//        String path = "out/production/Lab3.1/hilbert/test" + number;
+//        Files.createDirectories(Path.of(path));
+//
+//        final double[][] matrix = MatrixGenerator.generateHilbertMatrix(k);
+//        MatrixGenerator.parseAndWrite(matrix, path);
+//
+//        final double[] b = MatrixUtil.multiply(matrix, DoubleStream.iterate(1.0, x -> x + 1.0).limit(k).toArray());
+//        final double[] b1 = Arrays.copyOf(b, b.length);
+//
+//        ProfileMatrix profileMatrix = new ProfileMatrix(path);
+//        System.out.println(Arrays.toString(LuSolver.solve(profileMatrix, b)));
+//        System.out.println(Arrays.toString(new CommonGaussMethod(matrix, b1).solve()));
+//    }
+
+//    private static void findTrouble() throws IOException {
+//        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+//        double[][] matrix = new double[10][];
+//        for (int i = 0; i < 10; i++) {
+//            matrix[i] = Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
+//        }
+//        reader.close();
+//        String path = "out/production/Lab3.1/findMissed/";
+//        MatrixGenerator.parseAndWrite(matrix, path);
+//        ProfileMatrix profileMatrix = new ProfileMatrix(path);
+//        double[] x = new double[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+//        double[] ans = LuSolver.solve(profileMatrix, MatrixUtil.multiply(matrix, x));
+//        System.out.println(Arrays.toString(ans));
+//    }
 
     private static void testLineColumn() {
         int dimension = 5;
@@ -130,18 +128,91 @@ public class Main {
         System.out.println(lineColumnMatrix);
     }
 
-    public static void main(String[] args) throws IOException {
-//        old();
-        //checkGenerator();
-//        testHilbert(1, 4);
-//        testHilbert(2, 6);
-//        testHilbert(3, 8);
-//        testHilbert(4, 10);
-//        testHilbert(5, 100);
+    private static void testRefactorLU() throws IOException {
+        String path = "out/production/Lab3.1/testRefactorLU/";
+        Files.createDirectories(Path.of(path));
+        double[][] matrix = MatrixGenerator.generateOrdinaryMatrix(5, 5);
+        System.out.println("Matrix");
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+        MatrixGenerator.parseAndWrite(matrix, path);
+        ProfileMatrix profileMatrix = new ProfileMatrix(path);
+        System.out.println("Getters");
+        profileMatrix.showByGetters();
+        profileMatrix.changeToLU();
+        System.out.println("L");
+        profileMatrix.showL();
+        System.out.println("U");
+        profileMatrix.showU();
+    }
 
-//        ordinaryResearch();
-//        findTrouble();
-//        testLineColumn();
+    private static void checkArgs(String[] args) {
+        if (args == null || Arrays.stream(args).anyMatch(Objects::isNull) || args.length == 0) {
+            throw new IllegalArgumentException("Args shouldn't be null and have length > 0");
+        }
+        Path.of(args[0]);
+        if (args.length > 1) {
+            String message = "If you give more than 1 args, second must be hilbert $dimension | ordinary $dimension $ordinary";
+            args[1] = args[1].toLowerCase();
+            if (args[1].equals("hilbert") && args.length == 3) {
+                try {
+                    Integer.parseInt(args[2]);
+                } catch (NumberFormatException ignored) {
+                    throw new IllegalArgumentException(message);
+                }
+            } else if (args[1].equals("ordinary") && args.length == 4) {
+                try {
+                    Integer.parseInt(args[2]);
+                    Integer.parseInt(args[3]);
+                } catch (NumberFormatException ignored) {
+                    throw new IllegalArgumentException(message);
+                }
+            } else {
+                throw new IllegalArgumentException(message);
+            }
+        }
+    }
+
+    private static double[] readB(String path) {
+        try (BufferedReader reader = Files.newBufferedReader(Path.of(path, "b.txt"))) {
+            return Arrays.stream(reader.readLine().split(" ")).mapToDouble(Double::parseDouble).toArray();
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Error in getting vector b from 'Ax = b' " + e.getMessage());
+        }
+    }
+
+    private static void solve(String[] args) {
+        //args: path [hilbert $dimension | ordinary $dimension $ordinary]
+        checkArgs(args);
+        if (args.length > 1) {
+            try {
+                Files.createDirectories(Path.of(args[0]));
+            } catch (IOException e) {
+                System.err.println("Error in creating directories " + args[0] + ". " + e.getMessage());
+            }
+            if (args[1].equals("hilbert")) {
+                MatrixGenerator.parseAndWrite(MatrixGenerator.generateHilbertMatrix(Integer.parseInt(args[2])), args[0]);
+            } else {
+                MatrixGenerator.parseAndWrite(MatrixGenerator.generateOrdinaryMatrix(Integer.parseInt(args[2]), Integer.parseInt(args[3])), args[0]);
+            }
+        }
+        final double[] b = readB(args[0]);
+        ProfileMatrix matrix = new ProfileMatrix(args[0]);
+        matrix.showByGetters();
+        LuSolver.solve(matrix, b);
+        try (BufferedWriter writer = Files.newBufferedWriter(Path.of(args[0], "ans.txt"))) {
+            writer.write(Arrays.stream(b).mapToObj(Objects::toString).collect(Collectors.joining(" ")));
+        } catch (IOException e) {
+            System.err.println("Error in writing answer. " + e.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        solve(args);
     }
 
 }
