@@ -99,6 +99,13 @@ public class MatrixGenerator {
     }
 
     public static void parseAndWrite(final double[][] matrix, final String... path) {
+
+        try {
+            Files.createDirectories(Path.of(String.join(File.separator, path)));
+        } catch (IOException e) {
+            System.err.println("Error in creating directories " + Path.of(String.join(File.separator, path) + ". " + e.getMessage()));
+        }
+
         final int size = matrix.length;
         final double[] b = MatrixUtil.multiply(matrix, DoubleStream.iterate(1.0, x -> x + 1.0).limit(size).toArray());
         final double[] d = new double[size];
@@ -124,7 +131,7 @@ public class MatrixGenerator {
         }
         for (final String fileName : NAME_OF_FILES) {
             if (fileName.equals("ja.txt")) continue;
-            try (final BufferedWriter out = Files.newBufferedWriter(Path.of(String.join("", path), fileName))) {
+            try (final BufferedWriter out = Files.newBufferedWriter(Path.of(String.join(File.separator, path), fileName))) {
                 switch (fileName) {
                     case "au.txt" -> out.write(au.stream().map(Object::toString).collect(Collectors.joining(" ")));
                     case "al.txt" -> out.write(al.stream().map(Object::toString).collect(Collectors.joining(" ")));
@@ -139,6 +146,13 @@ public class MatrixGenerator {
     }
 
     public static void parserAndWriterOnLineColumn(final double[][] matrix, final String... path) {
+
+        try {
+            Files.createDirectories(Path.of(String.join(File.separator, path)));
+        } catch (IOException e) {
+            System.err.println("Error in creating directories " + Path.of(String.join(File.separator, path) + ". " + e.getMessage()));
+        }
+
         final int size = matrix.length;
         final double[] b = MatrixUtil.multiply(matrix, DoubleStream.iterate(1.0, x -> x + 1.0).limit(size).toArray());
         final double[] d = new double[size];
