@@ -183,6 +183,7 @@ public class Main {
                         MatrixGenerator.parseAndWrite(MatrixGenerator.generateOrdinaryMatrix(Integer.parseInt(args[2]), Integer.parseInt(args[3])), args[0]);
                         break;
                     case "bonus":
+
                         // todo solve bonus solve from path without generation
                         return;
                 }
@@ -202,26 +203,23 @@ public class Main {
         }
     }
 
-    private static void solveBonus(String matrixType) throws IOException{
-        for(int i = 10; i <= 1000; i*=10){
-            System.out.println("Size = " + i);
-            String path = "src/resources/line-column/" + matrixType + "/" + i;
-            LineColumnMatrix matrix = new LineColumnMatrix(path);
-            Method m = new ConjugateGradientMethod(0.000001);
-            double[] xSolved = m.findMinimum(matrix, new double[matrix.size()]);
-            double[] xReal = DoubleStream.iterate(1.0, x -> x + 1.0).limit(i).toArray();
+    private static double[] solveBonus(String path) throws IOException{
+        LineColumnMatrix matrix = new LineColumnMatrix(path);
+        Method m = new ConjugateGradientMethod(0.000001);
+        double[] xSolved = m.findMinimum(matrix, new double[matrix.size()]);
+        double[] xReal = DoubleStream.iterate(1.0, x -> x + 1.0).limit(xSolved.length).toArray();
 
-            double miss = MatrixUtil.norm(MatrixUtil.subtract(xReal, xSolved));
+        double miss = MatrixUtil.norm(MatrixUtil.subtract(xReal, xSolved));
 
-            System.out.println(miss);
-            System.out.println(miss/MatrixUtil.norm(xReal));
+        System.out.println(miss);
+        System.out.println(miss / MatrixUtil.norm(xReal));
 
-            double[] f = matrix.getB();
-            double missF = MatrixUtil.norm(MatrixUtil.subtract(f, matrix.multiply(xSolved)));
+        double[] f = matrix.getB();
+        double missF = MatrixUtil.norm(MatrixUtil.subtract(f, matrix.multiply(xSolved)));
 
-            System.out.println((miss/MatrixUtil.norm(xReal))/(missF/MatrixUtil.norm(f)));
+        System.out.println((miss / MatrixUtil.norm(xReal)) / (missF / MatrixUtil.norm(f)));
 
-        }
+        return xSolved;
     }
 
     public static void writeLineColumnMatrices(String matrixType) throws IOException{
