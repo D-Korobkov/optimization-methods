@@ -35,7 +35,7 @@ public class LineColumnMatrix implements Function {
 
     /**
      * Стандартный конструктор.
-     * @param pathOfMatrixAndVector - путь, по которому лежат файлы из NAME_OF_FILES
+     * @param pathOfMatrixAndVector - путь, по которому лежат файлы из {@link #NAME_OF_FILES}
      */
     public LineColumnMatrix(final String pathOfMatrixAndVector) {
         for (final String fileName : NAME_OF_FILES) {

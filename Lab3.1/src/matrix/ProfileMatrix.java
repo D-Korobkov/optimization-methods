@@ -36,7 +36,7 @@ public class ProfileMatrix {
 
 
     /**
-     * Constructor for ProfileMatrix, that reads{@link ProfileMatrix::readFromPath} it from directory.
+     * Constructor for ProfileMatrix, that reads {@link #readFromPath(String)} it from directory.
      *
      * @param pathOfMatrix - path to directory, that contains files for matrix
      */
@@ -45,7 +45,7 @@ public class ProfileMatrix {
     }
 
     /**
-     * Constructor for ProfileMatrix, that reads{@link ProfileMatrix::readFromPath} it from directory.
+     * Constructor for ProfileMatrix, that reads {@link #readFromPath(String)} it from directory.
      * Can specify that matrix is already LU decompositioned
      *
      * @param pathOfMatrix - path to directory, that contains files for matrix
