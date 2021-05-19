@@ -13,24 +13,24 @@ import java.util.Arrays;
 public class ProfileMatrix {
 
     /**
-     * Массив al - профильные строки нижнего треуольника
-     * Массив au - профильные столбцы верхнего треугольника
-     * Массив d - диагональ матрицы
+     * Массив al - profile rows of lower triangle
+     * Массив au - profile columns of upper triangle
+     * Массив d - matrix diagonal
      */
     public double[] al, au, d;
 
     /**
-     * Массив ia - индексный массив для al, au
+     * Массив ia - index array for al, au
      */
     public int[] ia;
 
     /**
-     * флаг того, что матрица уже в LU разложении
+     * is matrix LU decompositioned
      */
     boolean isLU;
 
     /**
-     * Набор всех файлов для чтения и заполнения класса.
+     * Set of files for reading and setting ProfileMatrix.
      */
     private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt"};
 
