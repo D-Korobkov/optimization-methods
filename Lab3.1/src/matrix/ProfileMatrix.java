@@ -13,14 +13,20 @@ import java.util.Arrays;
 public class ProfileMatrix {
 
     /**
-     * Массив al - profile rows of lower triangle
-     * Массив au - profile columns of upper triangle
-     * Массив d - matrix diagonal
+     * profile rows of lower triangle
      */
-    public double[] al, au, d;
+    public double[] al;
+    /**
+     * profile columns of upper triangle
+     */
+    private double[] au;
+    /**
+     * matrix diagonal
+     */
+    private double[] d;
 
     /**
-     * Массив ia - index array for al, au
+     * index array for al, au
      */
     public int[] ia;
 

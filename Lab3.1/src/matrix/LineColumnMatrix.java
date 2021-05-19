@@ -17,16 +17,28 @@ public class LineColumnMatrix implements Function {
 
     /**
      * Массив al - строки нижнего треуольника без нулей
+     */
+    private double[] al;
+    /**
      * Массив au - столбцы верхнего треугольника без нулей
+     */
+    private double[] au;
+    /**
      * Массив d - диагональ матрицы
+     */
+    private double[] d;
+    /**
      * Массив b - правая часть уравнения
      */
-    private double[] al, au, d, b;
+    private double[] b;
     /**
      * Массив ia - индексный массив для al, au
+     */
+    private int[] ia;
+    /**
      * Массив ja - массив номеров столбцов (строк) в al (au)
      */
-    private int[] ia, ja;
+    private int[] ja;
 
     /**
      * Набор всех файлов для чтения и заполнения класса.
