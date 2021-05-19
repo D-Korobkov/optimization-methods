@@ -1,3 +1,4 @@
+import GradientMethods.ConjugateGradientMethod;
 import SaZhaK.MatrixUtil;
 import generator.MatrixGenerator;
 import interfaces.Function;
@@ -11,6 +12,7 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 
 public class Main {
@@ -214,7 +216,7 @@ public class Main {
         }
     }
 
-    public static void writeLineColumnMatrices(String matrixType){
+    public static void writeLineColumnMatrices(String matrixType) throws IOException{
         for(int i = 10; i <= 1000; i*=10){
             String path = "src/resources/line-column/" + matrixType+ "/" + i;
             double[][] matrix = MatrixGenerator.generateDiagonalDominationMatrix(i, 4);
