@@ -7,6 +7,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 
+/**
+ * Class Class of ProfileMatrix realisation
+ */
 public class ProfileMatrix {
 
     public double[] al, au, d;
@@ -15,16 +18,35 @@ public class ProfileMatrix {
 
     private static final String[] NAME_OF_FILES = {"au.txt", "al.txt", "ia.txt", "d.txt"};
 
+
+    /**
+     * Constructor for ProfileMatrix, that reads{@link ProfileMatrix::readFromPath} it from directory.
+     *
+     * @param pathOfMatrix - path to directory, that contains files for matrix
+     */
     public ProfileMatrix(final String pathOfMatrix) {
         this(pathOfMatrix, false);
     }
 
+    /**
+     * Constructor for ProfileMatrix, that reads{@link ProfileMatrix::readFromPath} it from directory.
+     * Can specify that matrix is already LU decompositioned
+     *
+     * @param pathOfMatrix - path to directory, that contains files for matrix
+     * @param isLU - is matrix already LU
+     */
     public ProfileMatrix(final String pathOfMatrix, final boolean isLU) {
         this.isLU = isLU;
         readFromPath(pathOfMatrix);
 
     }
 
+    /**
+     * Reading Matrix from directory. Using following files: au.txt, al.txt, ia.txt, d.txt.
+     *
+     * @param pathOfMatrix - path to directory, that contains files for matrix
+     * @see generator.MatrixGenerator
+     */
     private void readFromPath(final String pathOfMatrix) {
         for (final String fileName : NAME_OF_FILES) {
             try (final BufferedReader reader = Files.newBufferedReader(Path.of(pathOfMatrix + File.separator + fileName))) {
@@ -40,6 +62,13 @@ public class ProfileMatrix {
         }
     }
 
+    /**
+     * Getter for specified element. Works before LU decomposition
+     *
+     * @param i - row
+     * @param j - column
+     * @return - value of ij element
+     */
     public double getIJ(final int i, final int j) {
         if (isLU) {
             throw new IllegalStateException("Matrix is LU. Use getU, getL");
@@ -47,6 +76,13 @@ public class ProfileMatrix {
         return getIJWithoutException(i, j);
     }
 
+    /**
+     * Getter for specified element.
+     *
+     * @param i - row
+     * @param j - column
+     * @return - value of ij element
+     */
     private double getIJWithoutException(final int i, final int j) {
         if (i == j) {
             return d[i];
@@ -57,11 +93,23 @@ public class ProfileMatrix {
         }
     }
 
+    /**
+     * Getter of matrix dimension.
+     * @return - size of diagonal(=dimension)
+     */
     public int size() {
         return d.length;
     }
 
-    private double profileGet(final int i, final int j, final double[] a) {
+    /**
+     * Getter for specified element from specified profile
+     *
+     * @param i - row if match to upper triangle
+     * @param j - column if match to upper triangle
+     * @param profile - upper or lower a
+     * @return - value of ij element of a
+     */
+    private double profileGet(final int i, final int j, final double[] profile) {
         if (i == j) {
             throw new IllegalStateException("Coordinate from diag " + i + " " + j);
         }
@@ -73,26 +121,50 @@ public class ProfileMatrix {
         if (j < imagineCount) {
             return 0;
         } else {
-            return a[ia[i] + j - imagineCount];
+            return profile[ia[i] + j - imagineCount];
         }
     }
 
+    /**
+     * Getter for specified element from lower triangle
+     *
+     * @param i - row
+     * @param j - column
+     * @return - value of ij element from lower triangle
+     */
     public double getLowTriangle(final int i, final int j) {
         return profileGet(i, j, al);
     }
 
+    /**
+     * Getter for specified element from upper triangle
+     *
+     * @param i - row
+     * @param j - column
+     * @return - value of ij element from upper triangle
+     */
     public double getHighTriangle(final int i, final int j) {
         return profileGet(j, i, au);
     }
 
-    private void checkLU() {
+    /**
+     * Asserting that matrix is LU.
+     */
+    private void assertLU() {
         if (!isLU) {
             throw new IllegalStateException("Matrix isn't in LU");
         }
     }
 
+    /**
+     * Getter for specified element from L matrix (A = LU)
+     *
+     * @param i - row
+     * @param j - column
+     * @return - value of ij element from L
+     */
     public double getL(final int i, final int j) {
-        checkLU();
+        assertLU();
         if (i == j) {
             return d[i];
         } else {
@@ -100,8 +172,15 @@ public class ProfileMatrix {
         }
     }
 
+    /**
+     * Getter for specified element from U matrix (A = LU)
+     *
+     * @param i - row
+     * @param j - column
+     * @return - value of ij element from U
+     */
     public double getU(final int i, final int j) {
-        checkLU();
+        assertLU();
         if (i == j) {
             return 1;
         } else {
@@ -109,6 +188,14 @@ public class ProfileMatrix {
         }
     }
 
+    /**
+     * Setter of specified profile element for specified profile
+     *
+     * @param i - row if matched to upper triangle
+     * @param j - column if matched to upper triangle
+     * @param value - setting value
+     * @param profile - upper or lower a
+     */
     private void setProfile(final int i, final int j, final double value, final double[] profile) {
         final int realCount = ia[i + 1] - ia[i];
         final int imagineCount = i - realCount;
@@ -117,8 +204,15 @@ public class ProfileMatrix {
         }
     }
 
+    /**
+     * Setter of specified element in L
+     *
+     * @param i - row
+     * @param j - column
+     * @param value - setting value
+     */
     public void setL(final int i, final int j, final double value) {
-        checkLU();
+        assertLU();
         if (i == j) {
             d[i] = value;
             return;
@@ -129,14 +223,24 @@ public class ProfileMatrix {
         setProfile(i, j, value, al);
     }
 
+    /**
+     * Setter of specified element in U
+     *
+     * @param i - row
+     * @param j - column
+     * @param value - setting value
+     */
     public void setU(final int i, final int j, final double value) {
-        checkLU();
+        assertLU();
         if (i >= j) {
             return;
         }
         setProfile(j, i, value, au);
     }
 
+    /**
+     * Decomposition of a matrix into LU
+     */
     public void changeToLU() {
         if (isLU) {
             return;
@@ -176,6 +280,9 @@ public class ProfileMatrix {
         }
     }
 
+    /**
+     * @return - string representation of matrix
+     */
     @Override
     public String toString() {
         return "Matrix{" +
@@ -186,6 +293,9 @@ public class ProfileMatrix {
                 '}';
     }
 
+    /**
+     * Writing matrix in "square" format to System.out
+     */
     public void showByGetters() {
         for (int i = 0; i < size(); i++) {
             for (int j = 0; j < size(); j++) {
@@ -195,6 +305,9 @@ public class ProfileMatrix {
         }
     }
 
+    /**
+     * Writing L part os Matrix in "square" format to System.out
+     */
     public void showL() {
         for (int i = 0; i < size(); i++) {
             for (int j = 0; j < size(); j++) {
@@ -204,6 +317,9 @@ public class ProfileMatrix {
         }
     }
 
+    /**
+     * Writing U part os Matrix in "square" format to System.out
+     */
     public void showU() {
         for (int i = 0; i < size(); i++) {
             for (int j = 0; j < size(); j++) {
