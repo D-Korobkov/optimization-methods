@@ -177,6 +177,7 @@ public class Main {
     private static void solve(String[] args) {
         //args: path [hilbert $dimension | ordinary $dimension $ordinary | bonus]
         checkArgs(args);
+        boolean bonus = false;
         if (args.length > 1) {
             try {
                 switch (args[1]) {
@@ -187,19 +188,27 @@ public class Main {
                         MatrixGenerator.parseAndWrite(MatrixGenerator.generateOrdinaryMatrix(Integer.parseInt(args[2]), Integer.parseInt(args[3])), args[0]);
                         break;
                     case "bonus":
-
-                        // todo solve bonus solve from path without generation
-                        return;
+                        bonus = true;
+                        break;
                 }
             } catch (IOException e) {
                 System.err.println(e.getMessage());
                 return;
             }
         }
-        final double[] b = readB(args[0]);
-        ProfileMatrix matrix = new ProfileMatrix(args[0]);
-        matrix.showByGetters();
-        LuSolver.solve(matrix, b);
+        double[] b;
+        if (bonus) {
+            try {
+                b = solveBonus(args[0]);
+            } catch (IOException unreachable) {
+                return;
+            }
+        } else {
+            b = readB(args[0]);
+            ProfileMatrix matrix = new ProfileMatrix(args[0]);
+            matrix.showByGetters();
+            LuSolver.solve(matrix, b);
+        }
         try (BufferedWriter writer = Files.newBufferedWriter(Path.of(args[0], "ans.txt"))) {
             writer.write(Arrays.stream(b).mapToObj(Objects::toString).collect(Collectors.joining(" ")));
         } catch (IOException e) {
