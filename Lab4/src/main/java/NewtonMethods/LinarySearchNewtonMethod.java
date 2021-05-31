@@ -2,9 +2,8 @@ package NewtonMethods;
 
 import SaZhaK.MatrixUtil;
 import gauss.GaussSolver;
-import interfaces.Function;
-import interfaces.Method;
-import interfaces.Solver;
+import interfaces.*;
+import search.BrentSearch;
 
 import java.io.IOException;
 import java.lang.reflect.Member;
@@ -38,7 +37,19 @@ public class LinarySearchNewtonMethod implements Method {
 
             p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
 
-            curX = MatrixUtil.add(prevX, p);
+            double[] finalPrevX = prevX;
+            double[] finalP = p;
+            MathFunction fun = new MathFunction() {
+                @Override
+                public double run(double v) {
+                    return function.run(MatrixUtil.add(finalPrevX, MatrixUtil.multiply(finalP, v)));
+                }
+            };
+            Search search = new BrentSearch(fun, -100, 100, epsilon);//TODO: deal with borders
+            double a = search.searchMinimum();
+
+
+            curX = MatrixUtil.add(prevX, MatrixUtil.multiply(p, a));
 
         }
 
