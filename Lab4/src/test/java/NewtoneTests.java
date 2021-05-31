@@ -1,4 +1,5 @@
 import NewtonMethods.ClassicNewtoneMethod;
+import NewtonMethods.NewtoneMethodWithDescentDirection;
 import functions.QuadraticFunction;
 import interfaces.Function;
 import interfaces.Method;
@@ -48,6 +49,32 @@ public class NewtoneTests {
         System.out.println("f2 test passed");
 
         System.out.println("classicNewtone test passed");
+
+    }
+
+    @Test
+    public void descentDirectionNewtoneTest() throws IOException {
+
+        System.out.println("run descentDirectionNewtoneTest");
+
+        double[] x0 = {10, 10};
+        Method descDirNewtone = new NewtoneMethodWithDescentDirection();
+
+        Function f1 = new QuadraticFunction(new double[][]{{2, 0}, {0, 2}}, new double[]{0, 0}, 0);
+        double[] f1Real = {0, 0};
+        double[] f1Answer = descDirNewtone.findMinimum(f1, x0);
+
+        assertArrayEquals("Incorrect minimum in f1", f1Real, f1Answer, 0.0);
+        System.out.println("f1 test passed");
+
+        Function f2 = new QuadraticFunction(new double[][]{{20, 20}, {20, 40}}, new double[]{10, 10}, 10);
+        double[] f2Real = {0.5, 0};
+        double[] f2Answer = descDirNewtone.findMinimum(f2, x0);
+
+        assertArrayEquals("Incorrect minimum in f2", f2Real, f2Answer, 0.0);
+        System.out.println("f2 test passed");
+
+        System.out.println("descDirNewtone test passed");
 
     }
     
