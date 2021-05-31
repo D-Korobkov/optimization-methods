@@ -1,5 +1,7 @@
 package NewtonMethods;
 
+import SaZhaK.Matrix;
+import SaZhaK.MatrixUtil;
 import interfaces.Function;
 import interfaces.Method;
 import interfaces.Solver;
@@ -9,22 +11,36 @@ import java.io.IOException;
 public class ClassicNewtoneMethod implements Method {
 
 
-    //Solver solver = new LUSolver();
+    Solver solver;
+    Double epsilon;
 
+    public ClassicNewtoneMethod(Solver solver, double epsilon){
+        this.solver = solver;
+        this.epsilon = epsilon;
+    }
+
+    public ClassicNewtoneMethod(){
+        //this.solver = new LUSolver();
+        this.epsilon = 0.000001;
+    }
 
     @Override
     public double[] findMinimum(Function function, double[] x0) throws IOException {
 
-        double[] curX = x0;
         double[] prevX = x0;
+        double[] p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
 
+        double[] curX = MatrixUtil.add(prevX, p);
 
+        while(MatrixUtil.norm(MatrixUtil.subtract(curX, prevX)) < epsilon || MatrixUtil.norm(p) < epsilon){
+            prevX = curX;
 
+            p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
 
+            curX = MatrixUtil.add(prevX, p);
 
+        }
 
-
-
-        return new double[0];
+        return curX;
     }
 }
