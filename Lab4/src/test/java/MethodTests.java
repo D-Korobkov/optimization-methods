@@ -7,7 +7,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertArrayEquals;
 
-public class MethodTests {
+public abstract class MethodTests {
     protected final static double eps = 0.000001;
 
     public static void testMethod(Function function, Method method, double[] realAnswer, double[] x0, double epsilon) throws IOException {

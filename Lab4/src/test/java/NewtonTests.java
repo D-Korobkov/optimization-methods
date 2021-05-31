@@ -1,19 +1,11 @@
 import NewtonMethods.ClassicNewtonMethod;
 import NewtonMethods.LinarySearchNewtonMethod;
-import functions.QuadraticFunction;
-import interfaces.Function;
-import interfaces.Method;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-import static org.junit.Assert.*;
 
 public class NewtonTests extends MethodTests{
 
