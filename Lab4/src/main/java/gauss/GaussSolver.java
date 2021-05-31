@@ -2,6 +2,8 @@ package gauss;
 
 import interfaces.Solver;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -98,8 +100,8 @@ public class GaussSolver implements Solver {
      */
     @Override
     public double[] solve(double[][] A, double[] B) {
-        matrix = A;
-        b = B;
+        matrix = Arrays.stream(A).map(line -> Arrays.copyOf(line, line.length)).toArray(double[][]::new);
+        b = Arrays.copyOf(B, B.length);
         n = matrix.length;
         rowPermutation = IntStream.range(0, n).toArray();
         columnPermutation = IntStream.range(0, n).toArray();
