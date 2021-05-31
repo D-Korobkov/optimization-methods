@@ -1,4 +1,4 @@
-package matrix;
+package main.java.matrix;
 
 import java.io.BufferedReader;
 import java.io.File;

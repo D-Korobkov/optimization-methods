@@ -24,4 +24,11 @@ public interface Function {
      * @return result of computing (A * x)
      */
     double[] multiply(double[] x);
+
+    /**
+     * Computes hessian in the point given by vector
+     * @param x - vector that represents point
+     * @return hessian's matrix
+     */
+    double[][] runHessian(double[] x);
 }
