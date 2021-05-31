@@ -1,7 +1,6 @@
 import GradientMethods.ConjugateGradientMethod;
 import SaZhaK.MatrixUtil;
 import generator.MatrixGenerator;
-import interfaces.Function;
 import interfaces.Method;
 import matrix.LineColumnMatrix;
 import matrix.ProfileMatrix;
@@ -33,9 +32,9 @@ public class Main {
         profileMatrix.showByGetters();
     }
 
-    private static void checkBonus() throws IOException{
+    private static void checkBonus() throws IOException {
         String path = "out/production/Lab3.1/testBonus/";
-        for(int i = 2; i <= 10; i++){
+        for (int i = 2; i <= 10; i++) {
             double[][] buff = MatrixGenerator.generateHilbertMatrix(i);
             MatrixGenerator.parserAndWriterOnLineColumn(buff, path);
 
@@ -49,12 +48,12 @@ public class Main {
             double miss = MatrixUtil.norm(MatrixUtil.subtract(xReal, xSolved));
 
             System.out.println(miss);
-            System.out.println(miss/MatrixUtil.norm(xReal));
+            System.out.println(miss / MatrixUtil.norm(xReal));
 
             double[] f = matrix.getB();
             double missF = MatrixUtil.norm(MatrixUtil.subtract(f, matrix.multiply(xSolved)));
 
-            System.out.println((miss/MatrixUtil.norm(xReal))/(missF/MatrixUtil.norm(f)));
+            System.out.println((miss / MatrixUtil.norm(xReal)) / (missF / MatrixUtil.norm(f)));
 
         }
     }
