@@ -1,10 +1,4 @@
-import NewtonMethods.ClassicNewtoneMethod;
-import functions.QuadraticFunction;
-import interfaces.Function;
-import interfaces.Method;
-
 import java.io.IOException;
-import java.util.Arrays;
 
 public class Main {
 

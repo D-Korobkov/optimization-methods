@@ -314,7 +314,7 @@ public final class MatrixUtil {
 	}
 
 	/**
-	 * Функция произведения вектора на вектор
+	 * Функция произведения вектора на вектор (столбец на строку)
 	 */
 	public static double[][] multiply(double[] vector1, double[] vector2) {
 		int dimension = vector1.length;
