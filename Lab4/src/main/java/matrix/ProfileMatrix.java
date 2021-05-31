@@ -21,7 +21,7 @@ public class ProfileMatrix {
      */
     private double[] au;
     /**
-     * matrix diagonal
+     * main.java.matrix diagonal
      */
     private double[] d;
 
@@ -31,7 +31,7 @@ public class ProfileMatrix {
     public int[] ia;
 
     /**
-     * is matrix LU decompositioned
+     * is main.java.matrix LU decompositioned
      */
     boolean isLU;
 
@@ -44,7 +44,7 @@ public class ProfileMatrix {
     /**
      * Constructor for ProfileMatrix, that reads {@link #readFromPath(String)} it from directory.
      *
-     * @param pathOfMatrix - path to directory, that contains files for matrix
+     * @param pathOfMatrix - path to directory, that contains files for main.java.matrix
      */
     public ProfileMatrix(final String pathOfMatrix) {
         this(pathOfMatrix, false);
@@ -52,10 +52,10 @@ public class ProfileMatrix {
 
     /**
      * Constructor for ProfileMatrix, that reads {@link #readFromPath(String)} it from directory.
-     * Can specify that matrix is already LU decompositioned
+     * Can specify that main.java.matrix is already LU decompositioned
      *
-     * @param pathOfMatrix - path to directory, that contains files for matrix
-     * @param isLU - is matrix already LU
+     * @param pathOfMatrix - path to directory, that contains files for main.java.matrix
+     * @param isLU - is main.java.matrix already LU
      */
     public ProfileMatrix(final String pathOfMatrix, final boolean isLU) {
         this.isLU = isLU;
@@ -66,7 +66,7 @@ public class ProfileMatrix {
     /**
      * Reading Matrix from directory. Using following files: au.txt, al.txt, ia.txt, d.txt.
      *
-     * @param pathOfMatrix - path to directory, that contains files for matrix
+     * @param pathOfMatrix - path to directory, that contains files for main.java.matrix
      * @see generator.MatrixGenerator
      */
     private void readFromPath(final String pathOfMatrix) {
@@ -116,7 +116,7 @@ public class ProfileMatrix {
     }
 
     /**
-     * Getter of matrix dimension.
+     * Getter of main.java.matrix dimension.
      * @return - size of diagonal(=dimension)
      */
     public int size() {
@@ -170,7 +170,7 @@ public class ProfileMatrix {
     }
 
     /**
-     * Asserting that matrix is LU.
+     * Asserting that main.java.matrix is LU.
      */
     private void assertLU() {
         if (!isLU) {
@@ -179,7 +179,7 @@ public class ProfileMatrix {
     }
 
     /**
-     * Getter for specified element from L matrix (A = LU)
+     * Getter for specified element from L main.java.matrix (A = LU)
      *
      * @param i - row
      * @param j - column
@@ -195,7 +195,7 @@ public class ProfileMatrix {
     }
 
     /**
-     * Getter for specified element from U matrix (A = LU)
+     * Getter for specified element from U main.java.matrix (A = LU)
      *
      * @param i - row
      * @param j - column
@@ -261,7 +261,7 @@ public class ProfileMatrix {
     }
 
     /**
-     * Decomposition of a matrix into LU
+     * Decomposition of a main.java.matrix into LU
      */
     public void changeToLU() {
         if (isLU) {
@@ -303,7 +303,7 @@ public class ProfileMatrix {
     }
 
     /**
-     * @return - string representation of matrix
+     * @return - string representation of main.java.matrix
      */
     @Override
     public String toString() {
@@ -316,7 +316,7 @@ public class ProfileMatrix {
     }
 
     /**
-     * Writing matrix in "square" format to System.out
+     * Writing main.java.matrix in "square" format to System.out
      */
     public void showByGetters() {
         for (int i = 0; i < size(); i++) {

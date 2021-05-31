@@ -360,12 +360,12 @@ public final class MatrixUtil {
 	 * Kariel
 	 */
 	//TODO chek
-	/*public static double[] multiply(double[] vector, double[][] matrix) {
-		int dimension = matrix.length;
+	/*public static double[] multiply(double[] vector, double[][] main.java.matrix) {
+		int dimension = main.java.matrix.length;
 		double[] result = new double[dimension];
 		for (int i = 0; i < dimension; i++) {
 			for (int j = 0; j < dimension; j++) {
-				result[i] += vector[i] * matrix[j][i];
+				result[i] += vector[i] * main.java.matrix[j][i];
 			}
 		}
 		return result;
@@ -479,14 +479,14 @@ public final class MatrixUtil {
 	 * Функция поиска максимального по модулю элемента матрицы
 	 */
 	/*
-	public static MatrixElement findMax(double[][] matrix, int bound) {
+	public static MatrixElement findMax(double[][] main.java.matrix, int bound) {
 		MatrixElement element = new MatrixElement();
 		element.value = 0;
 
-		for (int i = bound; i < matrix.length; i++) {
-			for (int j = bound; j < matrix.length; j++) {
-				if (Math.abs(matrix[i][j]) > Math.abs(element.value)) {
-					element.value = matrix[i][j];
+		for (int i = bound; i < main.java.matrix.length; i++) {
+			for (int j = bound; j < main.java.matrix.length; j++) {
+				if (Math.abs(main.java.matrix[i][j]) > Math.abs(element.value)) {
+					element.value = main.java.matrix[i][j];
 					element.row = i;
 					element.column = j;
 				}

@@ -1,11 +1,11 @@
 /**
- * This class represents a matrix that can contain number values
+ * This class represents a main.java.matrix that can contain number values
  * This class extends the AbstractMatrix class
  *
  * @ExtendedFields
- * rows - amount of rows in matrix
- * columns - amount of columns in matrix
- * elements - two dimensional array tha contains elements of the specified matrix
+ * rows - amount of rows in main.java.matrix
+ * columns - amount of columns in main.java.matrix
+ * elements - two dimensional array tha contains elements of the specified main.java.matrix
  *
  * @ExtendedMethods {
  *
@@ -13,33 +13,33 @@
  * equals
  * hashCode
  * toString
- * add - adds another matrix given as a parameter to the current matrix
- * subtract - subtracts another matrix given as a parameter from the current matrix
- * multiply - multiplies current matrix and the number given as a parameter
- * multiply - multiplies current matrix and another matrix given as a parameter
+ * add - adds another main.java.matrix given as a parameter to the current main.java.matrix
+ * subtract - subtracts another main.java.matrix given as a parameter from the current main.java.matrix
+ * multiply - multiplies current main.java.matrix and the number given as a parameter
+ * multiply - multiplies current main.java.matrix and another main.java.matrix given as a parameter
  * }
  *
- * getRows - returns number of rows of the matrix
- * getColumns - returns number of columns of the matrix
+ * getRows - returns number of rows of the main.java.matrix
+ * getColumns - returns number of columns of the main.java.matrix
  * setElement - changes value of the element at the specified position
  * getElement - returns value of the element at the specified position
  *
- * print - prints current matrix to the console
- * transpose - transposes current matrix
+ * print - prints current main.java.matrix to the console
+ * transpose - transposes current main.java.matrix
  * }
  *
  * @Constructors
- * public Matrix(int rows, int columns, Double[] elements) - creates a new matrix that contains Double values
+ * public Matrix(int rows, int columns, Double[] elements) - creates a new main.java.matrix that contains Double values
  * The values themselves are given as an array of Double elements
  *
  * @StaticMethods
- * getIdentityMatrix - creates an identity matrix of the specified size
+ * getIdentityMatrix - creates an identity main.java.matrix of the specified size
  *
  * @Methods
- * getTrace - returns the trace of the current matrix (sum of the diagonal elements)
- * getDeterminant - return the determinant of the current matrix (algorithm is recursive)
- * getMinorMatrix - creates a new matrix, which elements are minors of appropriate elements of the current matrix
- * getAlgebraicAdditionsMatrix - creates a new matrix, which elements are algebraic additions of appropriate elements of the current matrix
+ * getTrace - returns the trace of the current main.java.matrix (sum of the diagonal elements)
+ * getDeterminant - return the determinant of the current main.java.matrix (algorithm is recursive)
+ * getMinorMatrix - creates a new main.java.matrix, which elements are minors of appropriate elements of the current main.java.matrix
+ * getAlgebraicAdditionsMatrix - creates a new main.java.matrix, which elements are algebraic additions of appropriate elements of the current main.java.matrix
  * */
 
 package SaZhaK;
@@ -111,7 +111,7 @@ public class Matrix extends AbstractMatrix{
                     this.elements[j][i] = temp;
                 }
             }
-        } else throw new RuntimeException("Is not a square matrix");
+        } else throw new RuntimeException("Is not a square main.java.matrix");
     }
 
     public double getTrace() throws RuntimeException {
@@ -122,7 +122,7 @@ public class Matrix extends AbstractMatrix{
                 trace += (Double)this.elements[i][i];
             }
             return trace;
-        } else throw new RuntimeException("Is not a square matrix");
+        } else throw new RuntimeException("Is not a square main.java.matrix");
     }
 
     @Override
@@ -217,7 +217,7 @@ public class Matrix extends AbstractMatrix{
                 }
                 return determinant;
             }
-        } else throw new RuntimeException("Is not a square matrix");
+        } else throw new RuntimeException("Is not a square main.java.matrix");
     }
 
     public Matrix getMinorMatrix() throws RuntimeException {
@@ -244,7 +244,7 @@ public class Matrix extends AbstractMatrix{
                 }
             }
             return new Matrix(this.rows, this.columns, minors);
-        } else throw new RuntimeException("Is not a square matrix");
+        } else throw new RuntimeException("Is not a square main.java.matrix");
     }
 
     public Matrix getAlgebraicAdditionsMatrix() throws RuntimeException {
@@ -274,7 +274,7 @@ public class Matrix extends AbstractMatrix{
                 }
             }
             return new Matrix(this.rows, this.columns, minors);
-        } else throw new RuntimeException("Is not a square matrix");
+        } else throw new RuntimeException("Is not a square main.java.matrix");
     }
 
     public Matrix getInverseMatrix() {
