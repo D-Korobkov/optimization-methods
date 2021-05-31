@@ -40,15 +40,15 @@ public class NewtonTests extends MethodTests {
 
         testOnFunctions(new LinarySearchNewtonMethod(), eps);
 
-        System.out.println("classicNewton test passed");
+        System.out.println("classicNewtone test passed");
     }
 
     @Test
     public void descentDirectionNewtonTest() throws IOException {
         System.out.println("run descentDirectionNewtonTest");
 
-        testOnFunctions(new NewtoneMethodWithDescentDirection(), eps);
+        testOnFunctions(new NewtonMethodWithDescentDirection(), eps);
 
-        System.out.println("descentDirectionNewtonTest test passed");
+        System.out.println("descentDirectionNewton test passed");
     }
 }

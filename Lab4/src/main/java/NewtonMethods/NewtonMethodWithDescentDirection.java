@@ -10,16 +10,16 @@ import search.BrentSearch;
 import java.io.IOException;
 import static SaZhaK.MatrixUtil.*;
 
-public class NewtoneMethodWithDescentDirection implements Method {
+public class NewtonMethodWithDescentDirection implements Method {
     Solver solver;
     Double epsilon;
 
-    public NewtoneMethodWithDescentDirection(Solver solver, double epsilon){
+    public NewtonMethodWithDescentDirection(Solver solver, double epsilon){
         this.solver = solver;
         this.epsilon = epsilon;
     }
 
-    public NewtoneMethodWithDescentDirection() {
+    public NewtonMethodWithDescentDirection() {
         this.solver = new GaussSolver();
         this.epsilon = 0.000001;
     }
