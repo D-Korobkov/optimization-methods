@@ -1,4 +1,4 @@
-import NewtonMethods.ClassicNewtoneMethod;
+import NewtonMethods.ClassicNewtonMethod;
 import functions.QuadraticFunction;
 import interfaces.Function;
 import interfaces.Method;
@@ -7,11 +7,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
-public class NewtoneTests {
+public class NewtonTests {
 
     @BeforeClass
     public static void prepare() {
@@ -31,7 +30,7 @@ public class NewtoneTests {
         System.out.println("run classicNewtoneTest");
 
         double[] x0 = {10, 10};
-        Method classicNewtone = new ClassicNewtoneMethod();
+        Method classicNewtone = new ClassicNewtonMethod();
 
         Function f1 = new QuadraticFunction(new double[][]{{2, 0}, {0, 2}}, new double[]{0, 0}, 0);
         double[] f1Real = {0, 0};
