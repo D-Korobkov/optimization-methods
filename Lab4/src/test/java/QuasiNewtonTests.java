@@ -1,5 +1,6 @@
 import NewtonMethods.ClassicNewtonMethod;
 import QuasiNewton.BFGS;
+import QuasiNewton.PowellMethod;
 import functions.QuadraticFunction;
 import interfaces.Function;
 import interfaces.Method;
@@ -37,17 +38,43 @@ public class QuasiNewtonTests {
         double[] f1Real = {0, 0};
         double[] f1Answer = bfgs.findMinimum(f1, x0);
 
-        assertArrayEquals("Incorrect minimum in f1", f1Real, f1Answer, 0.0);
+        assertArrayEquals("Incorrect minimum in f1", f1Real, f1Answer, 0.000001);
         System.out.println("f1 test passed");
 
         Function f2 = new QuadraticFunction(new double[][]{{20, 20}, {20, 40}}, new double[]{10, 10}, 10);
         double[] f2Real = {0.5, 0};
         double[] f2Answer = bfgs.findMinimum(f2, x0);
 
-        assertArrayEquals("Incorrect minimum in f2", f2Real, f2Answer, 0.0);
+        assertArrayEquals("Incorrect minimum in f2", f2Real, f2Answer, 0.000001);
         System.out.println("f2 test passed");
 
         System.out.println("BFGS test passed");
+
+    }
+
+    @Test
+    public void PowellTest() throws IOException {
+
+        System.out.println("run PowellTest");
+
+        double[] x0 = {10, 10};
+        Method powell = new PowellMethod(0.000001);
+
+        Function f1 = new QuadraticFunction(new double[][]{{2, 0}, {0, 2}}, new double[]{0, 0}, 0);
+        double[] f1Real = {0, 0};
+        double[] f1Answer = powell.findMinimum(f1, x0);
+
+        assertArrayEquals("Incorrect minimum in f1", f1Real, f1Answer, 0.000001);
+        System.out.println("f1 test passed");
+
+        Function f2 = new QuadraticFunction(new double[][]{{20, 20}, {20, 40}}, new double[]{10, 10}, 10);
+        double[] f2Real = {0.5, 0};
+        double[] f2Answer = powell.findMinimum(f2, x0);
+
+        assertArrayEquals("Incorrect minimum in f2", f2Real, f2Answer, 0.000001);
+        System.out.println("f2 test passed");
+
+        System.out.println("Powell test passed");
 
     }
 

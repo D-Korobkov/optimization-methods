@@ -10,12 +10,10 @@ import java.io.IOException;
 
 import static SaZhaK.MatrixUtil.*;
 
-public class PowellMethod implements Method {
-
-    private final double eps;
+public class PowellMethod extends AbstractQuasiMethod {
 
     public PowellMethod(double eps) {
-        this.eps = eps;
+        super(eps);
     }
 
     @Override
@@ -38,25 +36,5 @@ public class PowellMethod implements Method {
     private double[][] getNextC(double[][] C, double[] deltaX, double[] deltaW) {
         double k = 1 / dotProduct(deltaW, deltaX);
         return subtract(C, multiply(multiply(deltaX, deltaX), k));
-    }
-
-    private double[] findNextX(Function function, double[] x0, double[] p) {
-        double a = findLinearMinimum(function, x0, p);
-        p = multiply(p, a);
-        return add(x0, p);
-    }
-
-    private double findLinearMinimum(Function function, double[] x, double[] p) {
-        MathFunction f = a -> function.run(add(x, multiply(p, a)));
-        Search search = new GoldenRatioSearch(f, 0, 10, eps);
-        return search.searchMinimum();
-    }
-
-    private double[][] createI(int length) {
-        double[][] ans = new double[length][length];
-        for (int i = 0; i < length; i++) {
-            ans[i][i] = 1;
-        }
-        return ans;
     }
 }
