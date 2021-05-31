@@ -14,6 +14,7 @@ public class NewtonTests extends MethodTests {
     public static void prepare() {
 
         System.out.println("prepare");
+
     }
 
     @Before
@@ -25,11 +26,11 @@ public class NewtonTests extends MethodTests {
     @Test
     public void classicNewtoneTest() throws IOException {
 
-        System.out.println("run classicNewtoneTest");
+        System.out.println("run classicNewtonTest");
 
         testOnFunctions(new ClassicNewtonMethod(), eps);
 
-        System.out.println("classicNewtone test passed");
+        System.out.println("classicNewton test passed");
 
     }
 
@@ -39,7 +40,7 @@ public class NewtonTests extends MethodTests {
 
         testOnFunctions(new LinarySearchNewtonMethod(), eps);
 
-        System.out.println("classicNewtone test passed");
+        System.out.println("classicNewton test passed");
     }
 
     @Test
