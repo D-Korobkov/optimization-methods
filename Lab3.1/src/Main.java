@@ -114,13 +114,14 @@ public class Main {
 
         final double miss = MatrixUtil.norm(MatrixUtil.subtract(xReal, xSolved));
 
-        System.out.println(miss);
-        System.out.println(miss / MatrixUtil.norm(xReal));
+        System.out.println(ConjugateGradientMethod.it);
+        //System.out.println(miss);
+        //System.out.println(miss / MatrixUtil.norm(xReal));
 
         final double[] f = matrix.getB();
         final double missF = MatrixUtil.norm(MatrixUtil.subtract(f, matrix.multiply(xSolved)));
 
-        System.out.println((miss / MatrixUtil.norm(xReal)) / (missF / MatrixUtil.norm(f)));
+        //System.out.println((miss / MatrixUtil.norm(xReal)) / (missF / MatrixUtil.norm(f)));
 
         return xSolved;
     }
@@ -138,7 +139,10 @@ public class Main {
         }
     }
 
-    public static void main(final String[] args) {
-        solve(args);
+    public static void main(final String[] args) throws IOException {
+        for(int i = 10; i <= 1000; i*=10){
+            final String path = "src/resources/line-column/hilbert/" + i;
+            double[] x = solveBonus(path);
+        }
     }
 }
