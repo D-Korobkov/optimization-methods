@@ -30,7 +30,6 @@ hs_err_pid*
 ../Lab2/.idea
 /target/
 */.DS_Store
-/src/test/
 /fast.out
 /conj.out
 /gradient.out

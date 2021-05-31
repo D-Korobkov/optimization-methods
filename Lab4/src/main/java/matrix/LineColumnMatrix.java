@@ -1,4 +1,4 @@
-package matrix;
+package main.java.matrix;
 
 import SaZhaK.MatrixUtil;
 import interfaces.Function;
