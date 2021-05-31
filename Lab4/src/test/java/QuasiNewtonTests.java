@@ -1,18 +1,11 @@
-import NewtonMethods.ClassicNewtonMethod;
 import QuasiNewton.BFGS;
 import QuasiNewton.PowellMethod;
-import functions.QuadraticFunction;
-import interfaces.Function;
-import interfaces.Method;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import java.io.IOException;
 
-import static org.junit.Assert.*;
-
-public class QuasiNewtonTests extends MethodTests{
+public class QuasiNewtonTests extends MethodTests {
 
     @BeforeClass
     public static void prepare() {

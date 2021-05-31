@@ -1,12 +1,10 @@
 package NewtonMethods;
 
-import SaZhaK.Matrix;
 import SaZhaK.MatrixUtil;
 import gauss.GaussSolver;
 import interfaces.Function;
 import interfaces.Method;
 import interfaces.Solver;
-
 import java.io.IOException;
 
 public class ClassicNewtonMethod implements Method {

@@ -1,14 +1,7 @@
 package QuasiNewton;
 
-import SaZhaK.MatrixUtil;
 import interfaces.Function;
-import interfaces.MathFunction;
-import interfaces.Method;
-import interfaces.Search;
-import search.GoldenRatioSearch;
-
 import java.io.IOException;
-
 import static SaZhaK.MatrixUtil.*;
 
 public class BFGS extends AbstractQuasiMethod {

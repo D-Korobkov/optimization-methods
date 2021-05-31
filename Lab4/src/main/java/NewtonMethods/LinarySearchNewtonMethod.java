@@ -4,10 +4,7 @@ import SaZhaK.MatrixUtil;
 import gauss.GaussSolver;
 import interfaces.*;
 import search.BrentSearch;
-
 import java.io.IOException;
-import java.lang.reflect.Member;
-import java.util.List;
 
 public class LinarySearchNewtonMethod implements Method {
 
@@ -39,12 +36,7 @@ public class LinarySearchNewtonMethod implements Method {
 
             double[] finalPrevX = prevX;
             double[] finalP = p;
-            MathFunction fun = new MathFunction() {
-                @Override
-                public double run(double v) {
-                    return function.run(MatrixUtil.add(finalPrevX, MatrixUtil.multiply(finalP, v)));
-                }
-            };
+            MathFunction fun = v -> function.run(MatrixUtil.add(finalPrevX, MatrixUtil.multiply(finalP, v)));
             Search search = new BrentSearch(fun, -100, 100, epsilon);//TODO: deal with borders
             double a = search.searchMinimum();
 

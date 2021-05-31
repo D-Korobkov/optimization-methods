@@ -5,7 +5,6 @@ import interfaces.MathFunction;
 import interfaces.Method;
 import interfaces.Search;
 import search.GoldenRatioSearch;
-
 import static SaZhaK.MatrixUtil.add;
 import static SaZhaK.MatrixUtil.multiply;
 

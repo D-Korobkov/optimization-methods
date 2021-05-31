@@ -7,9 +7,7 @@ import interfaces.MathFunction;
 import interfaces.Method;
 import interfaces.Solver;
 import search.BrentSearch;
-
 import java.io.IOException;
-
 import static SaZhaK.MatrixUtil.*;
 
 public class NewtoneMethodWithDescentDirection implements Method {

@@ -1,13 +1,7 @@
 package QuasiNewton;
 
 import interfaces.Function;
-import interfaces.MathFunction;
-import interfaces.Method;
-import interfaces.Search;
-import search.GoldenRatioSearch;
-
 import java.io.IOException;
-
 import static SaZhaK.MatrixUtil.*;
 
 public class PowellMethod extends AbstractQuasiMethod {
