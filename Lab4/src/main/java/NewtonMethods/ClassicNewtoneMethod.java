@@ -2,6 +2,7 @@ package NewtonMethods;
 
 import SaZhaK.Matrix;
 import SaZhaK.MatrixUtil;
+import gauss.GaussSolver;
 import interfaces.Function;
 import interfaces.Method;
 import interfaces.Solver;
@@ -20,7 +21,7 @@ public class ClassicNewtoneMethod implements Method {
     }
 
     public ClassicNewtoneMethod(){
-        //this.solver = new LUSolver();
+        this.solver = new GaussSolver();
         this.epsilon = 0.000001;
     }
 
