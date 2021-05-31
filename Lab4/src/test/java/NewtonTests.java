@@ -1,5 +1,6 @@
 import NewtonMethods.ClassicNewtonMethod;
 import NewtonMethods.LinarySearchNewtonMethod;
+import NewtonMethods.NewtoneMethodWithDescentDirection;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -7,7 +8,7 @@ import org.junit.Test;
 import java.io.IOException;
 
 
-public class NewtonTests extends MethodTests{
+public class NewtonTests extends MethodTests {
 
 
     @BeforeClass
@@ -40,5 +41,14 @@ public class NewtonTests extends MethodTests{
         testOnFunctions(new LinarySearchNewtonMethod(), eps);
 
         System.out.println("classicNewtone test passed");
+    }
+
+    @Test
+    public void descentDirectionNewtonTest() throws IOException {
+        System.out.println("run descentDirectionNewtonTest");
+
+        testOnFunctions(new NewtoneMethodWithDescentDirection(), eps);
+
+        System.out.println("descentDirectionNewtonTest test passed");
     }
 }
