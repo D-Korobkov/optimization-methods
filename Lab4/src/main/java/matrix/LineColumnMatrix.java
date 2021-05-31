@@ -1,4 +1,4 @@
-package main.java.matrix;
+package matrix;
 
 import SaZhaK.MatrixUtil;
 import interfaces.Function;
@@ -164,6 +164,11 @@ public class LineColumnMatrix implements Function {
             }
         }
         return ans;
+    }
+
+    @Override
+    public double[][] runHessian(double[] x) {
+        return new double[0][];
     }
 
     /**
