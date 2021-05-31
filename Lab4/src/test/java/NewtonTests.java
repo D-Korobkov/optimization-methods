@@ -49,5 +49,4 @@ public class NewtonTests extends MethodTests{
 
         System.out.println("classicNewtone test passed");
     }
-    
 }
