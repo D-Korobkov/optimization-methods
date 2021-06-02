@@ -1,3 +1,4 @@
+import TestFunctions.Function2_1;
 import functions.QuadraticFunction;
 import interfaces.Function;
 import interfaces.Method;
@@ -20,11 +21,13 @@ public abstract class MethodTests {
 
         List<Function> functions = List.of(
                 new QuadraticFunction(new double[][]{{2, 0}, {0, 2}}, new double[]{0, 0}, 0),
-                new QuadraticFunction(new double[][]{{20, 20}, {20, 40}}, new double[]{10, 10}, 10));
+                new QuadraticFunction(new double[][]{{20, 20}, {20, 40}}, new double[]{10, 10}, 10),
+                new Function2_1());
 
         double[][] answers = {
                 {0, 0},
-                {0.5, 0}
+                {0.5, 0},
+                {1, 1}
         };
 
         for(int i = 0; i < functions.size(); i++){
