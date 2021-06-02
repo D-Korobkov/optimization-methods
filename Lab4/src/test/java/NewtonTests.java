@@ -1,4 +1,6 @@
 import NewtonMethods.*;
+import NewtonMethods.marquardt.MarquardtMethodVersion1;
+import NewtonMethods.marquardt.MarquardtMethodVersion2;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -54,7 +56,7 @@ public class NewtonTests extends MethodTests {
     public void firstVariantOfMarquardtTest() throws IOException {
         System.out.println("run firstVariantOfMarquardtTest");
 
-        testOnFunctions(new MarquardtMethod(), eps);
+        testOnFunctions(new MarquardtMethodVersion1(), eps);
 
         System.out.println("firstVariantOfMarquardt test passed");
     }

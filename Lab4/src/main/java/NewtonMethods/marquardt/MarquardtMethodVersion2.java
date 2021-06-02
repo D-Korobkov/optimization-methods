@@ -1,43 +1,25 @@
-package NewtonMethods;
+package NewtonMethods.marquardt;
 
 import cholesky.CholeskySolver;
-import gauss.GaussSolver;
 import interfaces.Function;
-import interfaces.Method;
-import interfaces.Solver;
-
-import java.util.stream.IntStream;
 
 import static SaZhaK.MatrixUtil.*;
 
-public class MarquardtMethodVersion2 implements Method {
-    private final Solver solver;
-    private final double epsilon;
-    private final double beta;
-    private final double lambda = 0;
-
+public class MarquardtMethodVersion2 extends MarquardtCommon {
     public MarquardtMethodVersion2() {
-        epsilon = 0.000001;
-        beta = 2;
-        solver = new CholeskySolver(epsilon);
+        super(new CholeskySolver(0.000001), 0.000001, 2, 0);
     }
 
     public MarquardtMethodVersion2(final double epsilon, final double beta) {
-        this.epsilon = epsilon;
-        this.beta = beta;
-        this.solver = new CholeskySolver(epsilon);
+        super(new CholeskySolver(epsilon), epsilon, beta, 0);
     }
 
     @Override
     public double[] findMinimum(Function function, double[] x0) {
-        double[][] I = IntStream.range(0, x0.length).mapToObj(i -> {
-            double[] line = new double[x0.length];
-            line[i] = 1;
-            return line;
-        }).toArray(double[][]::new);
-
+        double[][] I = getI(x0.length);
         double[] x = x0;
         double step = lambda;
+
         while (true) {
             double[] antiGradient = multiply(function.runGradient(x), -1);
             double[][] hessian = function.runHessian(x);
