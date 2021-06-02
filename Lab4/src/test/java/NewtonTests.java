@@ -1,5 +1,6 @@
 import NewtonMethods.ClassicNewtonMethod;
 import NewtonMethods.LinarySearchNewtonMethod;
+import NewtonMethods.MarquardtMethod;
 import NewtonMethods.NewtonMethodWithDescentDirection;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -50,5 +51,14 @@ public class NewtonTests extends MethodTests {
         testOnFunctions(new NewtonMethodWithDescentDirection(), eps);
 
         System.out.println("descentDirectionNewton test passed");
+    }
+
+    @Test
+    public void firstVariantOfMarquardtTest() throws IOException {
+        System.out.println("run firstVariantOfMarquardtTest");
+
+        testOnFunctions(new MarquardtMethod(), eps);
+
+        System.out.println("firstVariantOfMarquardt test passed");
     }
 }
