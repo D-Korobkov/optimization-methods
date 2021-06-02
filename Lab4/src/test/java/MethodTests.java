@@ -19,20 +19,27 @@ public abstract class MethodTests {
     public static void testOnFunctions(Method method, double epsilon) throws IOException {
         double[] x0 = {10, 10};
 
-        List<Function> functions = List.of(
-                new QuadraticFunction(new double[][]{{2, 0}, {0, 2}}, new double[]{0, 0}, 0),
-                new QuadraticFunction(new double[][]{{20, 20}, {20, 40}}, new double[]{10, 10}, 10),
-                new Function2_1());
+        List<FunctionTestHandler> functions = List.of(
+                new FunctionTestHandler(
+                        new QuadraticFunction(new double[][]{{2, 0}, {0, 2}},
+                        new double[]{0, 0}, 0),
+                        new double[]{0, 0},
+                        x0,
+                        "Simple function 1"),
+                new FunctionTestHandler(
+                        new QuadraticFunction(new double[][]{{20, 20}, {20, 40}}, new double[]{10, 10}, 10),
+                        new double[]{0.5, 0},
+                        x0, "Simple function 2"),
+                new FunctionTestHandler(
+                        new Function2_1(),
+                        new double[]{1, 1},
+                        x0, "Function2_1")
+        );
 
-        double[][] answers = {
-                {0, 0},
-                {0.5, 0},
-                {1, 1}
-        };
 
-        for(int i = 0; i < functions.size(); i++){
-            testMethod(functions.get(i), method, answers[i], x0, epsilon);
-            System.out.println((i+1) + "-th function test passed");
+        for(FunctionTestHandler i : functions){
+            testMethod(i.getFunction(), method, i.getAnswer(), i.getX0(), epsilon);
+            System.out.println(i.getName() + " test passed");
         }
     }
 }
