@@ -7,10 +7,10 @@ import java.util.*;
 
 /**
  * MathLogger for organized logging of fields that you gave.
- * Root directory: /logger/
+ * Root directory: ./logger/
  * All your log files will be in: /log/yourPath/fieldName.
  * You can name fields that you want to log.
- * Logs to /logger/innerPath/fieldName.log
+ * Logs to ./logger/innerPath/fieldName.log
  * Field name "general" is reserved by logger.
  * general.log - for general logging information.
  *
@@ -21,7 +21,7 @@ public class FieldLogger implements AutoCloseable {
 
 
 
-    static final String prePath = "/logger/";
+    static final String prePath = "./logger/";
 
     /**
      * inner path that you gave

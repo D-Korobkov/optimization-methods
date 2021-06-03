@@ -60,7 +60,7 @@ public class LinarySearchNewtonMethod implements Method {
      * @return точка минимума функции
      */
     @Override
-    public double[] findMinimum(Function function, double[] x0) throws IOException {
+    public double[] findMinimum(Function function, double[] x0) {
 
         double[] prevX = x0;
         double[] p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));

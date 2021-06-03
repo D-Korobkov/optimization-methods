@@ -65,7 +65,7 @@ public class NewtonMethodWithDescentDirection implements Method {
      * @return точка минимума функции
      */
     @Override
-    public double[] findMinimum(Function function, double[] x0) throws IOException {
+    public double[] findMinimum(Function function, double[] x0) {
         double diff;
         double[] nextX = x0;
         do {

@@ -15,10 +15,6 @@ import java.util.List;
  * класс для поиска минимума функции методом Ньютона без модификаций
  */
 public class ClassicNewtonMethod implements Method {
-    /**
-     * логгер, записывающий информацию о работе метода в res/log/newton_classic.txt
-     */
-    private static final FieldLogger logger = null;
 
     /**
      * число итераций метода
