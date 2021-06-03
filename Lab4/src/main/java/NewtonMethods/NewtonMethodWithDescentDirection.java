@@ -10,6 +10,7 @@ import logger.FieldLogger;
 import search.BrentSearch;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 import static SaZhaK.MatrixUtil.*;
 
@@ -65,7 +66,32 @@ public class NewtonMethodWithDescentDirection implements Method {
      * @return точка минимума функции
      */
     @Override
-    public double[] findMinimum(Function function, double[] x0) throws IOException {
+    public double[] findMinimum(Function function, double[] x0) {
+        double diff;
+        double[] nextX = x0;
+        do {
+            double[] prevX = nextX;
+            double[] gradient = function.runGradient(prevX);
+            double[] antiGradient = multiply(gradient, -1);
+            double[] p = solver.solve(function.runHessian(prevX), antiGradient);
+
+            final double[] direction = MatrixUtil.dotProduct(p, gradient) >= 0 ? antiGradient : p;
+
+            MathFunction f = alpha -> function.run(MatrixUtil.add(prevX, MatrixUtil.multiply(direction, alpha)));
+            double alpha = new BrentSearch(f, 0, 10, epsilon).searchMinimum();
+            nextX = add(prevX, multiply(direction, alpha));
+
+            diff = MatrixUtil.norm(MatrixUtil.subtract(nextX, prevX));
+        } while (diff > epsilon);
+
+        return nextX;
+    }
+
+    @Override
+    public double[] findMinimumWithLog(Function function, double[] x0, String functionName) {
+        FieldLogger logger = new FieldLogger(
+                "/method/newton/descent/" + functionName + "/", List.of("x", "iterations", "alpha")
+        );
         double diff;
         double[] nextX = x0;
         do {
@@ -82,7 +108,7 @@ public class NewtonMethodWithDescentDirection implements Method {
             double alpha = new BrentSearch(f, 0, 10, epsilon).searchMinimum();
             nextX = add(prevX, multiply(direction, alpha));
 
-            logger.log(String.format("%s %s%n",
+            logger.log("x", String.format("%s %s",
                     Arrays.toString(prevX).replaceAll("[\\[\\]]", ""),
                     Arrays.toString(nextX).replaceAll("[\\[\\]]", ""))
             );
@@ -90,8 +116,7 @@ public class NewtonMethodWithDescentDirection implements Method {
             diff = MatrixUtil.norm(MatrixUtil.subtract(nextX, prevX));
         } while (diff > epsilon);
 
-        logger.log(Arrays.toString(nextX).replaceAll("[\\[\\]]", "") + System.lineSeparator());
-        logger.log(numberOfIterations + System.lineSeparator());
+        logger.log("iterations", Integer.toString(numberOfIterations));
 
         return nextX;
     }

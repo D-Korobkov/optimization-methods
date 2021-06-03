@@ -7,6 +7,7 @@ import logger.FieldLogger;
 import search.BrentSearch;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * класс для поиска минимума функции методом Ньютона с использованием метода Брента для вычисления шага
@@ -60,13 +61,39 @@ public class LinarySearchNewtonMethod implements Method {
      * @return точка минимума функции
      */
     @Override
-    public double[] findMinimum(Function function, double[] x0) throws IOException {
+    public double[] findMinimum(Function function, double[] x0) {
+        double[] prevX = x0;
+        double[] p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
+
+        double[] curX = MatrixUtil.add(prevX, p);
+
+        while (MatrixUtil.norm(MatrixUtil.subtract(curX, prevX)) > epsilon && MatrixUtil.norm(p) > epsilon) {
+            prevX = curX;
+            p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
+
+            double[] finalPrevX = prevX;
+            double[] finalP = p;
+            MathFunction fun = v -> function.run(MatrixUtil.add(finalPrevX, MatrixUtil.multiply(finalP, v)));
+            Search search = new BrentSearch(fun, 0, 100, epsilon);//TODO: deal with borders
+            double a = search.searchMinimum();
+
+            curX = MatrixUtil.add(prevX, MatrixUtil.multiply(p, a));
+        }
+
+        return curX;
+    }
+
+    @Override
+    public double[] findMinimumWithLog(Function function, double[] x0, String functionName) {
+        FieldLogger logger = new FieldLogger(
+                "/method/newton/linear/" + functionName + "/", List.of("x", "iterations", "alpha")
+        );
 
         double[] prevX = x0;
         double[] p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
 
         double[] curX = MatrixUtil.add(prevX, p);
-        logger.log(String.format("%s %s%n",
+        logger.log("x", String.format("%s %s%n",
                 Arrays.toString(prevX).replaceAll("[\\[\\]]", ""),
                 Arrays.toString(curX).replaceAll("[\\[\\]]", ""))
         );
@@ -85,16 +112,14 @@ public class LinarySearchNewtonMethod implements Method {
 
 
             curX = MatrixUtil.add(prevX, MatrixUtil.multiply(p, a));
-            logger.log(String.format("%s %s%n",
+            logger.log("x", String.format("%s %s",
                     Arrays.toString(prevX).replaceAll("[\\[\\]]", ""),
                     Arrays.toString(curX).replaceAll("[\\[\\]]", ""))
             );
-            logger.log(String.format("alpha = %s%n", a));
 
+            logger.log("alpha", Double.toString(a));
         }
-
-        logger.log(Arrays.toString(curX).replaceAll("[\\[\\]]", "") + System.lineSeparator());
-        logger.log(numberOfIterations + System.lineSeparator());
+        logger.log("iterations", Integer.toString(numberOfIterations));
 
         return curX;
     }

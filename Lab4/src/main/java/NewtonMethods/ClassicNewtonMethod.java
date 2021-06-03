@@ -64,12 +64,10 @@ public class ClassicNewtonMethod implements Method {
      */
     @Override
     public double[] findMinimumWithLog(Function function, double[] x0, String functionName) {
-
         FieldLogger logger = new FieldLogger("/method/newton/classic/" + functionName + "/", List.of("x", "iterations"));
 
         double[] curX = x0;
         double diff;
-
         do {
             numberOfIterations++;
 
@@ -79,7 +77,7 @@ public class ClassicNewtonMethod implements Method {
 
             curX = MatrixUtil.add(prevX, p);
 
-            logger.log("x", String.format("%s %s%n",
+            logger.log("x", String.format("%s %s",
                     Arrays.toString(prevX).replaceAll("[\\[\\]]", ""),
                     Arrays.toString(curX).replaceAll("[\\[\\]]", ""))
             );
@@ -88,8 +86,7 @@ public class ClassicNewtonMethod implements Method {
 
         } while(diff > epsilon);
 
-        logger.log(Arrays.toString(curX).replaceAll("[\\[\\]]", "") + System.lineSeparator());
-        logger.log(numberOfIterations + System.lineSeparator());
+        logger.log("iterations", numberOfIterations + System.lineSeparator());
 
         return curX;
     }
@@ -107,8 +104,6 @@ public class ClassicNewtonMethod implements Method {
         double diff;
 
         do {
-            numberOfIterations++;
-
             double[] prevX = curX;
 
             double[] p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
