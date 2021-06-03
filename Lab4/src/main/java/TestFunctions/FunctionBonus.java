@@ -33,7 +33,27 @@ public class FunctionBonus implements Function {
     @Override
     public double[][] runHessian(double[] x) {
         double[][] H = new double[100][100];
-        //todo
+        H[0][0] = -400 * ((x[1] - sqr(x[0])) - 2 * sqr(x[0])) + 2;
+        H[0][1] = -400;
+        for (int i = 1; i < 99; i++) {
+            H[i][i - 1] = findIJLess(x, i);
+            H[i][i] = findII(x, i);
+            H[i][i + 1] = findIJMore(x, i);
+        }
+        H[99][98] = -400 * x[98];
+        H[99][99] = 200;
         return H;
+    }
+
+    private double findIJMore(double[] x, int ind) {
+        return -400 * x[ind];
+    }
+
+    private double findII(double[] x, int ind) {
+        return -400 * (x[ind + 1] - sqr(x[ind]) - 2 * sqr(x[ind])) + 202;
+    }
+
+    private double findIJLess(double[] x, int ind) {
+        return -400 * x[ind - 1];
     }
 }
