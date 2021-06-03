@@ -58,6 +58,7 @@ public class ClassicNewtonMethod implements Method {
      * @param x0 начальное приближение
      * @return точка минимума функции
      */
+    @Override
     public double[] findMinimumWithLog(Function function, double[] x0, String functionName) {
 
         FieldLogger logger = new FieldLogger("/method/newton/classic/" + functionName + "/", List.of("x", "iterations"));
@@ -116,5 +117,6 @@ public class ClassicNewtonMethod implements Method {
 
         return curX;
     }
+
 
 }
