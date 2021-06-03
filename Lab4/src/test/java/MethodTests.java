@@ -41,6 +41,11 @@ public abstract class MethodTests {
                         new Function2_2(),
                         new double[]{3, 2},
                         new double[] {4, 3},
+                        "Function2_2"),
+                new FunctionTestHandler(
+                        new Function2_2(),
+                        new double[]{3, 2},
+                        new double[] {3, 2},
                         "Function2_2")
         );
 

@@ -38,7 +38,7 @@ public class Function2_3 implements Function {
 
     @Override
     public double[] multiply(double[] x) {
-        return new double[0];
+        return null;
     }
 
     @Override
