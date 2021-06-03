@@ -83,8 +83,7 @@ public class ClassicNewtonMethod implements Method {
 
 
         logger.log("x", Arrays.toString(curX).replaceAll("[\\[\\]]", ""));
-        logger.log("iterations",numberOfIterations + "");
-
+        logger.log("iterations",Integer.toString(numberOfIterations));
         logger.close();
 
         return curX;

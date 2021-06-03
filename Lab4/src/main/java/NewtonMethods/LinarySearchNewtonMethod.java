@@ -14,15 +14,9 @@ import java.util.List;
  */
 public class LinarySearchNewtonMethod implements Method {
     /**
-     * логгер, записывающий информацию о работе метода в res/log/newton_linear.txt
-     */
-    private static final FieldLogger logger = null;
-
-    /**
      * число итераций метода
      */
     private static int numberOfIterations = 0;
-
     /**
      * метод решения СЛАУ
      */

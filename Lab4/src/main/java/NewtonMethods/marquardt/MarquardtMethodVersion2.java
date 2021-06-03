@@ -5,6 +5,7 @@ import interfaces.Function;
 import logger.FieldLogger;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static SaZhaK.MatrixUtil.*;
 
@@ -12,15 +13,6 @@ import static SaZhaK.MatrixUtil.*;
  * класс для поиска минимума функции методом Марквардта с использованием разложения Холецкого
  */
 public class MarquardtMethodVersion2 extends MarquardtCommon {
-    /**
-     * логгер, записывающий информацию о работе метода в res/log/marquardt_v2.txt
-     */
-    private static final FieldLogger logger = null;
-
-    /**
-     * число итераций метода
-     */
-    private static int numberOfIterations = 0;
 
     /**
      * дефолтный конструктор:
@@ -60,13 +52,44 @@ public class MarquardtMethodVersion2 extends MarquardtCommon {
         double step = lambda;
 
         while (true) {
-            int numberOfCholeskyDecompositions = 0;
-            numberOfIterations++;
-
             double[] antiGradient = multiply(function.runGradient(x), -1);
             double[][] hessian = function.runHessian(x);
 
             double[] direction;
+            do {
+                direction = solver.solve(add(hessian, multiply(I, step)), antiGradient);
+                if (direction != null) {
+                    break;
+                }
+                step = Math.max(1, beta * step);
+            } while (true);
+
+            x = add(x, direction);
+            step /= beta;
+
+            if (norm(direction) <= epsilon) {
+                break;
+            }
+        }
+
+        return x;
+    }
+
+    public double[] findMinimumWithLog(Function function, double[] x0, String functionName) throws Exception {
+        FieldLogger logger = new FieldLogger(
+                "/method/newton/marquardt_2/" + functionName + "/", List.of("lambda", "cholesky", "x")
+        );
+
+        double[][] I = getI(x0.length);
+        double[] x = x0;
+        double step = lambda;
+
+        while (true) {
+            double[] antiGradient = multiply(function.runGradient(x), -1);
+            double[][] hessian = function.runHessian(x);
+
+            double[] direction;
+            int numberOfCholeskyDecompositions = 0;
             do {
                 numberOfCholeskyDecompositions++;
 
@@ -80,14 +103,16 @@ public class MarquardtMethodVersion2 extends MarquardtCommon {
             x = add(x, direction);
             step /= beta;
 
-            logger.log(String.format("%s %s %s%n", numberOfIterations, step, numberOfCholeskyDecompositions));
+            logger.log("lambda", Double.toString(step));
+            logger.log("cholesky", Integer.toString(numberOfCholeskyDecompositions));
 
             if (norm(direction) <= epsilon) {
                 break;
             }
         }
 
-        logger.log(Arrays.toString(x).replaceAll("[\\[\\]]", "") + System.lineSeparator());
+        logger.log("x", Arrays.toString(x).replaceAll("[\\[\\]]", ""));
+        logger.close();
 
         return x;
     }
