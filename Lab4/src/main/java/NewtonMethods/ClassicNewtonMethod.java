@@ -7,7 +7,9 @@ import interfaces.Method;
 import interfaces.Solver;
 import logger.FieldLogger;
 
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * класс для поиска минимума функции методом Ньютона без модификаций
@@ -60,6 +62,43 @@ public class ClassicNewtonMethod implements Method {
      * @param x0 начальное приближение
      * @return точка минимума функции
      */
+    public double[] findMinimumWithLog(Function function, double[] x0, String functionName) {
+
+        FieldLogger logger = new FieldLogger("/method/newton/classic/" + functionName + "/", List.of("x", "iterations"));
+
+        double[] curX = x0;
+        double diff;
+
+        do {
+            numberOfIterations++;
+
+            double[] prevX = curX;
+
+            double[] p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
+
+            curX = MatrixUtil.add(prevX, p);
+
+            logger.log("x", String.format("%s %s%n",
+                    Arrays.toString(prevX).replaceAll("[\\[\\]]", ""),
+                    Arrays.toString(curX).replaceAll("[\\[\\]]", ""))
+            );
+
+            diff = MatrixUtil.norm(MatrixUtil.subtract(curX, prevX));
+
+        } while(diff > epsilon);
+
+        logger.log(Arrays.toString(curX).replaceAll("[\\[\\]]", "") + System.lineSeparator());
+        logger.log(numberOfIterations + System.lineSeparator());
+
+        return curX;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @param function исследуемая функция
+     * @param x0 начальное приближение
+     * @return точка минимума функции
+     */
     @Override
     public double[] findMinimum(Function function, double[] x0) {
 
@@ -75,18 +114,11 @@ public class ClassicNewtonMethod implements Method {
 
             curX = MatrixUtil.add(prevX, p);
 
-            logger.log(String.format("%s %s%n",
-                    Arrays.toString(prevX).replaceAll("[\\[\\]]", ""),
-                    Arrays.toString(curX).replaceAll("[\\[\\]]", ""))
-            );
-
             diff = MatrixUtil.norm(MatrixUtil.subtract(curX, prevX));
 
         } while(diff > epsilon);
 
-        logger.log(Arrays.toString(curX).replaceAll("[\\[\\]]", "") + System.lineSeparator());
-        logger.log(numberOfIterations + System.lineSeparator());
-
         return curX;
     }
+
 }

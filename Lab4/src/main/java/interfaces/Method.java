@@ -1,5 +1,7 @@
 package interfaces;
 
+import logger.FieldLogger;
+
 import java.io.IOException;
 
 /**
@@ -11,7 +13,6 @@ public interface Method {
      * @param function исследуемая функция
      * @param x0 начальное приближение
      * @return точка минимума исследуемой функции
-     * @throws IOException если произошла ошибка при логгировании
      */
-    double[] findMinimum(Function function, double[] x0) throws IOException;
+    double[] findMinimum(Function function, double[] x0);
 }
