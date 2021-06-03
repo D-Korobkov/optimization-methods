@@ -13,7 +13,7 @@ public abstract class MethodTests {
 
     public static void testMethod(Function function, Method method, double[] realAnswer, double[] x0, double epsilon) throws IOException {
         double[] answer = method.findMinimum(function, x0);
-        assertArrayEquals("Incorrect minimum", answer, realAnswer, epsilon);
+        assertArrayEquals("Incorrect minimum", realAnswer, answer, epsilon);
     }
 
 
@@ -51,7 +51,7 @@ public abstract class MethodTests {
                 new FunctionTestHandler(
                         new Function2_3(),
                         new double[]{10, 10, 10, 10},
-                        new double[] {0, 0, 0, 0},
+                        new double[] {100, 100, 100, 100},
                         "Function2_3")
         );
 
