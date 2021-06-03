@@ -137,10 +137,29 @@ public class FieldLogger implements AutoCloseable {
         }
     }
 
+    public void flush(){
+        List<Exception> suppressedExceptions = new LinkedList<>();
+        writers.values().forEach((w) -> {
+            try {
+                w.flush();
+            } catch (IOException e) {
+                suppressedExceptions.add(e);
+            }
+        });
+
+        if (!suppressedExceptions.isEmpty()) {
+            RuntimeException e = new RuntimeException("Troubles with flushing some Writers");
+            for (Exception suppressedException : suppressedExceptions) {
+                e.addSuppressed(suppressedException);
+            }
+            throw e;
+        }
+    }
+
     @Override
     public void close() throws Exception {
         List<Exception> suppressedExceptions = new LinkedList<>();
-        writers.entrySet().stream().map(Map.Entry::getValue).forEach((w) -> {
+        writers.values().forEach((w) -> {
             try {
                 w.close();
             } catch (IOException e) {
