@@ -1,11 +1,8 @@
 package logger;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class MathLogger implements AutoCloseable {
@@ -39,6 +36,8 @@ public class MathLogger implements AutoCloseable {
 
 
     public MathLogger(Path path, List<String> fileNames) {
+
+        this.path = path;
 
         if (!Files.exists(path)) {
             try {
