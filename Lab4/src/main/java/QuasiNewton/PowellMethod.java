@@ -49,7 +49,7 @@ public class PowellMethod extends AbstractQuasiMethod {
      */
     private double[] iterations(Function function, double[]x0, double[][] C, double[] w) {
         int i = 0;
-        while (norm(w) > eps && i++ < w.length) {
+        while (norm(w) > eps && i < w.length) {
             double[] p = multiply(C, w);
             double[] nextX = findNextX(function, x0, p);
             double[] nextW = multiply(function.runGradient(nextX), -1);
@@ -58,6 +58,7 @@ public class PowellMethod extends AbstractQuasiMethod {
             C = getNextC(C, add(deltaX, multiply(C, deltaW)), deltaW);
             x0 = nextX;
             w = nextW;
+            i++;
         }
         iterations += i;
         return x0;
