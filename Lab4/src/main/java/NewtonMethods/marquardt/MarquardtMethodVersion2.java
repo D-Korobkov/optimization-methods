@@ -3,17 +3,45 @@ package NewtonMethods.marquardt;
 import cholesky.CholeskySolver;
 import interfaces.Function;
 
+import java.io.IOException;
+
 import static SaZhaK.MatrixUtil.*;
 
+/**
+ * класс для поиска минимума функции методом Марквардта с использованием разложения Холецкого
+ */
 public class MarquardtMethodVersion2 extends MarquardtCommon {
+    /**
+     * дефолтный конструктор:
+     * <ul>
+     *     <li>СЛАУ будет решаться с использованием разложения Холецкого</li>
+     *     <li>точность - {@code 10^-6}</li>
+     *     <li>значение {@code beta} - {@code 2}</li>
+     *     <li>начальное значение {@code lambda} - {@code 0}</li>
+     * </ul>
+     */
     public MarquardtMethodVersion2() {
         super(new CholeskySolver(0.000001), 0.000001, 2, 0);
     }
 
+    /**
+     * <p>создаёт экземпляр класса с пользовательскими параметрами параметрами</p>
+     * <ul>
+     *     <li>СЛАУ будет решаться с использованием разложения Холецкого</li>
+     *     <li>начальное значение {@code lambda} - {@code 0}</li>
+     * </ul>
+     * {@link MarquardtCommon}
+     */
     public MarquardtMethodVersion2(final double epsilon, final double beta) {
         super(new CholeskySolver(epsilon), epsilon, beta, 0);
     }
 
+    /**
+     * {@inheritDoc}
+     * @param function исследуемая функция
+     * @param x0 начальное приближение
+     * @return точка минимума функции
+     */
     @Override
     public double[] findMinimum(Function function, double[] x0) {
         double[][] I = getI(x0.length);
@@ -30,10 +58,11 @@ public class MarquardtMethodVersion2 extends MarquardtCommon {
                 if (direction != null) {
                     break;
                 }
-                step = Math.max(1, 2 * step);
+                step = Math.max(1, beta * step);
             } while (true);
 
             x = add(x, direction);
+            step /= beta;
 
             if (norm(direction) <= epsilon) {
                 break;

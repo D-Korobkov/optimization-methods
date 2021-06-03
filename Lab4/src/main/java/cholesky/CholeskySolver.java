@@ -5,19 +5,41 @@ import interfaces.Solver;
 
 import java.util.Arrays;
 
+/**
+ * класс для решения СЛАУ методом Холецкого
+ */
 public class CholeskySolver implements Solver {
+    /**
+     * точность вычислений
+     */
     private final double epsilon;
 
+    /**
+     * дефолтный конструктор:
+     * <ul>
+     *     <li>точность вычислений - {@code 10^-6}</li>
+     * </ul>
+     */
     public CholeskySolver() {
         epsilon = 0.000001;
     }
 
+    /**
+     * создание экземпляра класса с польовательскими параметрами
+     * @param epsilon точность вычислений
+     */
     public CholeskySolver(final double epsilon) {
         this.epsilon = epsilon;
     }
 
+    /**
+     * реализует разложение Холецкого
+     * @param A исходная матрица
+     * @param dimension размерность
+     * @return нижнетреугольная матрица {@code L}, такая что A = L * L^T, если разложение возможно
+     */
     public double[][] decompose(final double[][] A, final int dimension) {
-        double[][] L = Arrays.stream(A).map(line -> new double[line.length]).toArray(double[][]::new);
+        double[][] L = Arrays.stream(A).map(line -> new double[dimension]).toArray(double[][]::new);
 
         for (int i = 0; i < dimension; i++) {
             for (int j = 0; j <= i; j++) {
@@ -37,6 +59,11 @@ public class CholeskySolver implements Solver {
     }
 
 
+    /**
+     * прямой ход гаусса
+     * @param L нижнетреугольная матрица
+     * @param b результирующий вектор
+     */
     private void gaussForward(final double[][] L, final double[] b) {
         for (int i = 0; i < L.length; ++i) {
             for (int j = 0; j < i; ++j) {
@@ -46,6 +73,11 @@ public class CholeskySolver implements Solver {
         }
     }
 
+    /**
+     * обратный ход Гаусса
+     * @param transposeL верхнетреуугольная матрица
+     * @param y результирующий вектор
+     */
     private void gaussBackward(final double[][] transposeL, final double[] y) {
         for (int i = transposeL.length - 1; i >= 0; --i) {
             for (int j = transposeL.length - 1; j > i; --j) {
@@ -55,6 +87,12 @@ public class CholeskySolver implements Solver {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * @param A матрица коэффициентов
+     * @param B результирующий вектор
+     * @return {@code null}, если матрицу {@code A} невозможно разложить методом Холецкого; иначе - решение СЛАУ
+     */
     @Override
     public double[] solve(final double[][] A, final double[] B) {
         double[][] L = decompose(A, A.length);
@@ -65,7 +103,7 @@ public class CholeskySolver implements Solver {
         double[][] checkProduct = MatrixUtil.multiply(L, transposeL);
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A.length; j++) {
-                if (Math.abs(A[i][j] - checkProduct[i][j]) > epsilon) {
+                if (Double.isNaN(checkProduct[i][j]) || Math.abs(A[i][j] - checkProduct[i][j]) > epsilon) {
                     return null;
                 }
             }
