@@ -2,6 +2,8 @@ package QuasiNewton;
 
 import interfaces.Function;
 import java.io.IOException;
+import java.nio.file.Path;
+
 import static SaZhaK.MatrixUtil.*;
 
 /**
@@ -17,6 +19,10 @@ public class BFGS extends AbstractQuasiMethod {
         super(eps);
     }
 
+    public BFGS(double eps, Path path) {
+        super(eps, path);
+    }
+
     /**
      * {@inheritDoc}
      * @param function исследуемая функция
@@ -25,9 +31,24 @@ public class BFGS extends AbstractQuasiMethod {
      */
     @Override
     public double[] findMinimum(Function function, double[] x0) {
+        iterations = 0;
         double[][] C = createI(x0.length);
         double[] grad = function.runGradient(x0);
-        while (norm(grad) > eps) {
+        do {
+            x0 = iterations(function, x0, C, grad);
+            C = createI(x0.length);
+            grad = function.runGradient(x0);
+        } while (norm(grad) > eps);
+        if (log) {
+            logger.log("iterations", String.valueOf(iterations));
+        }
+        return x0;
+    }
+
+
+    private double[] iterations(Function function, double[] x0, double[][] C, double[] grad) {
+        int i = 0;
+        while (norm(grad) > eps && i++ < x0.length) {
             double[] p = multiply(multiply(C, grad), -1);
             double[] nextX = findNextX(function, x0, p);
             double[] nextGrad = function.runGradient(nextX);
@@ -35,6 +56,7 @@ public class BFGS extends AbstractQuasiMethod {
             x0 = nextX;
             grad = nextGrad;
         }
+        iterations += i;
         return x0;
     }
 

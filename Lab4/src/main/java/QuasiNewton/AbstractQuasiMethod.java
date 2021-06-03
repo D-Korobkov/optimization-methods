@@ -4,7 +4,12 @@ import interfaces.Function;
 import interfaces.MathFunction;
 import interfaces.Method;
 import interfaces.Search;
+import logger.MathLogger;
 import search.GoldenRatioSearch;
+
+import java.nio.file.Path;
+import java.util.Arrays;
+
 import static SaZhaK.MatrixUtil.add;
 import static SaZhaK.MatrixUtil.multiply;
 
@@ -16,6 +21,9 @@ public abstract class AbstractQuasiMethod implements Method {
      * точность вычислений
      */
     protected final double eps;
+    protected int iterations = 0;
+    protected boolean log = false;
+    protected MathLogger logger;
 
     /**
      * создаёт экземпляр класса
@@ -23,6 +31,12 @@ public abstract class AbstractQuasiMethod implements Method {
      */
     protected AbstractQuasiMethod(double eps) {
         this.eps = eps;
+    }
+
+    protected AbstractQuasiMethod(double eps, Path path) {
+        this(eps);
+        log = true;
+        logger = new MathLogger(path);
     }
 
     /**
@@ -48,7 +62,12 @@ public abstract class AbstractQuasiMethod implements Method {
     protected double[] findNextX(Function function, double[] x0, double[] p) {
         double a = findLinearMinimum(function, x0, p);
         p = multiply(p, a);
-        return add(x0, p);
+        double[] ans = add(x0, p);
+        if (log) {
+            logger.log("alpha", a + System.lineSeparator());
+            logger.log("trace", Arrays.toString(x0) + " : " +  Arrays.toString(ans));
+        }
+        return ans;
     }
 
     /**
