@@ -2,6 +2,7 @@ package QuasiNewton;
 
 import interfaces.Function;
 
+
 import static SaZhaK.MatrixUtil.*;
 
 /**
@@ -48,13 +49,14 @@ public class BFGS extends AbstractQuasiMethod {
      */
     private double[] iterations(Function function, double[] x0, double[][] C, double[] grad) {
         int i = 0;
-        while (norm(grad) > eps && i++ < x0.length) {
+        while (norm(grad) > eps && i < x0.length) {
             double[] p = multiply(multiply(C, grad), -1);
             double[] nextX = findNextX(function, x0, p);
             double[] nextGrad = function.runGradient(nextX);
             C = getNextC(C, subtract(nextX, x0), subtract(nextGrad, grad));
             x0 = nextX;
             grad = nextGrad;
+            i++;
         }
         iterations += i;
         return x0;

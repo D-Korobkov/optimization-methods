@@ -59,11 +59,13 @@ public class ClassicNewtonMethod implements Method {
      * @return точка минимума функции
      */
     public double[] findMinimumWithLog(Function function, double[] x0, String functionName) throws Exception {
+
         FieldLogger logger = new FieldLogger("/method/newton/classic/" + functionName + "/", List.of("x", "iterations"));
         numberOfIterations = 0;
 
         double[] curX = x0;
         double diff;
+
         do {
             numberOfIterations++;
 
@@ -73,18 +75,16 @@ public class ClassicNewtonMethod implements Method {
 
             curX = MatrixUtil.add(prevX, p);
 
-            logger.log("x", String.format("%s %s",
-                    Arrays.toString(prevX).replaceAll("[\\[\\]]", ""),
-                    Arrays.toString(curX).replaceAll("[\\[\\]]", ""))
-            );
+            logger.log("x", Arrays.toString(curX).replace(",", ""));
 
             diff = MatrixUtil.norm(MatrixUtil.subtract(curX, prevX));
 
         } while(diff > epsilon);
 
+        logger.log("x", Arrays.toString(curX).replace(",", ""));
+        //logger.log("x", Arrays.toString(curX).replaceAll("[ \\[\\]]", "") + System.lineSeparator());
+        logger.log("iterations",numberOfIterations + System.lineSeparator());
 
-        logger.log("x", Arrays.toString(curX).replaceAll("[\\[\\]]", ""));
-        logger.log("iterations",Integer.toString(numberOfIterations));
         logger.close();
 
         return curX;
@@ -102,6 +102,8 @@ public class ClassicNewtonMethod implements Method {
         double diff;
 
         do {
+            numberOfIterations++;
+
             double[] prevX = curX;
 
             double[] p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
