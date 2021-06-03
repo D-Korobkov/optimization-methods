@@ -1,11 +1,14 @@
+import NewtonMethods.ClassicNewtonMethod;
 import QuasiNewton.BFGS;
 import QuasiNewton.PowellMethod;
 import TestFunctions.*;
+import gauss.GaussSolver;
 import interfaces.Function;
 import interfaces.Method;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 public class Main {
 
@@ -16,10 +19,17 @@ public class Main {
         System.out.println(methodName + ": " + Arrays.toString(method.findMinimum(function, start)));
     }
 
+    private static void setLogger(){
+
+
+    }
+
+
     public static void main(String[] args) throws IOException {
-        Function f = new Function2_4();
-        double[] start = new double[]{0, 0};
-        test("BFGS", new BFGS(EPS), f, start);
-        test("Powell", new PowellMethod(EPS), f, start);
+
+        ClassicNewtonMethod m = new ClassicNewtonMethod(new GaussSolver(),  EPS);
+
+        m.findMinimum(new Function2_1(), new double[]{2, 2});
+
     }
 }

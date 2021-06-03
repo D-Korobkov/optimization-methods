@@ -49,11 +49,11 @@ public abstract class MethodTests {
                         new double[]{3, 2},
                         new double[] {3, 2},
                         "Function2_2"),
-                new FunctionTestHandler(
+                /*new FunctionTestHandler(
                         new Function2_3(),
                         new double[]{10, 10, 10, 10},
                         new double[] {100, 100, 100, 100},
-                        "Function2_3"),
+                        "Function2_3"),*/
                 new FunctionTestHandler(
                         new Function2_4(),
                         new double[]{1.29164, 1},

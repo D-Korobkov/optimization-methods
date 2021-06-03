@@ -6,6 +6,8 @@ import interfaces.Function;
 import interfaces.Method;
 import interfaces.Solver;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.logging.Logger;
 
 public class ClassicNewtonMethod implements Method {
 
