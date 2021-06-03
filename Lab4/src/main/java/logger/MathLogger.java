@@ -13,7 +13,7 @@ import java.util.Map;
 public class MathLogger implements AutoCloseable {
 
     Path path;
-    Map<String, BufferedWriter> writers;
+    Map<String, Writer> writers;
 
     private Writer createWriter(File file) {
 
@@ -22,14 +22,14 @@ public class MathLogger implements AutoCloseable {
             Writer writer = new BufferedWriter(new FileWriter(file));
             return writer;
 
-        } catch (IOException e){
+        } catch (IOException e) {
 
             RuntimeException exc = new RuntimeException("Troubles with creating Writer for file: " + file.toString());
             exc.addSuppressed(e);
 
             try {
                 this.close();
-            } catch (Exception suppressed){
+            } catch (Exception suppressed) {
                 exc.addSuppressed(suppressed);
             }
 
@@ -41,29 +41,47 @@ public class MathLogger implements AutoCloseable {
 
 
     public MathLogger(Path path, List<String> fileNames) {
-            if(!Files.exists(path)){
-                try {
-                    Files.createDirectory(path);
-                } catch (IOException suppressed){
-                    Exception e = new RuntimeException("Troubles with creating directory: " + path);
-                }
+        fileNames.add("general");
+
+        if (!Files.exists(path)) {
+            try {
+                Files.createDirectory(path);
+            } catch (IOException suppressed) {
+                RuntimeException e = new RuntimeException("Troubles with creating directory: " + path);
+                e.addSuppressed(suppressed);
+                throw e;
             }
+        }
+
+        for (String fileName : fileNames) {
+            writers.putIfAbsent(fileName, createWriter(new File(path + System.lineSeparator() + fileName + ".log")));
+        }
+
     }
 
     public MathLogger(Path path, String fileName) {
-
+        this(path, List.of(fileName));
     }
 
     public MathLogger(Path path) {
+        this(path, List.of());
 
     }
 
     public void log(String msg) {
-
+        log("general", msg);
     }
 
     public void log(String name, String msg) {
-
+        Writer w = writers.get(name);
+        try {
+            w.write(msg);
+            w.write("\n");
+        } catch (IOException suppressed){
+            RuntimeException e = new RuntimeException("Troubles with logging");
+            e.addSuppressed(suppressed);
+            throw e;
+        }
     }
 
     @Override
@@ -77,9 +95,9 @@ public class MathLogger implements AutoCloseable {
             }
         });
 
-        if(!suppressedExceptions.isEmpty()){
+        if (!suppressedExceptions.isEmpty()) {
             Exception e = new Exception("Troubles with closing some Writers");
-            for(Exception suppressedException : suppressedExceptions){
+            for (Exception suppressedException : suppressedExceptions) {
                 e.addSuppressed(suppressedException);
             }
             throw e;
