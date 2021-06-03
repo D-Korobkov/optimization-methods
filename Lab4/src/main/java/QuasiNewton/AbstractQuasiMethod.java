@@ -8,6 +8,8 @@ import logger.FieldLogger;
 import search.BrentSearch;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static SaZhaK.MatrixUtil.add;
 import static SaZhaK.MatrixUtil.multiply;
@@ -21,8 +23,8 @@ public abstract class AbstractQuasiMethod implements Method {
      */
     protected final double eps;
     protected int iterations = 0;
-    protected boolean log = false;
-    protected FieldLogger logger;
+    public boolean log = false;
+    public FieldLogger logger;
 
     /**
      * создаёт экземпляр класса
@@ -35,7 +37,7 @@ public abstract class AbstractQuasiMethod implements Method {
     protected AbstractQuasiMethod(double eps, String path) {
         this(eps);
         log = true;
-        logger = new FieldLogger(path);
+        logger = new FieldLogger(path, List.of("iterations", "trace", "alpha"));
     }
 
     /**
@@ -63,8 +65,8 @@ public abstract class AbstractQuasiMethod implements Method {
         p = multiply(p, a);
         double[] ans = add(x0, p);
         if (log) {
-            logger.log("alpha", a + System.lineSeparator());
-            logger.log("trace", Arrays.toString(x0) + " : " +  Arrays.toString(ans));
+            logger.log("alpha", String.valueOf(a));
+            logger.log("trace", "[" + Arrays.stream(ans).mapToObj(String::valueOf).collect(Collectors.joining(" ")) + " ]");
         }
         return ans;
     }
