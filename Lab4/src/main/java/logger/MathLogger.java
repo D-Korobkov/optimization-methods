@@ -5,10 +5,8 @@ import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class MathLogger implements AutoCloseable {
 
@@ -41,11 +39,10 @@ public class MathLogger implements AutoCloseable {
 
 
     public MathLogger(Path path, List<String> fileNames) {
-        fileNames.add("general");
 
         if (!Files.exists(path)) {
             try {
-                Files.createDirectory(path);
+                Files.createDirectories(path);
             } catch (IOException suppressed) {
                 RuntimeException e = new RuntimeException("Troubles with creating directory: " + path);
                 e.addSuppressed(suppressed);
@@ -53,9 +50,14 @@ public class MathLogger implements AutoCloseable {
             }
         }
 
+        writers = new HashMap<>();
+
         for (String fileName : fileNames) {
-            writers.putIfAbsent(fileName, createWriter(new File(path + System.lineSeparator() + fileName + ".log")));
+            writers.putIfAbsent(fileName, createWriter(new File(path + File.separator + fileName + ".log")));
         }
+        writers.putIfAbsent("general", createWriter(new File(path + File.separator + "general" + ".log")));
+
+
 
     }
 

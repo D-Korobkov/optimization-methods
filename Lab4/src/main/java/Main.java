@@ -5,9 +5,12 @@ import TestFunctions.*;
 import gauss.GaussSolver;
 import interfaces.Function;
 import interfaces.Method;
+import logger.MathLogger;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class Main {
@@ -25,11 +28,15 @@ public class Main {
     }
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
 
-        ClassicNewtonMethod m = new ClassicNewtonMethod(new GaussSolver(),  EPS);
+        MathLogger logger = new MathLogger(Path.of("logger/main"), List.of("test1", "test2"));
 
-        m.findMinimum(new Function2_1(), new double[]{2, 2});
+        logger.log("general test");
+        logger.log("test1", "test1  test");
+        logger.log("test2", "test2 test");
+
+        logger.close();
 
     }
 }
