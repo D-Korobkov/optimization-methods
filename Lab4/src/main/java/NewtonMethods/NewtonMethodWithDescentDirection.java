@@ -87,8 +87,7 @@ public class NewtonMethodWithDescentDirection implements Method {
         return nextX;
     }
 
-    @Override
-    public double[] findMinimumWithLog(Function function, double[] x0, String functionName) {
+    public double[] findMinimumWithLog(Function function, double[] x0, String functionName) throws Exception {
         FieldLogger logger = new FieldLogger(
                 "/method/newton/descent/" + functionName + "/", List.of("x", "iterations", "alpha")
         );
@@ -117,6 +116,7 @@ public class NewtonMethodWithDescentDirection implements Method {
         } while (diff > epsilon);
 
         logger.log("iterations", Integer.toString(numberOfIterations));
+        logger.close();
 
         return nextX;
     }

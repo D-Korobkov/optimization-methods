@@ -15,10 +15,6 @@ import java.util.List;
  * класс для поиска минимума функции методом Ньютона без модификаций
  */
 public class ClassicNewtonMethod implements Method {
-    /**
-     * логгер, записывающий информацию о работе метода в res/log/newton_classic.txt
-     */
-    private static final FieldLogger logger = null;
 
     /**
      * число итераций метода
@@ -62,8 +58,7 @@ public class ClassicNewtonMethod implements Method {
      * @param x0 начальное приближение
      * @return точка минимума функции
      */
-    @Override
-    public double[] findMinimumWithLog(Function function, double[] x0, String functionName) {
+    public double[] findMinimumWithLog(Function function, double[] x0, String functionName) throws Exception {
         FieldLogger logger = new FieldLogger("/method/newton/classic/" + functionName + "/", List.of("x", "iterations"));
 
         double[] curX = x0;
@@ -86,7 +81,11 @@ public class ClassicNewtonMethod implements Method {
 
         } while(diff > epsilon);
 
-        logger.log("iterations", numberOfIterations + System.lineSeparator());
+
+        logger.log("x", Arrays.toString(curX).replaceAll("[\\[\\]]", ""));
+        logger.log("iterations",numberOfIterations + "");
+
+        logger.close();
 
         return curX;
     }

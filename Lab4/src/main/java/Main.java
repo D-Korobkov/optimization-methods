@@ -1,3 +1,6 @@
+import NewtonMethods.ClassicNewtonMethod;
+import NewtonMethods.NewtonMethodWithDescentDirection;
+import TestFunctions.Function2_1;
 import interfaces.Function;
 import interfaces.Method;
 import logger.FieldLogger;
@@ -23,13 +26,9 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        FieldLogger logger = new FieldLogger("logger/main", List.of("test1", "test2"));
+        ClassicNewtonMethod m = new ClassicNewtonMethod();
 
-        logger.log("general test");
-        logger.log("test1", "test1  test");
-        logger.log("test2", "test2 test");
-
-        logger.close();
+        m.findMinimumWithLog(new Function2_1(), new double[]{10, 10}, "Function2_1");
 
     }
 }

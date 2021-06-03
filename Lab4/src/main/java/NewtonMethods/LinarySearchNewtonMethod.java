@@ -82,9 +82,7 @@ public class LinarySearchNewtonMethod implements Method {
 
         return curX;
     }
-
-    @Override
-    public double[] findMinimumWithLog(Function function, double[] x0, String functionName) {
+    public double[] findMinimumWithLog(Function function, double[] x0, String functionName) throws Exception {
         FieldLogger logger = new FieldLogger(
                 "/method/newton/linear/" + functionName + "/", List.of("x", "iterations", "alpha")
         );
@@ -93,7 +91,7 @@ public class LinarySearchNewtonMethod implements Method {
         double[] p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
 
         double[] curX = MatrixUtil.add(prevX, p);
-        logger.log("x", String.format("%s %s%n",
+        logger.log("x", String.format("%s %s",
                 Arrays.toString(prevX).replaceAll("[\\[\\]]", ""),
                 Arrays.toString(curX).replaceAll("[\\[\\]]", ""))
         );
@@ -119,7 +117,9 @@ public class LinarySearchNewtonMethod implements Method {
 
             logger.log("alpha", Double.toString(a));
         }
+
         logger.log("iterations", Integer.toString(numberOfIterations));
+        logger.close();
 
         return curX;
     }

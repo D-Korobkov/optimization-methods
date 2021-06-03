@@ -14,7 +14,5 @@ public interface Method {
      * @param x0 начальное приближение
      * @return точка минимума исследуемой функции
      */
-    double[] findMinimum(Function function, double[] x0);
-
-    double[] findMinimumWithLog(Function function, double[] x0, String functionName);
+    double[] findMinimum(Function function, double[] x0) throws IOException;
 }

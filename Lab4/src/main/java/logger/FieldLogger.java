@@ -7,10 +7,10 @@ import java.util.*;
 
 /**
  * MathLogger for organized logging of fields that you gave.
- * Root directory: /logger/
+ * Root directory: ./logger/
  * All your log files will be in: /log/yourPath/fieldName.
  * You can name fields that you want to log.
- * Logs to /logger/innerPath/fieldName.log
+ * Logs to ./logger/innerPath/fieldName.log
  * Field name "general" is reserved by logger.
  * general.log - for general logging information.
  *
@@ -21,7 +21,7 @@ public class FieldLogger implements AutoCloseable {
 
 
 
-    static final String prePath = "/logger/";
+    static final String prePath = "./logger/";
 
     /**
      * inner path that you gave
@@ -137,10 +137,29 @@ public class FieldLogger implements AutoCloseable {
         }
     }
 
+    public void flush(){
+        List<Exception> suppressedExceptions = new LinkedList<>();
+        writers.values().forEach((w) -> {
+            try {
+                w.flush();
+            } catch (IOException e) {
+                suppressedExceptions.add(e);
+            }
+        });
+
+        if (!suppressedExceptions.isEmpty()) {
+            RuntimeException e = new RuntimeException("Troubles with flushing some Writers");
+            for (Exception suppressedException : suppressedExceptions) {
+                e.addSuppressed(suppressedException);
+            }
+            throw e;
+        }
+    }
+
     @Override
     public void close() throws Exception {
         List<Exception> suppressedExceptions = new LinkedList<>();
-        writers.entrySet().stream().map(Map.Entry::getValue).forEach((w) -> {
+        writers.values().forEach((w) -> {
             try {
                 w.close();
             } catch (IOException e) {

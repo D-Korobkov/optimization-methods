@@ -29,7 +29,7 @@ public class PowellMethod extends AbstractQuasiMethod {
      * @return точка минимума функции
      */
     @Override
-    public double[] findMinimum(Function function, double[] x0) throws IOException {
+    public double[] findMinimum(Function function, double[] x0) {
         iterations = 0;
         double[][] C = createI(x0.length);
         double[] w = multiply(function.runGradient(x0), -1);
