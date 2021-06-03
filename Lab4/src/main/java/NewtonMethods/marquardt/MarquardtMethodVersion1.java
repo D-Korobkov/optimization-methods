@@ -30,7 +30,7 @@ public class MarquardtMethodVersion1 extends MarquardtCommon {
 
             double fx = function.run(x);
             double fNext = function.run(nextX);
-            while (fNext >= fx) {
+            while (fNext > fx) {
                 step *= beta;
                 direction = solver.solve(add(hessian, multiply(I, step)), antiGradient);
                 nextX = add(x, direction);
