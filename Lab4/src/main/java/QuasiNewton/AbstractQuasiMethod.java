@@ -5,7 +5,7 @@ import interfaces.MathFunction;
 import interfaces.Method;
 import interfaces.Search;
 import logger.FieldLogger;
-import search.GoldenRatioSearch;
+import search.BrentSearch;
 
 import java.util.Arrays;
 
@@ -32,11 +32,11 @@ public abstract class AbstractQuasiMethod implements Method {
         this.eps = eps;
     }
 
-    /*protected AbstractQuasiMethod(double eps, Path path) {
+    protected AbstractQuasiMethod(double eps, String path) {
         this(eps);
         log = true;
-        logger = new MathLogger(path);
-    }*/
+        logger = new FieldLogger(path);
+    }
 
     /**
      * создание единичной матрицы указанной размерности
@@ -78,7 +78,7 @@ public abstract class AbstractQuasiMethod implements Method {
      */
     protected double findLinearMinimum(Function function, double[] x, double[] p) {
         MathFunction f = a -> function.run(add(x, multiply(p, a)));
-        Search search = new GoldenRatioSearch(f, 0, 10, eps);
+        Search search = new BrentSearch(f, 0, 10, eps);
         return search.searchMinimum();
     }
 }

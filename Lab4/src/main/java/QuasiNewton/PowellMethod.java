@@ -2,7 +2,6 @@ package QuasiNewton;
 
 import interfaces.Function;
 import java.io.IOException;
-import java.nio.file.Path;
 
 import static SaZhaK.MatrixUtil.*;
 
@@ -19,7 +18,7 @@ public class PowellMethod extends AbstractQuasiMethod {
         super(eps);
     }
 
-    public PowellMethod(double eps, Path path) {
+    public PowellMethod(double eps, String path) {
         super(eps, path);
     }
 
@@ -45,6 +44,9 @@ public class PowellMethod extends AbstractQuasiMethod {
         return x0;
     }
 
+    /**
+     * Итерационнный процесс для findMinimum
+     */
     private double[] iterations(Function function, double[]x0, double[][] C, double[] w) {
         int i = 0;
         while (norm(w) > eps && i++ < w.length) {
