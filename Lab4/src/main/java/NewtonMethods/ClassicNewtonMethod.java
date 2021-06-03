@@ -26,19 +26,19 @@ public class ClassicNewtonMethod implements Method {
     @Override
     public double[] findMinimum(Function function, double[] x0) throws IOException {
 
-        double[] prevX = x0;
-        double[] p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
+        double[] curX = x0;
+        double diff;
 
-        double[] curX = MatrixUtil.add(prevX, p);
+        do {
+            double[] prevX = curX;
 
-        while(MatrixUtil.norm(MatrixUtil.subtract(curX, prevX)) < epsilon || MatrixUtil.norm(p) < epsilon){
-            prevX = curX;
-
-            p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
+            double[] p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
 
             curX = MatrixUtil.add(prevX, p);
 
-        }
+            diff = MatrixUtil.norm(MatrixUtil.subtract(curX, prevX));
+
+        } while(diff > epsilon);
 
         return curX;
     }

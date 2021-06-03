@@ -29,7 +29,7 @@ public class LinarySearchNewtonMethod implements Method {
 
         double[] curX = MatrixUtil.add(prevX, p);
 
-        while (MatrixUtil.norm(MatrixUtil.subtract(curX, prevX)) < epsilon || MatrixUtil.norm(p) < epsilon) {
+        while (MatrixUtil.norm(MatrixUtil.subtract(curX, prevX)) > epsilon && MatrixUtil.norm(p) > epsilon) {
             prevX = curX;
 
             p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
@@ -37,7 +37,7 @@ public class LinarySearchNewtonMethod implements Method {
             double[] finalPrevX = prevX;
             double[] finalP = p;
             MathFunction fun = v -> function.run(MatrixUtil.add(finalPrevX, MatrixUtil.multiply(finalP, v)));
-            Search search = new BrentSearch(fun, -100, 100, epsilon);//TODO: deal with borders
+            Search search = new BrentSearch(fun, 0, 100, epsilon);//TODO: deal with borders
             double a = search.searchMinimum();
 
 

@@ -1,6 +1,8 @@
 package TestFunctions;
 
+import SaZhaK.MatrixUtil;
 import interfaces.Function;
+import interfaces.Matrix;
 
 import static TestFunctions.Helper.*;
 
@@ -20,7 +22,8 @@ public class Function2_1 implements Function {
 
     @Override
     public double[] multiply(double[] x) {
-        return new double[0]; // ???
+
+        return null;
     }
 
     @Override
