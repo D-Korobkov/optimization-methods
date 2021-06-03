@@ -5,7 +5,10 @@ import gauss.GaussSolver;
 import interfaces.Function;
 import interfaces.Method;
 import interfaces.Solver;
+import logger.MathLogger;
+
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
@@ -13,6 +16,16 @@ import java.util.logging.Logger;
  * класс для поиска минимума функции методом Ньютона без модификаций
  */
 public class ClassicNewtonMethod implements Method {
+    /**
+     * логгер, записывающий информацию о работе метода в res/log/newton_classic.txt
+     */
+    private static final MathLogger logger = new MathLogger(Path.of("res", "log", "newton_classic.txt"));
+
+    /**
+     * число итераций метода
+     */
+    private static int numberOfIterations = 0;
+
     /**
      * метод решения СЛАУ
      */
@@ -57,15 +70,25 @@ public class ClassicNewtonMethod implements Method {
         double diff;
 
         do {
+            numberOfIterations++;
+
             double[] prevX = curX;
 
             double[] p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
 
             curX = MatrixUtil.add(prevX, p);
 
+            logger.log(String.format("%s %s%n",
+                    Arrays.toString(prevX).replaceAll("[\\[\\]]", ""),
+                    Arrays.toString(curX).replaceAll("[\\[\\]]", ""))
+            );
+
             diff = MatrixUtil.norm(MatrixUtil.subtract(curX, prevX));
 
         } while(diff > epsilon);
+
+        logger.log(Arrays.toString(curX).replaceAll("[\\[\\]]", "") + System.lineSeparator());
+        logger.log(numberOfIterations + System.lineSeparator());
 
         return curX;
     }

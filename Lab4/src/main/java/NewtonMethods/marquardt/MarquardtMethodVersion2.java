@@ -2,8 +2,10 @@ package NewtonMethods.marquardt;
 
 import cholesky.CholeskySolver;
 import interfaces.Function;
+import logger.MathLogger;
 
-import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Arrays;
 
 import static SaZhaK.MatrixUtil.*;
 
@@ -11,6 +13,16 @@ import static SaZhaK.MatrixUtil.*;
  * класс для поиска минимума функции методом Марквардта с использованием разложения Холецкого
  */
 public class MarquardtMethodVersion2 extends MarquardtCommon {
+    /**
+     * логгер, записывающий информацию о работе метода в res/log/marquardt_v2.txt
+     */
+    private static final MathLogger logger = new MathLogger(Path.of("res", "log", "marquardt_v2.txt"));
+
+    /**
+     * число итераций метода
+     */
+    private static int numberOfIterations = 0;
+
     /**
      * дефолтный конструктор:
      * <ul>
@@ -49,11 +61,16 @@ public class MarquardtMethodVersion2 extends MarquardtCommon {
         double step = lambda;
 
         while (true) {
+            int numberOfCholeskyDecompositions = 0;
+            numberOfIterations++;
+
             double[] antiGradient = multiply(function.runGradient(x), -1);
             double[][] hessian = function.runHessian(x);
 
             double[] direction;
             do {
+                numberOfCholeskyDecompositions++;
+
                 direction = solver.solve(add(hessian, multiply(I, step)), antiGradient);
                 if (direction != null) {
                     break;
@@ -64,10 +81,14 @@ public class MarquardtMethodVersion2 extends MarquardtCommon {
             x = add(x, direction);
             step /= beta;
 
+            logger.log(String.format("%s %s %s%n", numberOfIterations, step, numberOfCholeskyDecompositions));
+
             if (norm(direction) <= epsilon) {
                 break;
             }
         }
+
+        logger.log(Arrays.toString(x).replaceAll("[\\[\\]]", "") + System.lineSeparator());
 
         return x;
     }
