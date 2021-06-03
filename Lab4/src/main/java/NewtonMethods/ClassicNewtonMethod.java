@@ -60,6 +60,7 @@ public class ClassicNewtonMethod implements Method {
      */
     public double[] findMinimumWithLog(Function function, double[] x0, String functionName) throws Exception {
         FieldLogger logger = new FieldLogger("/method/newton/classic/" + functionName + "/", List.of("x", "iterations"));
+        numberOfIterations = 0;
 
         double[] curX = x0;
         double diff;
@@ -97,7 +98,6 @@ public class ClassicNewtonMethod implements Method {
      */
     @Override
     public double[] findMinimum(Function function, double[] x0) {
-
         double[] curX = x0;
         double diff;
 

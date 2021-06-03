@@ -91,7 +91,9 @@ public class NewtonMethodWithDescentDirection implements Method {
         FieldLogger logger = new FieldLogger(
                 "/method/newton/descent/" + functionName + "/", List.of("x", "iterations", "alpha")
         );
-        double diff;
+        numberOfIterations = 0;
+
+        double diff, diff2;
         double[] nextX = x0;
         do {
             numberOfIterations++;
@@ -113,7 +115,9 @@ public class NewtonMethodWithDescentDirection implements Method {
             );
 
             diff = MatrixUtil.norm(MatrixUtil.subtract(nextX, prevX));
-        } while (diff > epsilon);
+            diff2 = MatrixUtil.norm(direction);
+
+        } while (diff > epsilon && diff2 > epsilon);
 
         logger.log("iterations", Integer.toString(numberOfIterations));
         logger.close();
