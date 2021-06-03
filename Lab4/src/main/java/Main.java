@@ -17,9 +17,9 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
-        Function f22 = new Function2_3();
-        double[] start = new double[]{1, 1, 1, 1};
-        test("BFGS", new BFGS(EPS), f22, start);
-        test("Powell", new PowellMethod(EPS), f22, start);
+        Function f = new Function2_4();
+        double[] start = new double[]{0, 0};
+        test("BFGS", new BFGS(EPS), f, start);
+        test("Powell", new PowellMethod(EPS), f, start);
     }
 }
