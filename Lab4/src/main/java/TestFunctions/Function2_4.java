@@ -21,8 +21,8 @@ public class Function2_4 implements Function {
     @Override
     public double[] runGradient(double[] x) {
         double[] ans = new double[2];
-        double zn1 = gradZn1(x);
-        double zn2 = gradZn2(x);
+        final double zn1 = gradZn1(x);
+        final double zn2 = gradZn2(x);
         ans[0] = findGrad1(x, zn1, zn2);
         ans[1] = findGrad2(x, zn1, zn2);
         return ans;
@@ -45,7 +45,7 @@ public class Function2_4 implements Function {
     }
 
     private double differentialZn1(double[] x) {
-        return sqr(0.25 * sqr(x[0] - 2) + sqr(x[1] - 1) / 9 + 1);
+        return 0.25 * sqr(x[0] - 2) + sqr(x[1] - 1) / 9 + 1;
     }
 
     private double differentialZn2(double[] x) {
