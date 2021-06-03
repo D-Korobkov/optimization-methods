@@ -4,12 +4,25 @@ import interfaces.Function;
 import java.io.IOException;
 import static SaZhaK.MatrixUtil.*;
 
+/**
+ * класс для поиска минимума функции методом Пауэлла
+ */
 public class PowellMethod extends AbstractQuasiMethod {
 
+    /**
+     * создание экземпляра класса
+     * @param eps точность вычислений
+     */
     public PowellMethod(double eps) {
         super(eps);
     }
 
+    /**
+     * {@inheritDoc}
+     * @param function исследуемая функция
+     * @param x0 начальное приближение
+     * @return точка минимума функции
+     */
     @Override
     public double[] findMinimum(Function function, double[] x0) throws IOException {
         double[][] C = createI(x0.length);
@@ -27,6 +40,13 @@ public class PowellMethod extends AbstractQuasiMethod {
         return x0;
     }
 
+    /**
+     * вычисляет следующее интерационное приближение
+     * @param C текущее приближение
+     * @param deltaX разность приближений
+     * @param deltaW разность градиентов
+     * @return следующее итерационное приближение (матрицу близкую к матрице Гессе)
+     */
     private double[][] getNextC(double[][] C, double[] deltaX, double[] deltaW) {
         double k = 1 / dotProduct(deltaW, deltaX);
         return subtract(C, multiply(multiply(deltaX, deltaX), k));

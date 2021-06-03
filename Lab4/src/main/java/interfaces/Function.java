@@ -1,34 +1,34 @@
 package interfaces;
 
 /**
- * Interface for realisation of R^m function, where m more or equal 2
+ * Интерфейс для реализации функций: R^m -> R, где m >= 2
  */
 public interface Function {
     /**
-     * Compute the function meaning in the point given like vector
-     * @param x vector that represent point
-     * @return meaning of function like f(x)
+     * вычисляет значение функции в указанной точке
+     * @param x точка, в которой требуется вычислить функцию
+     * @return значение функции в данной точке
      */
     double run(double[] x);
 
     /**
-     * Compute gradient of the function in given point
-     * @param x vector that represent point
-     * @return vector that represent gradient of the function
+     * вычисляет градиент функции в указанной точке
+     * @param x точка, в которой требуется вычислить градиент
+     * @return градиент функции в указанной точке
      */
     double[] runGradient(double[] x);
 
     /**
-     * function that compute (A * x)
-     * @param x point for multiply
-     * @return result of computing (A * x)
+     * вычисляет значение {@code A * x}
+     * @param x точка
+     * @return результат умножения
      */
     double[] multiply(double[] x);
 
     /**
-     * Computes hessian in the point given by vector
-     * @param x - vector that represents point
-     * @return hessian's matrix
+     * Вычисляет значение матрицы Гессе в указанной точке
+     * @param x - точка, в которой требуется вычислить значение матрицы Гессе
+     * @return матрица Гессе в указанной точке
      */
     double[][] runHessian(double[] x);
 }

@@ -3,15 +3,15 @@ package interfaces;
 import java.io.IOException;
 
 /**
- * Interface for searching minimum of the function
+ * интерефейс для методов, осуществляющих поиск минимума функции
  */
 public interface Method {
     /**
-     * search minimum of the function with start from the point in x_0
-     * @param function explores function
-     * @param x0 point for the start of exploring
-     * @return minimum of the function
-     * @throws IOException exception when log from function computing throw exception
+     * метод находит минимум исследуемой функции, стартуя с указанного начального приближения
+     * @param function исследуемая функция
+     * @param x0 начальное приближение
+     * @return точка минимума исследуемой функции
+     * @throws IOException если произошла ошибка при логгировании
      */
     double[] findMinimum(Function function, double[] x0) throws IOException;
 }
