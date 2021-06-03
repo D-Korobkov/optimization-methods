@@ -6,6 +6,7 @@ import interfaces.Solver;
 import logger.FieldLogger;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static SaZhaK.MatrixUtil.*;
 
@@ -13,16 +14,6 @@ import static SaZhaK.MatrixUtil.*;
  * класс для поиска минимума функции методом Марквардта без использования разложения Холецкого
  */
 public class MarquardtMethodVersion1 extends MarquardtCommon {
-    /**
-     * логгер, записывающий информацию о работе метода в res/log/marquardt_v1.txt
-     */
-    private static final FieldLogger logger = null;
-
-    /**
-     * число итераций метода
-     */
-    private static int numberOfIterations = 0;
-
     /**
      * дефолтный конструктор:
      * <ul>
@@ -57,7 +48,6 @@ public class MarquardtMethodVersion1 extends MarquardtCommon {
         double step = lambda;
 
         while (true) {
-            numberOfIterations++;
             double[] antiGradient = multiply(function.runGradient(x), -1);
             double[][] hessian = function.runHessian(x);
 
@@ -72,10 +62,7 @@ public class MarquardtMethodVersion1 extends MarquardtCommon {
                 nextX = add(x, direction);
                 fNext = function.run(nextX);
             }
-
             step /= beta;
-
-            logger.log(String.format("%s %s%n", numberOfIterations, step));
 
             x = nextX;
             if (norm(direction) <= epsilon) {
@@ -83,7 +70,45 @@ public class MarquardtMethodVersion1 extends MarquardtCommon {
             }
         }
 
-        logger.log(Arrays.toString(x).replaceAll("[\\[\\]]", "") + System.lineSeparator());
+        return x;
+    }
+
+    public double[] findMinimumWithLog(final Function function, final double[] x0, final String functionName) throws Exception {
+        FieldLogger logger = new FieldLogger(
+                "/method/newton/marquardt_1/" + functionName + "/", List.of("lambda", "x")
+        );
+
+        double[][] I = getI(x0.length);
+        double[] x = x0;
+        double step = lambda;
+
+        while (true) {
+            double[] antiGradient = multiply(function.runGradient(x), -1);
+            double[][] hessian = function.runHessian(x);
+
+            double[] direction = solver.solve(add(hessian, multiply(I, step)), antiGradient);
+            double[] nextX = add(x, direction);
+
+            double fx = function.run(x);
+            double fNext = function.run(nextX);
+            while (fNext > fx) {
+                step *= beta;
+                direction = solver.solve(add(hessian, multiply(I, step)), antiGradient);
+                nextX = add(x, direction);
+                fNext = function.run(nextX);
+            }
+            step /= beta;
+
+            logger.log("lambda", Double.toString(step));
+
+            x = nextX;
+            if (norm(direction) <= epsilon) {
+                break;
+            }
+        }
+
+        logger.log("x", Arrays.toString(x).replaceAll("[\\[\\]]", ""));
+        logger.close();
 
         return x;
     }
