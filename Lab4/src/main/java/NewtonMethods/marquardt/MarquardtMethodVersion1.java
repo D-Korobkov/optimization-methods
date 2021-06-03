@@ -3,8 +3,10 @@ package NewtonMethods.marquardt;
 import gauss.GaussSolver;
 import interfaces.Function;
 import interfaces.Solver;
+import logger.MathLogger;
 
-import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Arrays;
 
 import static SaZhaK.MatrixUtil.*;
 
@@ -12,6 +14,15 @@ import static SaZhaK.MatrixUtil.*;
  * класс для поиска минимума функции методом Марквардта без использования разложения Холецкого
  */
 public class MarquardtMethodVersion1 extends MarquardtCommon {
+    /**
+     * логгер, записывающий информацию о работе метода в res/log/marquardt_v1.txt
+     */
+    private static final MathLogger logger = new MathLogger(Path.of("res", "log", "marquardt_v1.txt"));
+
+    /**
+     * число итераций метода
+     */
+    private static int numberOfIterations = 0;
 
     /**
      * дефолтный конструктор:
@@ -47,6 +58,7 @@ public class MarquardtMethodVersion1 extends MarquardtCommon {
         double step = lambda;
 
         while (true) {
+            numberOfIterations++;
             double[] antiGradient = multiply(function.runGradient(x), -1);
             double[][] hessian = function.runHessian(x);
 
@@ -63,11 +75,16 @@ public class MarquardtMethodVersion1 extends MarquardtCommon {
             }
 
             step /= beta;
+
+            logger.log(String.format("%s %s%n", numberOfIterations, step));
+
             x = nextX;
             if (norm(direction) <= epsilon) {
                 break;
             }
         }
+
+        logger.log(Arrays.toString(x).replaceAll("[\\[\\]]", "") + System.lineSeparator());
 
         return x;
     }

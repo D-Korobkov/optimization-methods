@@ -6,8 +6,12 @@ import interfaces.Function;
 import interfaces.MathFunction;
 import interfaces.Method;
 import interfaces.Solver;
+import logger.MathLogger;
 import search.BrentSearch;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Arrays;
+
 import static SaZhaK.MatrixUtil.*;
 
 /**
@@ -15,13 +19,23 @@ import static SaZhaK.MatrixUtil.*;
  */
 public class NewtonMethodWithDescentDirection implements Method {
     /**
+     * логгер, записывающий информацию о работе метода в res/log/newton_desc.txt
+     */
+    private static final MathLogger logger = new MathLogger(Path.of("res", "log", "newton_desc.txt"));
+
+    /**
+     * число итераций метода
+     */
+    private static int numberOfIterations = 0;
+
+    /**
      * метод решения СЛАУ
      */
-    Solver solver;
+    private final Solver solver;
     /**
      * точность вычислений
      */
-    Double epsilon;
+    private final Double epsilon;
 
     /**
      * создаёт экземпляр класса с пользовательскими параметрами
@@ -56,6 +70,8 @@ public class NewtonMethodWithDescentDirection implements Method {
         double diff;
         double[] nextX = x0;
         do {
+            numberOfIterations++;
+
             double[] prevX = nextX;
             double[] gradient = function.runGradient(prevX);
             double[] antiGradient = multiply(gradient, -1);
@@ -67,8 +83,16 @@ public class NewtonMethodWithDescentDirection implements Method {
             double alpha = new BrentSearch(f, 0, 10, epsilon).searchMinimum();
             nextX = add(prevX, multiply(direction, alpha));
 
+            logger.log(String.format("%s %s%n",
+                    Arrays.toString(prevX).replaceAll("[\\[\\]]", ""),
+                    Arrays.toString(nextX).replaceAll("[\\[\\]]", ""))
+            );
+
             diff = MatrixUtil.norm(MatrixUtil.subtract(nextX, prevX));
         } while (diff > epsilon);
+
+        logger.log(Arrays.toString(nextX).replaceAll("[\\[\\]]", "") + System.lineSeparator());
+        logger.log(numberOfIterations + System.lineSeparator());
 
         return nextX;
     }

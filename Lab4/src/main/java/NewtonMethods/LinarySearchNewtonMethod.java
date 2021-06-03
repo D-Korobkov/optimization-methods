@@ -3,13 +3,26 @@ package NewtonMethods;
 import SaZhaK.MatrixUtil;
 import gauss.GaussSolver;
 import interfaces.*;
+import logger.MathLogger;
 import search.BrentSearch;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Arrays;
 
 /**
  * класс для поиска минимума функции методом Ньютона с использованием метода Брента для вычисления шага
  */
 public class LinarySearchNewtonMethod implements Method {
+    /**
+     * логгер, записывающий информацию о работе метода в res/log/newton_linear.txt
+     */
+    private static final MathLogger logger = new MathLogger(Path.of("res", "log", "newton_linear.txt"));
+
+    /**
+     * число итераций метода
+     */
+    private static int numberOfIterations = 0;
+
     /**
      * метод решения СЛАУ
      */
@@ -54,8 +67,13 @@ public class LinarySearchNewtonMethod implements Method {
         double[] p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
 
         double[] curX = MatrixUtil.add(prevX, p);
+        logger.log(String.format("%s %s%n",
+                Arrays.toString(prevX).replaceAll("[\\[\\]]", ""),
+                Arrays.toString(curX).replaceAll("[\\[\\]]", ""))
+        );
 
         while (MatrixUtil.norm(MatrixUtil.subtract(curX, prevX)) > epsilon && MatrixUtil.norm(p) > epsilon) {
+            numberOfIterations++;
             prevX = curX;
 
             p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
@@ -68,8 +86,16 @@ public class LinarySearchNewtonMethod implements Method {
 
 
             curX = MatrixUtil.add(prevX, MatrixUtil.multiply(p, a));
+            logger.log(String.format("%s %s%n",
+                    Arrays.toString(prevX).replaceAll("[\\[\\]]", ""),
+                    Arrays.toString(curX).replaceAll("[\\[\\]]", ""))
+            );
+            logger.log(String.format("alpha = %s%n", a));
 
         }
+
+        logger.log(Arrays.toString(curX).replaceAll("[\\[\\]]", "") + System.lineSeparator());
+        logger.log(numberOfIterations + System.lineSeparator());
 
         return curX;
     }
