@@ -15,4 +15,6 @@ public interface Method {
      * @return точка минимума исследуемой функции
      */
     double[] findMinimum(Function function, double[] x0);
+
+    double[] findMinimumWithLog(Function function, double[] x0, String functionName);
 }
