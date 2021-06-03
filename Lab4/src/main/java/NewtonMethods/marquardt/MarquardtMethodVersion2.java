@@ -30,10 +30,11 @@ public class MarquardtMethodVersion2 extends MarquardtCommon {
                 if (direction != null) {
                     break;
                 }
-                step = Math.max(1, 2 * step);
+                step = Math.max(1, beta * step);
             } while (true);
 
             x = add(x, direction);
+            step /= beta;
 
             if (norm(direction) <= epsilon) {
                 break;

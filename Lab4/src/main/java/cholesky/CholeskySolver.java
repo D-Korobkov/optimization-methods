@@ -65,7 +65,7 @@ public class CholeskySolver implements Solver {
         double[][] checkProduct = MatrixUtil.multiply(L, transposeL);
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A.length; j++) {
-                if (Math.abs(A[i][j] - checkProduct[i][j]) > epsilon) {
+                if (Double.isNaN(checkProduct[i][j]) || Math.abs(A[i][j] - checkProduct[i][j]) > epsilon) {
                     return null;
                 }
             }
