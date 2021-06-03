@@ -1,17 +1,10 @@
-import NewtonMethods.ClassicNewtonMethod;
-import QuasiNewton.BFGS;
-import QuasiNewton.PowellMethod;
-import TestFunctions.*;
-import gauss.GaussSolver;
 import interfaces.Function;
 import interfaces.Method;
-import logger.MathLogger;
+import logger.FieldLogger;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class Main {
 
@@ -30,7 +23,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        MathLogger logger = new MathLogger(Path.of("logger/main"), List.of("test1", "test2"));
+        FieldLogger logger = new FieldLogger("logger/main", List.of("test1", "test2"));
 
         logger.log("general test");
         logger.log("test1", "test1  test");

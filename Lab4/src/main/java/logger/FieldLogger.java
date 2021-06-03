@@ -5,10 +5,34 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
-public class MathLogger implements AutoCloseable {
+/**
+ * MathLogger for organized logging of fields that you gave.
+ * Root directory: /logger/
+ * All your log files will be in: /log/yourPath/fieldName.
+ * You can name fields that you want to log.
+ * Logs to /logger/innerPath/fieldName.log
+ * Field name "general" is reserved by logger.
+ * general.log - for general logging information.
+ *
+ * Each log separates by "\n".
+ * Rewrites all data that were in files.
+ */
+public class FieldLogger implements AutoCloseable {
 
+
+
+    static final String prePath = "/logger/";
+
+    /**
+     * inner path that you gave
+     */
     Path path;
+
+    /**
+     * Map for fields: contains pairs: fieldName -> writer to field's file
+     */
     Map<String, Writer> writers;
+
 
     private Writer createWriter(File file) {
 
@@ -34,10 +58,15 @@ public class MathLogger implements AutoCloseable {
 
     }
 
+    /**
+     * Creates new Logger that logs to /logger/innerPath/fieldName.log
+     *
+     * @param innerPath - inner path for storing field's files
+     * @param fieldNames - list of field names
+     */
+    public FieldLogger(String innerPath, List<String> fieldNames) {
 
-    public MathLogger(Path path, List<String> fileNames) {
-
-        this.path = path;
+        this.path = Path.of(prePath, innerPath);
 
         if (!Files.exists(path)) {
             try {
@@ -51,7 +80,7 @@ public class MathLogger implements AutoCloseable {
 
         writers = new HashMap<>();
 
-        for (String fileName : fileNames) {
+        for (String fileName : fieldNames) {
             writers.putIfAbsent(fileName, createWriter(new File(path + File.separator + fileName + ".log")));
         }
         writers.putIfAbsent("general", createWriter(new File(path + File.separator + "general" + ".log")));
@@ -60,21 +89,44 @@ public class MathLogger implements AutoCloseable {
 
     }
 
-    public MathLogger(Path path, String fileName) {
-        this(path, List.of(fileName));
+    /**
+     * Creates new Logger that logs to /logger/innerPath/fieldName.log
+     * Have only one field.
+     *
+     * @param innerPath - inner path for storing field's files
+     * @param fieldName - fieldName
+     */
+    public FieldLogger(String innerPath, String fieldName) {
+        this(innerPath, List.of(fieldName));
     }
 
-    public MathLogger(Path path) {
-        this(path, List.of());
-
+    /**
+     * Logs only into  /logger/innerPath/general.log
+     *
+     * @param innerPath - inner path for storing field's files
+     */
+    public FieldLogger(String innerPath) {
+        this(innerPath, List.of());
     }
 
+
+    /**
+     * Logs your message into  /logger/innerPath/general.log
+     *
+     * @param msg - log message
+     */
     public void log(String msg) {
         log("general", msg);
     }
 
-    public void log(String name, String msg) {
-        Writer w = writers.get(name);
+    /**
+     * Logs your message into  specified field file: /logger/innerPath/fieldName.log
+     *
+     * @param fieldName - field name
+     * @param msg - - log message
+     */
+    public void log(String fieldName, String msg) {
+        Writer w = writers.get(fieldName);
         try {
             w.write(msg);
             w.write("\n");

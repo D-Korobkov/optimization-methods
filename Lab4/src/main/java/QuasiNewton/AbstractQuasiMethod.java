@@ -4,10 +4,9 @@ import interfaces.Function;
 import interfaces.MathFunction;
 import interfaces.Method;
 import interfaces.Search;
-import logger.MathLogger;
+import logger.FieldLogger;
 import search.GoldenRatioSearch;
 
-import java.nio.file.Path;
 import java.util.Arrays;
 
 import static SaZhaK.MatrixUtil.add;
@@ -23,7 +22,7 @@ public abstract class AbstractQuasiMethod implements Method {
     protected final double eps;
     protected int iterations = 0;
     protected boolean log = false;
-    protected MathLogger logger;
+    protected FieldLogger logger;
 
     /**
      * создаёт экземпляр класса
@@ -33,11 +32,11 @@ public abstract class AbstractQuasiMethod implements Method {
         this.eps = eps;
     }
 
-    protected AbstractQuasiMethod(double eps, Path path) {
+    /*protected AbstractQuasiMethod(double eps, Path path) {
         this(eps);
         log = true;
         logger = new MathLogger(path);
-    }
+    }*/
 
     /**
      * создание единичной матрицы указанной размерности

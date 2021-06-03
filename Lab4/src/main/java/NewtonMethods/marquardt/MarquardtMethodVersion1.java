@@ -3,9 +3,8 @@ package NewtonMethods.marquardt;
 import gauss.GaussSolver;
 import interfaces.Function;
 import interfaces.Solver;
-import logger.MathLogger;
+import logger.FieldLogger;
 
-import java.nio.file.Path;
 import java.util.Arrays;
 
 import static SaZhaK.MatrixUtil.*;
@@ -17,7 +16,7 @@ public class MarquardtMethodVersion1 extends MarquardtCommon {
     /**
      * логгер, записывающий информацию о работе метода в res/log/marquardt_v1.txt
      */
-    private static final MathLogger logger = new MathLogger(Path.of("res", "log", "marquardt_v1.txt"));
+    private static final FieldLogger logger = null;
 
     /**
      * число итераций метода

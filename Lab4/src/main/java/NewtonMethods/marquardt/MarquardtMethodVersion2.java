@@ -2,9 +2,8 @@ package NewtonMethods.marquardt;
 
 import cholesky.CholeskySolver;
 import interfaces.Function;
-import logger.MathLogger;
+import logger.FieldLogger;
 
-import java.nio.file.Path;
 import java.util.Arrays;
 
 import static SaZhaK.MatrixUtil.*;
@@ -16,7 +15,7 @@ public class MarquardtMethodVersion2 extends MarquardtCommon {
     /**
      * логгер, записывающий информацию о работе метода в res/log/marquardt_v2.txt
      */
-    private static final MathLogger logger = new MathLogger(Path.of("res", "log", "marquardt_v2.txt"));
+    private static final FieldLogger logger = null;
 
     /**
      * число итераций метода

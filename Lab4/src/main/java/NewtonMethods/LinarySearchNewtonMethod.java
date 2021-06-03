@@ -3,10 +3,9 @@ package NewtonMethods;
 import SaZhaK.MatrixUtil;
 import gauss.GaussSolver;
 import interfaces.*;
-import logger.MathLogger;
+import logger.FieldLogger;
 import search.BrentSearch;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Arrays;
 
 /**
@@ -16,7 +15,7 @@ public class LinarySearchNewtonMethod implements Method {
     /**
      * логгер, записывающий информацию о работе метода в res/log/newton_linear.txt
      */
-    private static final MathLogger logger = new MathLogger(Path.of("res", "log", "newton_linear.txt"));
+    private static final FieldLogger logger = null;
 
     /**
      * число итераций метода

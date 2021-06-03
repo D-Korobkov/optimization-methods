@@ -5,12 +5,9 @@ import gauss.GaussSolver;
 import interfaces.Function;
 import interfaces.Method;
 import interfaces.Solver;
-import logger.MathLogger;
+import logger.FieldLogger;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.logging.Logger;
 
 /**
  * класс для поиска минимума функции методом Ньютона без модификаций
@@ -19,7 +16,7 @@ public class ClassicNewtonMethod implements Method {
     /**
      * логгер, записывающий информацию о работе метода в res/log/newton_classic.txt
      */
-    private static final MathLogger logger = new MathLogger(Path.of("res", "log", "newton_classic.txt"));
+    private static final FieldLogger logger = null;
 
     /**
      * число итераций метода

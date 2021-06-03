@@ -6,10 +6,9 @@ import interfaces.Function;
 import interfaces.MathFunction;
 import interfaces.Method;
 import interfaces.Solver;
-import logger.MathLogger;
+import logger.FieldLogger;
 import search.BrentSearch;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Arrays;
 
 import static SaZhaK.MatrixUtil.*;
@@ -21,7 +20,7 @@ public class NewtonMethodWithDescentDirection implements Method {
     /**
      * логгер, записывающий информацию о работе метода в res/log/newton_desc.txt
      */
-    private static final MathLogger logger = new MathLogger(Path.of("res", "log", "newton_desc.txt"));
+    private static final FieldLogger logger = null;
 
     /**
      * число итераций метода
