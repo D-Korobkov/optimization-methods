@@ -1,5 +1,6 @@
 import TestFunctions.Function2_1;
 import TestFunctions.Function2_2;
+import TestFunctions.Function2_3;
 import functions.QuadraticFunction;
 import interfaces.Function;
 import interfaces.Method;
@@ -46,7 +47,12 @@ public abstract class MethodTests {
                         new Function2_2(),
                         new double[]{3, 2},
                         new double[] {3, 2},
-                        "Function2_2")
+                        "Function2_2"),
+                new FunctionTestHandler(
+                        new Function2_3(),
+                        new double[]{10, 10, 10, 10},
+                        new double[] {0, 0, 0, 0},
+                        "Function2_3")
         );
 
 
