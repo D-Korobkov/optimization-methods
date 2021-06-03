@@ -35,11 +35,19 @@ public class Function2_4 implements Function {
     }
 
     private double gradZn1(double[] x) {
-        return sqr(0.25 * sqr(x[0] - 2) + sqr(x[1] - 1) / 9 + 1);
+        return sqr(differentialZn1(x));
     }
 
     private double gradZn2(double[] x) {
-        return sqr(0.25 * sqr(x[0] - 1) + sqr(x[1] - 1) / 9 + 1);
+        return sqr(differentialZn2(x));
+    }
+
+    private double differentialZn1(double[] x) {
+        return sqr(0.25 * sqr(x[0] - 2) + sqr(x[1] - 1) / 9 + 1);
+    }
+
+    private double differentialZn2(double[] x) {
+        return 0.25 * sqr(x[0] - 1) + sqr(x[1] - 1) / 9 + 1;
     }
 
     @Override
@@ -49,6 +57,27 @@ public class Function2_4 implements Function {
 
     @Override
     public double[][] runHessian(double[] x) {
-        return new double[0][];
+        double[][] H = new double[2][2];
+        H[0][0] = findH11(x);
+        H[0][1] = H[1][0] = findH12(x);
+        H[1][1] = findH22(x);
+        return H;
+    }
+
+    private double findH22(double[] x) {
+        return -8 * sqr(x[1] - 1) / (81 * cube(differentialZn1(x)))
+                -16 * sqr(x[1] - 1) / (81 * cube(differentialZn2(x)))
+                + 2 / (9 * sqr(differentialZn1(x))) + 4 / (9 * sqr(differentialZn2(x)));
+    }
+
+    private double findH12(double[] x) {
+        return -2 * (x[0] - 2) * (x[1] - 1) / (9 * cube(differentialZn1(x)))
+                - 4 * (x[0] - 1) * (x[1] - 1) / (9 * cube(differentialZn2(x)));
+    }
+
+    private double findH11(double[] x) {
+        return -sqr(x[0] - 2) / (2 * cube(differentialZn1(x)))
+                - 2 * (sqr(x[0] - 1) / (2 * cube(differentialZn2(x))) - 1 / (2 * sqr(differentialZn2(x))))
+                + 1 / (2 * sqr(differentialZn1(x)));
     }
 }
