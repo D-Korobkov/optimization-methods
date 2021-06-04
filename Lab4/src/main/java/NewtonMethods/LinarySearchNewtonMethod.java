@@ -68,7 +68,7 @@ public class LinarySearchNewtonMethod implements Method {
             double[] finalPrevX = prevX;
             double[] finalP = p;
             MathFunction fun = v -> function.run(MatrixUtil.add(finalPrevX, MatrixUtil.multiply(finalP, v)));
-            Search search = new BrentSearch(fun, 0, 100, epsilon);//TODO: deal with borders
+            Search search = new BrentSearch(fun, 0, 100, epsilon);
             double a = search.searchMinimum();
 
             curX = MatrixUtil.add(prevX, MatrixUtil.multiply(p, a));
@@ -101,7 +101,7 @@ public class LinarySearchNewtonMethod implements Method {
             double[] finalPrevX = prevX;
             double[] finalP = p;
             MathFunction fun = v -> function.run(MatrixUtil.add(finalPrevX, MatrixUtil.multiply(finalP, v)));
-            Search search = new BrentSearch(fun, 0, 100, epsilon);//TODO: deal with borders
+            Search search = new BrentSearch(fun, 0, 100, epsilon);
             double a = search.searchMinimum();
 
 

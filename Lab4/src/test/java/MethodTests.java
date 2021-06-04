@@ -16,9 +16,7 @@ public abstract class MethodTests {
         double[] answer = method.findMinimum(function, x0);
         assertArrayEquals("Incorrect minimum", realAnswer, answer, epsilon);
     }
-
-
-    //TODO: add new functions(non quadratiq too)
+    §
     public static void testOnFunctions(Method method, double epsilon) throws IOException {
         double[] x0 = {10, 10};
 
