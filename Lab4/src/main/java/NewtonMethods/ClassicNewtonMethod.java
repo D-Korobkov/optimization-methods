@@ -71,7 +71,7 @@ public class ClassicNewtonMethod implements Method {
 
             double[] prevX = curX;
 
-            double[] p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
+            double[] p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1), epsilon);
 
             curX = MatrixUtil.add(prevX, p);
 
@@ -106,7 +106,7 @@ public class ClassicNewtonMethod implements Method {
 
             double[] prevX = curX;
 
-            double[] p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
+            double[] p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1), epsilon);
 
             curX = MatrixUtil.add(prevX, p);
 

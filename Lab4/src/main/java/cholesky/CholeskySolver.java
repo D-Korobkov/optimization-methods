@@ -9,28 +9,6 @@ import java.util.Arrays;
  * класс для решения СЛАУ методом Холецкого
  */
 public class CholeskySolver implements Solver {
-    /**
-     * точность вычислений
-     */
-    private final double epsilon;
-
-    /**
-     * дефолтный конструктор:
-     * <ul>
-     *     <li>точность вычислений - {@code 10^-6}</li>
-     * </ul>
-     */
-    public CholeskySolver() {
-        epsilon = 0.000001;
-    }
-
-    /**
-     * создание экземпляра класса с польовательскими параметрами
-     * @param epsilon точность вычислений
-     */
-    public CholeskySolver(final double epsilon) {
-        this.epsilon = epsilon;
-    }
 
     /**
      * реализует разложение Холецкого
@@ -94,7 +72,7 @@ public class CholeskySolver implements Solver {
      * @return {@code null}, если матрицу {@code A} невозможно разложить методом Холецкого; иначе - решение СЛАУ
      */
     @Override
-    public double[] solve(final double[][] A, final double[] B) {
+    public double[] solve(final double[][] A, final double[] B, double epsilon) {
         double[][] L = decompose(A, A.length);
 
         double[][] transposeL = Arrays.stream(L).map(line -> Arrays.copyOf(line, line.length)).toArray(double[][]::new);

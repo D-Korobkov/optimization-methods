@@ -67,22 +67,26 @@ public class NewtonMethodWithDescentDirection implements Method {
      */
     @Override
     public double[] findMinimum(Function function, double[] x0) {
-        double diff;
-        double[] nextX = x0;
-        do {
+        double[] d0 = multiply(function.runGradient(x0), -1);
+        MathFunction f0 = alpha -> function.run(add(x0, multiply(d0, alpha)));
+        double alpha0 = new BrentSearch(f0, -100, 100, epsilon).searchMinimum();
+        double[] nextX = add(x0, multiply(d0, alpha0));
+        double diff = norm(MatrixUtil.subtract(nextX, x0));
+
+        while(diff > epsilon) {
             double[] prevX = nextX;
             double[] gradient = function.runGradient(prevX);
             double[] antiGradient = multiply(gradient, -1);
-            double[] p = solver.solve(function.runHessian(prevX), antiGradient);
+            double[] p = solver.solve(function.runHessian(prevX), antiGradient, epsilon);
 
             final double[] direction = MatrixUtil.dotProduct(p, gradient) >= 0 ? antiGradient : p;
 
             MathFunction f = alpha -> function.run(MatrixUtil.add(prevX, MatrixUtil.multiply(direction, alpha)));
-            double alpha = new BrentSearch(f, 0, 10, epsilon).searchMinimum();
+            double alpha = new BrentSearch(f, -100, 100, epsilon).searchMinimum();
             nextX = add(prevX, multiply(direction, alpha));
 
             diff = MatrixUtil.norm(MatrixUtil.subtract(nextX, prevX));
-        } while (diff > epsilon);
+        }
 
         return nextX;
     }
@@ -91,19 +95,34 @@ public class NewtonMethodWithDescentDirection implements Method {
         FieldLogger logger = new FieldLogger(
                 "/method/newton/descent/" + functionName + "/", List.of("x", "iterations", "alpha")
         );
-        numberOfIterations = 0;
+        numberOfIterations = 1;
+        double[] d0 = multiply(function.runGradient(x0), -1);
+        MathFunction f0 = alpha -> function.run(add(x0, multiply(d0, alpha)));
+        double alpha0 = new BrentSearch(f0, -100, 100, epsilon).searchMinimum();
+        double[] nextX = add(x0, multiply(d0, alpha0));
+        double diff = norm(MatrixUtil.subtract(nextX, x0));
 
-        double diff, diff2;
-        double[] nextX = x0;
-        do {
+        logger.log("x", String.format("%s %s",
+                Arrays.toString(x0).replaceAll("[\\[\\]]", ""),
+                Arrays.toString(nextX).replaceAll("[\\[\\]]", ""))
+        );
+
+        while(diff > epsilon) {
             numberOfIterations++;
 
             double[] prevX = nextX;
             double[] gradient = function.runGradient(prevX);
             double[] antiGradient = multiply(gradient, -1);
-            double[] p = solver.solve(function.runHessian(prevX), antiGradient);
+            System.out.println(Arrays.deepToString(function.runHessian(prevX)));
+            System.out.println(Arrays.toString(antiGradient));
+            double[] p = solver.solve(function.runHessian(prevX), antiGradient, epsilon);
+
 
             final double[] direction = MatrixUtil.dotProduct(p, gradient) >= 0 ? antiGradient : p;
+
+            if (norm(direction) < epsilon) {
+                break;
+            }
 
             MathFunction f = alpha -> function.run(MatrixUtil.add(prevX, MatrixUtil.multiply(direction, alpha)));
             double alpha = new BrentSearch(f, 0, 10, epsilon).searchMinimum();
@@ -115,9 +134,7 @@ public class NewtonMethodWithDescentDirection implements Method {
             );
 
             diff = MatrixUtil.norm(MatrixUtil.subtract(nextX, prevX));
-            diff2 = MatrixUtil.norm(direction);
-
-        } while (diff > epsilon && diff2 > epsilon);
+        }
 
         logger.log("iterations", Integer.toString(numberOfIterations));
         logger.close();

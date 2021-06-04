@@ -51,14 +51,14 @@ public class MarquardtMethodVersion1 extends MarquardtCommon {
             double[] antiGradient = multiply(function.runGradient(x), -1);
             double[][] hessian = function.runHessian(x);
 
-            double[] direction = solver.solve(add(hessian, multiply(I, step)), antiGradient);
+            double[] direction = solver.solve(add(hessian, multiply(I, step)), antiGradient, epsilon);
             double[] nextX = add(x, direction);
 
             double fx = function.run(x);
             double fNext = function.run(nextX);
             while (fNext > fx) {
                 step *= beta;
-                direction = solver.solve(add(hessian, multiply(I, step)), antiGradient);
+                direction = solver.solve(add(hessian, multiply(I, step)), antiGradient, epsilon);
                 nextX = add(x, direction);
                 fNext = function.run(nextX);
             }
@@ -86,14 +86,14 @@ public class MarquardtMethodVersion1 extends MarquardtCommon {
             double[] antiGradient = multiply(function.runGradient(x), -1);
             double[][] hessian = function.runHessian(x);
 
-            double[] direction = solver.solve(add(hessian, multiply(I, step)), antiGradient);
+            double[] direction = solver.solve(add(hessian, multiply(I, step)), antiGradient, epsilon);
             double[] nextX = add(x, direction);
 
             double fx = function.run(x);
             double fNext = function.run(nextX);
             while (fNext > fx) {
                 step *= beta;
-                direction = solver.solve(add(hessian, multiply(I, step)), antiGradient);
+                direction = solver.solve(add(hessian, multiply(I, step)), antiGradient, epsilon);
                 nextX = add(x, direction);
                 fNext = function.run(nextX);
             }

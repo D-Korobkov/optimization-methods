@@ -24,7 +24,7 @@ public class MarquardtMethodVersion2 extends MarquardtCommon {
      * </ul>
      */
     public MarquardtMethodVersion2() {
-        super(new CholeskySolver(0.000001), 0.000001, 2, 0);
+        super(new CholeskySolver(), 0.000001, 2, 0);
     }
 
     /**
@@ -36,7 +36,7 @@ public class MarquardtMethodVersion2 extends MarquardtCommon {
      * {@link MarquardtCommon}
      */
     public MarquardtMethodVersion2(final double epsilon, final double beta) {
-        super(new CholeskySolver(epsilon), epsilon, beta, 0);
+        super(new CholeskySolver(), epsilon, beta, 0);
     }
 
     /**
@@ -57,7 +57,7 @@ public class MarquardtMethodVersion2 extends MarquardtCommon {
 
             double[] direction;
             do {
-                direction = solver.solve(add(hessian, multiply(I, step)), antiGradient);
+                direction = solver.solve(add(hessian, multiply(I, step)), antiGradient, epsilon);
                 if (direction != null) {
                     break;
                 }
@@ -93,7 +93,7 @@ public class MarquardtMethodVersion2 extends MarquardtCommon {
             do {
                 numberOfCholeskyDecompositions++;
 
-                direction = solver.solve(add(hessian, multiply(I, step)), antiGradient);
+                direction = solver.solve(add(hessian, multiply(I, step)), antiGradient, epsilon);
                 if (direction != null) {
                     break;
                 }

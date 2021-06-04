@@ -57,18 +57,18 @@ public class LinarySearchNewtonMethod implements Method {
     @Override
     public double[] findMinimum(Function function, double[] x0) {
         double[] prevX = x0;
-        double[] p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
+        double[] p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1), epsilon);
 
         double[] curX = MatrixUtil.add(prevX, p);
 
         while (MatrixUtil.norm(MatrixUtil.subtract(curX, prevX)) > epsilon && MatrixUtil.norm(p) > epsilon) {
             prevX = curX;
-            p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
+            p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1), epsilon);
 
             double[] finalPrevX = prevX;
             double[] finalP = p;
             MathFunction fun = v -> function.run(MatrixUtil.add(finalPrevX, MatrixUtil.multiply(finalP, v)));
-            Search search = new BrentSearch(fun, 0, 100, epsilon);//TODO: deal with borders
+            Search search = new BrentSearch(fun, -100, 100, epsilon);//TODO: deal with borders
             double a = search.searchMinimum();
 
             curX = MatrixUtil.add(prevX, MatrixUtil.multiply(p, a));
@@ -81,10 +81,10 @@ public class LinarySearchNewtonMethod implements Method {
         FieldLogger logger = new FieldLogger(
                 "/method/newton/linear/" + functionName + "/", List.of("x", "iterations", "alpha")
         );
-        numberOfIterations = 0;
+        numberOfIterations = 1;
 
         double[] prevX = x0;
-        double[] p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
+        double[] p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1), epsilon);
 
         double[] curX = MatrixUtil.add(prevX, p);
         logger.log("x", String.format("%s %s",
@@ -96,12 +96,12 @@ public class LinarySearchNewtonMethod implements Method {
             numberOfIterations++;
             prevX = curX;
 
-            p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1));
+            p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1), epsilon);
 
             double[] finalPrevX = prevX;
             double[] finalP = p;
             MathFunction fun = v -> function.run(MatrixUtil.add(finalPrevX, MatrixUtil.multiply(finalP, v)));
-            Search search = new BrentSearch(fun, 0, 100, epsilon);//TODO: deal with borders
+            Search search = new BrentSearch(fun, -100, 100, epsilon);//TODO: deal with borders
             double a = search.searchMinimum();
 
 

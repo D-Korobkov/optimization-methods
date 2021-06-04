@@ -11,6 +11,6 @@ public interface Solver {
      * @param B результирующий вектор
      * @return решение СЛАУ
      */
-    double[] solve(double[][] A, double[] B);
+    double[] solve(double[][] A, double[] B, double epsilon);
 
 }

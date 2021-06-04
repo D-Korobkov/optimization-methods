@@ -35,7 +35,7 @@ public class GaussSolver implements Solver {
      * фунция приводит исходную матрицу к диагональному виду,
      * в качестве опорного элемента выбирается максимальный элемент матрицы на текущем шаге
      */
-    private void diagonalized() {
+    private void diagonalized(double epsilon) {
         for (int i = 0; i < n; i++) {
             double maxElement = Math.abs(matrix[rowPermutation[i]][columnPermutation[i]]);
             int row = i;
@@ -62,6 +62,10 @@ public class GaussSolver implements Solver {
             columnPermutation[i] = columnPermutation[col];
             columnPermutation[col] = tmp;
 
+            if (Math.abs(matrix[rowPermutation[i]][columnPermutation[i]]) < epsilon) {
+                continue;
+            }
+
             for (int j = 0; j < n; ++j) {
                 if (j == i) continue;
                 double delta = -(matrix[rowPermutation[j]][columnPermutation[i]] / matrix[rowPermutation[i]][columnPermutation[i]]);
@@ -83,12 +87,16 @@ public class GaussSolver implements Solver {
      *
      * @return вектор <var>{x_1, x_2, ..., x_n}</var> - решение СЛАУ
      */
-    public double[] solve() {
-        diagonalized();
+    public double[] solve(double epsilon) {
+        diagonalized(epsilon);
 
         double[] x = new double[n];
         for (int i = 0; i < n; ++i) {
-            x[columnPermutation[i]] = b[rowPermutation[i]] / matrix[rowPermutation[i]][columnPermutation[i]];
+            if (Math.abs(matrix[rowPermutation[i]][columnPermutation[i]]) < epsilon && Math.abs(b[rowPermutation[i]]) < epsilon) {
+                x[columnPermutation[i]] = 0.0D;
+            } else {
+                x[columnPermutation[i]] = b[rowPermutation[i]] / matrix[rowPermutation[i]][columnPermutation[i]];
+            }
         }
 
         return x;
@@ -98,12 +106,13 @@ public class GaussSolver implements Solver {
      * {@inheritDoc}
      */
     @Override
-    public double[] solve(double[][] A, double[] B) {
+    public double[] solve(double[][] A, double[] B, double epsilon) {
         matrix = Arrays.stream(A).map(line -> Arrays.copyOf(line, line.length)).toArray(double[][]::new);
         b = Arrays.copyOf(B, B.length);
+        System.out.println("B in : " + Arrays.toString(b));
         n = matrix.length;
         rowPermutation = IntStream.range(0, n).toArray();
         columnPermutation = IntStream.range(0, n).toArray();
-        return solve();
+        return solve(epsilon);
     }
 }
