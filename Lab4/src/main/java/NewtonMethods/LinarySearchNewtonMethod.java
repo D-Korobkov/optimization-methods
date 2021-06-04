@@ -5,7 +5,7 @@ import gauss.GaussSolver;
 import interfaces.*;
 import logger.FieldLogger;
 import search.BrentSearch;
-import java.io.IOException;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,10 +28,11 @@ public class LinarySearchNewtonMethod implements Method {
 
     /**
      * создаёт экземпляр класса с пользовательскими параметрами
-     * @param solver метод решения СЛАУ
+     *
+     * @param solver  метод решения СЛАУ
      * @param epsilon точность вычислений
      */
-    public LinarySearchNewtonMethod(Solver solver, double epsilon){
+    public LinarySearchNewtonMethod(Solver solver, double epsilon) {
         this.solver = solver;
         this.epsilon = epsilon;
     }
@@ -43,15 +44,16 @@ public class LinarySearchNewtonMethod implements Method {
      *     <li>точность - {@code 10^-6}</li>
      * </ul>
      */
-    public LinarySearchNewtonMethod(){
+    public LinarySearchNewtonMethod() {
         this.solver = new GaussSolver();
         this.epsilon = 0.000001;
     }
 
     /**
      * {@inheritDoc}
+     *
      * @param function исследуемая функция
-     * @param x0 начальное приближение
+     * @param x0       начальное приближение
      * @return точка минимума функции
      */
     @Override
@@ -69,6 +71,7 @@ public class LinarySearchNewtonMethod implements Method {
             double[] finalP = p;
             MathFunction fun = v -> function.run(MatrixUtil.add(finalPrevX, MatrixUtil.multiply(finalP, v)));
             Search search = new BrentSearch(fun, -100, 100, epsilon);//TODO: deal with borders
+
             double a = search.searchMinimum();
 
             curX = MatrixUtil.add(prevX, MatrixUtil.multiply(p, a));
@@ -101,7 +104,9 @@ public class LinarySearchNewtonMethod implements Method {
             double[] finalPrevX = prevX;
             double[] finalP = p;
             MathFunction fun = v -> function.run(MatrixUtil.add(finalPrevX, MatrixUtil.multiply(finalP, v)));
+
             Search search = new BrentSearch(fun, -100, 100, epsilon);//TODO: deal with borders
+
             double a = search.searchMinimum();
 
 
