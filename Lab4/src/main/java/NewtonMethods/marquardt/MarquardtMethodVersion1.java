@@ -24,8 +24,8 @@ public class MarquardtMethodVersion1 extends MarquardtCommon {
      * <ul>
      *     <li>СЛАУ будет решаться методом Гаусса с выбором опорного элемента по всей матрице</li>
      *     <li>точность - {@code 10^-6}</li>
-     *     <li>значение {@code beta} - {@code 2}</li>
-     *     <li>начальное значение {@code lambda} - {@code 10000}</li>
+     *     <li>значение {@code beta} - {@code 0.5}</li>
+     *     <li>начальное значение {@code lambda} - {@code 1000000000000000}</li>
      * </ul>
      */
     public MarquardtMethodVersion1() {
