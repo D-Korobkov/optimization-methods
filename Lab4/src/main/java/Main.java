@@ -52,12 +52,10 @@ public class Main {
         double[] startBonus = new double[100];
         MarquardtMethodVersion1 marq1 = new MarquardtMethodVersion1();
         MarquardtMethodVersion2 marq2 = new MarquardtMethodVersion2();
-        Arrays.fill(startBonus, 2);
+        Arrays.fill(startBonus, 5);
         //m.findMinimumWithLog(new FunctionBonus(), startBonus, "FunctionBonus");
         marq1.findMinimumWithLog(new FunctionBonus(), startBonus, "FunctionBonus");
         marq2.findMinimumWithLog(new FunctionBonus(), startBonus, "FunctionBonus");
-        //m.findMinimumWithLog(new FunctionBonus(), startBonus, "FunctionBonus");
-        //m2.findMinimumWithLog(new FunctionBonus(), startBonus, "FunctionBonus");
         m2.findMinimumWithLog(new FunctionBonus(), startBonus, "FunctionBonus");
 
     }

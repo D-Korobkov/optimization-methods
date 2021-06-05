@@ -29,7 +29,7 @@ public class MarquardtMethodVersion1 extends MarquardtCommon {
      * </ul>
      */
     public MarquardtMethodVersion1() {
-        super(new GaussSolver(), 0.000001, 2, 10000);
+        super(new GaussSolver(), 0.000001, 0.5, 1000000000000000D);
     }
 
     /**
@@ -50,33 +50,20 @@ public class MarquardtMethodVersion1 extends MarquardtCommon {
     public double[] findMinimum(final Function function, final double[] x0) {
         double[][] I = getI(x0.length);
         double[] x = x0;
-        double fx = function.run(x);
         double step = lambda;
 
-        while (true) {
+        double[] optimalDirection;
+        do {
             double[] antiGradient = multiply(function.runGradient(x), -1);
             double[][] hessian = function.runHessian(x);
-            double tmpStep = step;
+            double[] direction = solver.solve(add(hessian, multiply(I, step)), antiGradient, epsilon);
 
-            double[] direction = solver.solve(add(hessian, multiply(I, tmpStep)), antiGradient, epsilon);
-            double[] nextX = add(x, direction);
-            double fNext = function.run(nextX);
+            double alpha = new BrentSearch(getOptimizedFunction(function, x, direction), -100000, 100000, epsilon).searchMinimum();
+            optimalDirection = multiply(direction, alpha);
 
-            while (fNext > fx) {
-                tmpStep /= beta;
-                direction = solver.solve(add(hessian, multiply(I, tmpStep)), antiGradient, epsilon);
-                nextX = add(x, direction);
-                fNext = function.run(nextX);
-            }
-
+            x = add(x, optimalDirection);
             step *= beta;
-            x = nextX;
-            fx = fNext;
-
-            if (norm(direction) <= epsilon) {
-                break;
-            }
-        }
+        } while (norm(optimalDirection) > epsilon);
 
         return x;
     }
@@ -88,42 +75,31 @@ public class MarquardtMethodVersion1 extends MarquardtCommon {
 
         double[][] I = getI(x0.length);
         double[] x = x0;
-        double fx = function.run(x);
         double step = lambda;
 
-        while (true) {
+        double[] optimalDirection;
+        do {
             logger.log("lambda", Double.toString(step));
 
             double[] antiGradient = multiply(function.runGradient(x), -1);
-
             double[][] hessian = function.runHessian(x);
-            double tmpStep = step;
+            double[] direction = solver.solve(add(hessian, multiply(I, step)), antiGradient, epsilon);
 
-            double[] direction = solver.solve(add(hessian, multiply(I, tmpStep)), antiGradient, epsilon);
-            double[] nextX = add(x, direction);
-            double fNext = function.run(nextX);
+            double alpha = findAlpha(function, x, direction);
+            optimalDirection = multiply(direction, alpha);
 
-            while (fNext > fx) {
-                tmpStep /= beta;
-                direction = solver.solve(add(hessian, multiply(I, tmpStep)), antiGradient, epsilon);
-                nextX = add(x, direction);
-                fNext = function.run(nextX);
-            }
-
-            x = nextX;
-            fx = fNext;
-
-            if (norm(direction) <= epsilon) {
-                break;
-            }
-
+            x = add(x, optimalDirection);
             step *= beta;
-        }
+        } while (norm(optimalDirection) > epsilon);
 
         logger.log("x", Arrays.toString(x).replaceAll("[\\[\\]]", ""));
         logger.close();
 
         return x;
+    }
+
+    private double findAlpha(final Function f, final double[] x, final double[] p) {
+        return new BrentSearch(getOptimizedFunction(f, x, p), -100000, 100000, epsilon).searchMinimum();
     }
 
     private MathFunction getOptimizedFunction(final Function f, final double[] x, final double[] p) {
