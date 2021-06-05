@@ -113,8 +113,6 @@ public class NewtonMethodWithDescentDirection implements Method {
             double[] prevX = nextX;
             double[] gradient = function.runGradient(prevX);
             double[] antiGradient = multiply(gradient, -1);
-            System.out.println(Arrays.deepToString(function.runHessian(prevX)));
-            System.out.println(Arrays.toString(antiGradient));
             double[] p = solver.solve(function.runHessian(prevX), antiGradient, epsilon);
 
 

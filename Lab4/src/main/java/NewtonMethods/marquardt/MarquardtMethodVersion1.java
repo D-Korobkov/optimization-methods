@@ -1,9 +1,14 @@
 package NewtonMethods.marquardt;
 
+import cholesky.CholeskySolver;
 import gauss.GaussSolver;
 import interfaces.Function;
+import interfaces.MathFunction;
 import interfaces.Solver;
 import logger.FieldLogger;
+import search.BrentSearch;
+import search.GoldenRatioSearch;
+import search.ParabolSearch;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,26 +50,29 @@ public class MarquardtMethodVersion1 extends MarquardtCommon {
     public double[] findMinimum(final Function function, final double[] x0) {
         double[][] I = getI(x0.length);
         double[] x = x0;
+        double fx = function.run(x);
         double step = lambda;
 
         while (true) {
             double[] antiGradient = multiply(function.runGradient(x), -1);
             double[][] hessian = function.runHessian(x);
+            double tmpStep = step;
 
-            double[] direction = solver.solve(add(hessian, multiply(I, step)), antiGradient, epsilon);
+            double[] direction = solver.solve(add(hessian, multiply(I, tmpStep)), antiGradient, epsilon);
             double[] nextX = add(x, direction);
-
-            double fx = function.run(x);
             double fNext = function.run(nextX);
+
             while (fNext > fx) {
-                step *= beta;
-                direction = solver.solve(add(hessian, multiply(I, step)), antiGradient, epsilon);
+                tmpStep /= beta;
+                direction = solver.solve(add(hessian, multiply(I, tmpStep)), antiGradient, epsilon);
                 nextX = add(x, direction);
                 fNext = function.run(nextX);
             }
-            step /= beta;
 
+            step *= beta;
             x = nextX;
+            fx = fNext;
+
             if (norm(direction) <= epsilon) {
                 break;
             }
@@ -80,36 +88,45 @@ public class MarquardtMethodVersion1 extends MarquardtCommon {
 
         double[][] I = getI(x0.length);
         double[] x = x0;
+        double fx = function.run(x);
         double step = lambda;
 
         while (true) {
+            logger.log("lambda", Double.toString(step));
+
             double[] antiGradient = multiply(function.runGradient(x), -1);
+
             double[][] hessian = function.runHessian(x);
+            double tmpStep = step;
 
-            double[] direction = solver.solve(add(hessian, multiply(I, step)), antiGradient, epsilon);
+            double[] direction = solver.solve(add(hessian, multiply(I, tmpStep)), antiGradient, epsilon);
             double[] nextX = add(x, direction);
-
-            double fx = function.run(x);
             double fNext = function.run(nextX);
+
             while (fNext > fx) {
-                step *= beta;
-                direction = solver.solve(add(hessian, multiply(I, step)), antiGradient, epsilon);
+                tmpStep /= beta;
+                direction = solver.solve(add(hessian, multiply(I, tmpStep)), antiGradient, epsilon);
                 nextX = add(x, direction);
                 fNext = function.run(nextX);
             }
-            step /= beta;
-
-            logger.log("lambda", Double.toString(step));
 
             x = nextX;
+            fx = fNext;
+
             if (norm(direction) <= epsilon) {
                 break;
             }
+
+            step *= beta;
         }
 
         logger.log("x", Arrays.toString(x).replaceAll("[\\[\\]]", ""));
         logger.close();
 
         return x;
+    }
+
+    private MathFunction getOptimizedFunction(final Function f, final double[] x, final double[] p) {
+        return alpha -> f.run(add(Arrays.copyOf(x, x.length), multiply(Arrays.copyOf(p, p.length), alpha)));
     }
 }

@@ -65,7 +65,6 @@ public class MarquardtMethodVersion2 extends MarquardtCommon {
             } while (true);
 
             x = add(x, direction);
-            step /= beta;
 
             if (norm(direction) <= epsilon) {
                 break;
@@ -101,7 +100,6 @@ public class MarquardtMethodVersion2 extends MarquardtCommon {
             } while (true);
 
             x = add(x, direction);
-            step /= beta;
 
             logger.log("lambda", Double.toString(step));
             logger.log("cholesky", Integer.toString(numberOfCholeskyDecompositions));

@@ -19,17 +19,19 @@ public class CholeskySolver implements Solver {
     public double[][] decompose(final double[][] A, final int dimension) {
         double[][] L = Arrays.stream(A).map(line -> new double[dimension]).toArray(double[][]::new);
 
-        for (int i = 0; i < dimension; i++) {
-            for (int j = 0; j <= i; j++) {
-                double sum = 0;
+        for (int j = 0; j < dimension; j++) {
+            L[j][j] = A[j][j];
+            for (int i = 0; i < j; i++) {
+                L[j][j] -= L[j][i] * L[j][i];
+            }
+            L[j][j] = Math.sqrt(L[j][j]);
+
+            for (int i = j + 1; i < dimension; i++) {
+                L[i][j] = A[i][j];
                 for (int k = 0; k < j; k++) {
-                    sum += L[i][k] * L[j][k];
+                    L[i][j] -= L[i][k] * L[j][k];
                 }
-                if (i == j) {
-                    L[i][j] = Math.sqrt(A[i][i] - sum);
-                } else {
-                    L[i][j] = (1.0 / L[j][j] * (A[i][j] - sum));
-                }
+                L[i][j] /= L[j][j];
             }
         }
 
@@ -73,12 +75,16 @@ public class CholeskySolver implements Solver {
      */
     @Override
     public double[] solve(final double[][] A, final double[] B, double epsilon) {
+        //System.out.println("Origin0: " + Arrays.deepToString(A));
         double[][] L = decompose(A, A.length);
 
         double[][] transposeL = Arrays.stream(L).map(line -> Arrays.copyOf(line, line.length)).toArray(double[][]::new);
         MatrixUtil.transposeMatrix(transposeL);
 
         double[][] checkProduct = MatrixUtil.multiply(L, transposeL);
+
+        //System.out.println("Prod: " + Arrays.deepToString(checkProduct));
+        //System.out.println("Origin: " + Arrays.deepToString(A));
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A.length; j++) {
                 if (Double.isNaN(checkProduct[i][j]) || Math.abs(A[i][j] - checkProduct[i][j]) > epsilon) {

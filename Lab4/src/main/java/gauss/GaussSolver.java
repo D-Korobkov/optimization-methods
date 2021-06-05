@@ -109,7 +109,6 @@ public class GaussSolver implements Solver {
     public double[] solve(double[][] A, double[] B, double epsilon) {
         matrix = Arrays.stream(A).map(line -> Arrays.copyOf(line, line.length)).toArray(double[][]::new);
         b = Arrays.copyOf(B, B.length);
-        System.out.println("B in : " + Arrays.toString(b));
         n = matrix.length;
         rowPermutation = IntStream.range(0, n).toArray();
         columnPermutation = IntStream.range(0, n).toArray();
