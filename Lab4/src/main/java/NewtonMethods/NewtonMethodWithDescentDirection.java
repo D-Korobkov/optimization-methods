@@ -102,10 +102,8 @@ public class NewtonMethodWithDescentDirection implements Method {
         double[] nextX = add(x0, multiply(d0, alpha0));
         double diff = norm(MatrixUtil.subtract(nextX, x0));
 
-        logger.log("x", String.format("%s %s",
-                Arrays.toString(x0).replaceAll("[\\[\\]]", ""),
-                Arrays.toString(nextX).replaceAll("[\\[\\]]", ""))
-        );
+        logger.log("x", Arrays.toString(x0).replaceAll("[ \\[\\]]", "").replace(",", ", "));
+        logger.log("x", Arrays.toString(nextX).replaceAll("[ \\[\\]]", "").replace(",", ", "));
 
         while(diff > epsilon) {
             numberOfIterations++;
@@ -126,10 +124,7 @@ public class NewtonMethodWithDescentDirection implements Method {
             double alpha = new BrentSearch(f, 0, 10, epsilon).searchMinimum();
             nextX = add(prevX, multiply(direction, alpha));
 
-            logger.log("x", String.format("%s %s",
-                    Arrays.toString(prevX).replaceAll("[\\[\\]]", ""),
-                    Arrays.toString(nextX).replaceAll("[\\[\\]]", ""))
-            );
+            logger.log("x", Arrays.toString(nextX).replaceAll("[ \\[\\]]", "").replace(",", ", "));
 
             diff = MatrixUtil.norm(MatrixUtil.subtract(nextX, prevX));
         }

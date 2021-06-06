@@ -67,6 +67,7 @@ public class ClassicNewtonMethod implements Method {
         double diff;
 
         do {
+            logger.log("x", Arrays.toString(curX).replaceAll("[ \\[\\]]", "").replace(",", ", "));
             numberOfIterations++;
 
             double[] prevX = curX;
@@ -75,14 +76,13 @@ public class ClassicNewtonMethod implements Method {
 
             curX = MatrixUtil.add(prevX, p);
 
-            logger.log("x", Arrays.toString(curX).replace(",", ""));
 
             diff = MatrixUtil.norm(MatrixUtil.subtract(curX, prevX));
 
         } while(diff > epsilon);
 
-        logger.log("x", Arrays.toString(curX).replace(",", ""));
-        //logger.log("x", Arrays.toString(curX).replaceAll("[ \\[\\]]", "") + System.lineSeparator());
+        //logger.log("x", Arrays.toString(curX).replace(",", ""));
+        logger.log("x", Arrays.toString(curX).replaceAll("[ \\[\\]]", "").replace(",", ", "));
         logger.log("iterations",numberOfIterations + System.lineSeparator());
 
         logger.close();

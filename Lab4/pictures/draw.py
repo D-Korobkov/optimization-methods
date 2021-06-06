@@ -6,8 +6,8 @@ import matplotlib.ticker as ticker
 
 import pylab
 
-functionName = 'F2_4.x0{10,10}' #should be same as field in csv file
-csvSource = 'points - Powell.csv' #file with table
+functionName = 'F2_4.x0{-10,-10}' #should be same as field in csv file
+csvSource = 'test.csv' #file with table
 
 def parse_points(source):
   df = pd.read_csv(source)
@@ -16,7 +16,7 @@ def parse_points(source):
     print(str(i))
     if str(i) == 'nan':
         break
-    a, b = map(float, i[1:-1].split())
+    a, b = map(float, i.split(", "))
     x_1.append(a)
     x_2.append(b)
   return x_1, x_2

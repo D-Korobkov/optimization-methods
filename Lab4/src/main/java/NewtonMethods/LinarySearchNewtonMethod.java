@@ -86,14 +86,13 @@ public class LinarySearchNewtonMethod implements Method {
         );
         numberOfIterations = 1;
 
+        logger.log("x", Arrays.toString(x0).replaceAll("[ \\[\\]]", "").replace(",", ", "));
+
         double[] prevX = x0;
         double[] p = solver.solve(function.runHessian(prevX), MatrixUtil.multiply(function.runGradient(prevX), -1), epsilon);
 
         double[] curX = MatrixUtil.add(prevX, p);
-        logger.log("x", String.format("%s %s",
-                Arrays.toString(prevX).replaceAll("[\\[\\]]", ""),
-                Arrays.toString(curX).replaceAll("[\\[\\]]", ""))
-        );
+        logger.log("x", Arrays.toString(curX).replaceAll("[ \\[\\]]", "").replace(",", ", "));
 
         while (MatrixUtil.norm(MatrixUtil.subtract(curX, prevX)) > epsilon && MatrixUtil.norm(p) > epsilon) {
             numberOfIterations++;
@@ -111,10 +110,7 @@ public class LinarySearchNewtonMethod implements Method {
 
 
             curX = MatrixUtil.add(prevX, MatrixUtil.multiply(p, a));
-            logger.log("x", String.format("%s %s",
-                    Arrays.toString(prevX).replaceAll("[\\[\\]]", ""),
-                    Arrays.toString(curX).replaceAll("[\\[\\]]", ""))
-            );
+            logger.log("x", Arrays.toString(curX).replaceAll("[ \\[\\]]", "").replace(",", ", "));
 
             logger.log("alpha", Double.toString(a));
         }
