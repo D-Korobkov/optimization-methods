@@ -98,9 +98,9 @@ public class Function2_3 implements Function {
         return -120 * sqr(x[0] - x[3]);
     }
 
-    //4 * (3 * (x2 - 2 * x3)^2 + 50)
+    //12 * (x2 - 2 * x3)^2 + 200
     private double findH22(double[] x) {
-        return 4 * sqr(3 * (x[1] - 2 * x[2]) + 50);
+        return 12 * sqr((x[1] - 2 * x[2]) + 200);
     }
 
     //-24 * (x2 - 2 * x3)^2
@@ -123,9 +123,9 @@ public class Function2_3 implements Function {
         return -10;
     }
 
-    //-120 * (x1 - x4)^2
+    //120 * (x1 - x4)^2 + 10
     private double findH44(double[] x) {
-        return -120 * sqr(x[0] - x[3]);
+        return 120 * sqr(x[0] - x[3]) + 10;
     }
 
 }
