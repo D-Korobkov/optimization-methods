@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"cholesky"},{"l":"functions"},{"l":"gauss"},{"l":"logger"},{"l":"NewtonMethods"},{"l":"NewtonMethods.marquardt"},{"l":"QuasiNewton"}]
