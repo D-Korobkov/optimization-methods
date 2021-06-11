@@ -27,7 +27,7 @@
 * [Условия](https://github.com/D-Korobkov/optimization-methods/blob/main/Theory/Lab3/Лабораторная%203.pdf)
 * нет [Отчет]()
 * [Документация](https://d-korobkov.github.io/optimization-methods/Lab3/index.html)
-* [Реализация](https://github.com/D-Korobkov/optimization-methods/tree/main/Lab4)
+* [Реализация](https://github.com/D-Korobkov/optimization-methods/tree/main/Lab3.1)
 
 ## Лабораторная работа №4
 
